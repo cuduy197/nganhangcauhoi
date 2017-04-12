@@ -1,36 +1,42 @@
 <template>
 <div class="login" style="">
-    <el-row :gutter="20">
-        <el-col :sm="24" :md="12">
+    <el-row :gutter="20" v-if="!singin">
+        <el-col  :sm="24" :md="12">
             <el-card class="box-card animated fadeIn">
                 <div class="grid-content">
-                    <h2>Đăng nhập</h2>
-                    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm">
-                        <el-form-item prop="email" label="Email">
-                            <el-input v-model="dynamicValidateForm.email"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="pass" label="Mật khẩu">
-                            <el-input type="password" auto-complete="off"></el-input>
-                        </el-form-item>
-                    </el-form>
-                    <el-button class="animated flipInX" size="large" type="primary">Đăng nhập</el-button>
+                    <h4>Chào mừng bạn,vui lòng đăng nhập để sử dụng ứng dụng.</h4>
+
+                    <el-button style="height: 100px; width: 200px; font-size: 30px" class="animated flipInX" size="large" type="primary" @click="LOGIN">Đăng nhập</el-button>
                 </div>
             </el-card>
         </el-col>
         <el-col :sm="24" :md="12">
-
             <div class="grid-content " >
-                <h4><mark>Lưu ý</mark> </h4>
-                <p>Để trở thành nhà soạn thảo câu hỏi bạn cần thực hiện theo các bước sau : </p>
+                <h4>Hướng dẫn</h4>
+                <p>Để trở thành nhà soạn thảo câu hỏi bạn cần thực hiện : </p>
 
               <el-steps :space="100"  direction="vertical"  :active="3" finish-status="success">
-                    <el-step title="Bước 1" description="Liên hệ cuduy197@gmail.com"></el-step>
-                    <el-step title="Bước 2" description="Trao đổi thông tin" ></el-step>
-                    <el-step title="Bước 3" description="Tham gia soạn thảo câu hỏi"></el-step>
+                    <el-step title="Liên hệ : cuduy197@gmail.com" description="Bước 1"></el-step>
+                    <el-step title="Trao đổi thông tin" description="Bước 2" ></el-step>
+                    <el-step title="Tham gia soạn thảo câu hỏi" description="Bước 3"></el-step>
                 </el-steps>
             </div>
         </el-col>
     </el-row>
+
+        <el-row :gutter="20" v-if="singin">
+        <el-col  :sm="24" :md="24">
+            <el-card class="box-card animated fadeIn">
+                <div class="grid-content">
+                    <h4>Chào mừng {{user.email}}</h4>
+                </div>
+            </el-card>
+        </el-col>
+        <!-- <el-col :sm="24" :md="12">
+        </el-col> -->
+    </el-row>
+
+    
 </div>
 
 </template>
@@ -51,10 +57,10 @@ export default {
                 }
             };
         },
-        methods: {
-
+        methods: {...mapMutations(['LOGIN', 'LOGOUT'])
         },
-        computed: {},
+        computed: {...mapState(['user', 'singin'])
+        },
         watch: {},
         components: {},
         mounted() {},

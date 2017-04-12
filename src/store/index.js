@@ -20,3 +20,4 @@ export const store = new Vuex.Store({
 
 /*store.commit('test/TEST');
 store.commit('INIT_DEVICE');*/
+store.commit('SYNC');

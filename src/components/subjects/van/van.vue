@@ -1,10 +1,10 @@
 <template lang="pug">
-div(class="mdl-layout mdl-js-layout mdl-layout--fixed-header" )
-  top-header(style="background-color: purple")
+div(class="mdl-layout mdl-js-layout mdl-layout--fixed-header")
+  top-header(style="background-color: salmon  ")
   sidebar
   main(class="mdl-layout__content")
     div(class="page-content")
-     login
+     <h1>Văn học</h1>
 </template>
 <script>
 import {
@@ -14,9 +14,8 @@ import {
     mapActions
 } from 'vuex';
 
-import login from './login.vue';
-import topHeader from "./ui/header.vue";
-import sidebar from "./ui/sidebar.vue";
+import topHeader from "../../ui/header.vue";
+import sidebar from "../../ui/sidebar.vue";
 
 
 export default {
@@ -31,7 +30,6 @@ export default {
     },
     watch: {},
     components: {
-        login,
         topHeader,
         sidebar
     }

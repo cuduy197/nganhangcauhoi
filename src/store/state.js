@@ -5,6 +5,8 @@ export const state = {
         email: 'Đang tải...',
         uid: 'Đang tải...',
         login: '',
+        photoURL: '',
+        isAdmin: ''
     },
     input: {
         email: '',
