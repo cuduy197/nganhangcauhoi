@@ -12,6 +12,9 @@ import 'material-design-lite/material.min.css';
 
 import './assets/custom.css';
 
+//import MaterialLite from 'material-design-lite';
+import 'material-design-lite/material.min.css';
+
 import App from './App';
 import { sync } from 'vuex-router-sync';
 import router from './router';
