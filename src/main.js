@@ -12,9 +12,6 @@ import 'material-design-lite/material.min.css';
 
 import './assets/custom.css';
 
-//import MaterialLite from 'material-design-lite';
-import 'material-design-lite/material.min.css';
-
 import App from './App';
 import { sync } from 'vuex-router-sync';
 import router from './router';
@@ -22,11 +19,9 @@ import { store } from './store/index';
 
 sync(store, router); // done.
 
-
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
-/* eslint-disable no-new */
 new Vue({
     el: '#app',
     store,
