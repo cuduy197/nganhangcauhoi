@@ -7,8 +7,8 @@ import 'element-ui/lib/theme-default/index.css';
 import 'animate.css/animate.min.css';
 
 //import MaterialLite from 'material-design-lite';
-//import 'material-design-lite/material.min.css';
-//
+import 'material-design-lite/material.min.css';
+
 import App from './App';
 import router from './router';
 import { store } from './store/index';
