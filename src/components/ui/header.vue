@@ -9,7 +9,7 @@
             Đăng xuất
         </button>
         <!-- Add spacer, to align navigation to the right -->
-        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-layout-spacer"></div> 
         <!-- Navigation. We hide it in small screens. -->
         <nav class="mdl-navigation mdl-layout--large-screen-only">
             <a v-if="!singin"  class="mdl-navigation__link" href="/">Giới thiệu</a>
