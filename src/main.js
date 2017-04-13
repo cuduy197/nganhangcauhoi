@@ -2,13 +2,13 @@
 /*jshint -W030 */
 
 import Vue from 'vue';
-
+import locale from 'element-ui/lib/locale/lang/vi';
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-default/index.css';
-import 'animate.css/animate.min.css';
+/*import 'element-ui/lib/theme-default/index.css';*/
+/*import 'animate.css/animate.min.css';*/
 
-import MaterialLite from 'material-design-lite';
-import 'material-design-lite/material.min.css';
+/*import MaterialLite from 'material-design-lite';
+import 'material-design-lite/material.min.css';*/
 
 import './assets/custom.css';
 
@@ -19,7 +19,7 @@ import { store } from './store/index';
 
 //sync(store, router); // done.
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale });
 Vue.config.productionTip = false;
 
 new Vue({
