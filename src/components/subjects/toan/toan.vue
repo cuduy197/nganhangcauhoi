@@ -4,7 +4,7 @@ div(class="mdl-layout mdl-js-layout mdl-layout--fixed-header")
   sidebar
   main(class="mdl-layout__content")
     div(class="page-content")
-     <h1>Toán học</h1>
+     view-content
 </template>
 <script>
 import {
@@ -16,12 +16,15 @@ import {
 
 import topHeader from "../../ui/header.vue";
 import sidebar from "../../ui/sidebar.vue";
+import viewContent from "./view.vue";
 
 
 export default {
     name: 'home',
     data() {
-        return {}
+        return {
+
+        }
     },
     mounted() {},
     methods: {...mapMutations([])
@@ -31,7 +34,8 @@ export default {
     watch: {},
     components: {
         topHeader,
-        sidebar
+        sidebar,
+        viewContent
     }
 }
 </script>
