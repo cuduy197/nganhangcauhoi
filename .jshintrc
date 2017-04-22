@@ -1,4 +1,6 @@
 {
     "esversion": 6,
-    "-W030": true
+    "-W030": true,
+    "-W014": true,
+    "supernew": true
 }

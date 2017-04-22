@@ -5,10 +5,12 @@ import { db, userRef } from "./firebase_init.js";
 import { Message } from 'element-ui';
 import { Notification } from 'element-ui';
 import { Loading } from 'element-ui';
+import { MessageBox } from 'element-ui';
 
 export const mutations = {
     SYNC(state) {
-        /*Loading.service();
+        /*
+        Loading.service();
                 Message({
                     showClose: true,
                     message: 'Xin chào mừng bạn'
@@ -44,17 +46,13 @@ export const mutations = {
         // [START authstatelistener]
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-                setTimeout(() => { loadingInstance.close(); }, 1000);
+                setTimeout(() => { loadingInstance.close(); }, 888);
                 state.singin = true;
                 // User is signed in.
                 state.user.email = user.email;
                 state.user.photoURL = user.photoURL;
                 state.user.uid = user.uid;
                 // [START_EXCLUDE]
-                /* Message({
-                     message: 'Bạn đã đăng nhập!',
-                     type: 'success'
-                 });*/
                 // [END_EXCLUDE]
             } else {
                 loadingInstance.close();
@@ -62,7 +60,6 @@ export const mutations = {
                 // User is signed out.
                 // [START_EXCLUDE]
                 state.singin = false;
-
                 Message({
                     message: 'Bạn chưa đăng nhập!',
                     type: 'info'
@@ -71,7 +68,6 @@ export const mutations = {
             }
 
         });
-
     },
     LOGIN(state) {
         var loadingInstance = Loading.service({ text: 'Đăng nhập ...', customClass: 'bg-green' });
@@ -82,14 +78,25 @@ export const mutations = {
     }, //end
     LOGOUT() {
 
-        var loadingInstance = Loading.service({ text: 'Đăng xuất ...', customClass: 'bg-red-pink' });
-        setTimeout(() => {
-            loadingInstance.close();
-        }, 1234);
-        Message({
-            message: 'Bạn đã đăng xuất thành công!',
-            type: 'success'
+        MessageBox.confirm('Bạn có muốn đăng xuất?', 'Warning', {
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Hủy',
+            type: 'warning'
+        }).then(() => {
+            var loadingInstance = Loading.service({ text: 'Đăng xuất ...', customClass: 'bg-red-pink' });
+            setTimeout(() => {
+                loadingInstance.close();
+            }, 1234);
+            Message({
+                message: 'Bạn đã đăng xuất thành công!',
+                type: 'success'
+            });
+            firebase.auth().signOut();
+        }).catch(() => {
+            Message({
+                type: 'info',
+                message: 'Bạn đã hủy đăng xuất'
+            });
         });
-        firebase.auth().signOut();
     }
 };

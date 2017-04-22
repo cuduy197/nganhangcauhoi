@@ -5,16 +5,14 @@
             <el-card class="box-card animated fadeIn">
                 <div class="grid-content">
                     <h4>Chào mừng bạn,vui lòng đăng nhập để sử dụng ứng dụng.</h4>
-
                     <el-button style="height: 100px; width: 200px; font-size: 30px" class="animated flipInX" size="large" type="primary" @click="LOGIN">Đăng nhập</el-button>
                 </div>
             </el-card>
         </el-col>
         <el-col :sm="24" :md="12">
-            <div class="grid-content " >
+            <div class="grid-content ">
                 <h4>Hướng dẫn</h4>
                 <p>Để trở thành nhà soạn thảo câu hỏi bạn cần thực hiện : </p>
-
               <el-steps :space="100"  direction="vertical"  :active="3" finish-status="success">
                     <el-step title="Liên hệ : cuduy197@gmail.com" description="Bước 1"></el-step>
                     <el-step title="Trao đổi thông tin" description="Bước 2" ></el-step>
@@ -23,7 +21,6 @@
             </div>
         </el-col>
     </el-row>
-
         <el-row :gutter="20" v-if="singin">
         <el-col  :sm="24" :md="24">
             <el-card class="box-card animated fadeIn">
@@ -32,11 +29,15 @@
                 </div>
             </el-card>
         </el-col>
-        <!-- <el-col :sm="24" :md="12">
-        </el-col> -->
-    </el-row>
 
-    
+          <el-col  :sm="24" :md="24">
+            <el-card class="box-card animated fadeIn">
+                <div class="grid-content">
+                    <h4>Toán học</h4>
+                </div>
+            </el-card>
+        </el-col>
+    </el-row>
 </div>
 
 </template>
@@ -68,6 +69,7 @@ export default {
 </script>
 <style scoped>
 .box-card {
+    margin: 10px;
     border-radius: 12px;
     padding: 5px;
     box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);

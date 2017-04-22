@@ -1,9 +1,8 @@
 <template>
-<!-- Always shows a header, even in smaller screens. -->
 <header class="mdl-layout__header">
     <div class="mdl-layout__header-row ">
         <!-- Title -->
-        <img v-if="singin" class="" :src="user.photoURL" width="42" style="border-radius: 50%; border: solid 3px; margin: 15px;">
+        <img v-if="singin" :title="user.email" class="" :src="user.photoURL" width="42" style="border-radius: 50%; border: solid 3px; margin: 15px;">
         <span v-if="!singin" class="mdl-layout-title">Ngân hàng câu hỏi</span>
         <button @click="LOGOUT" v-if="singin" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
             Đăng xuất
@@ -51,7 +50,4 @@ export default {
 }
 </script>
 <style>
-header:hover {
-    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.2);
-}
 </style>
