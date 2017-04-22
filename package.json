@@ -6,7 +6,7 @@
     "scripts": {
         "git": "git status",
         "add": "git add .",
-        "pull": "git pull",
+        "pull": "git reset --hard HEAD && git pull",
         "commit": "git add . && git commit -m",
         "push": "git push origin master",
         "start": "node build/dev-server.js",
