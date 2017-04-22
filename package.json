@@ -4,9 +4,10 @@
     "description": "A Vue.js project",
     "author": "Bùi Khương Duy <cuduy197@gmail.com>",
     "scripts": {
+        "g": "git status",
         "gs": "git status",
         "ga": "git add .",
-        "gc": "git commit -m",
+        "gc": "git add . && git commit -m",
         "gp": "git push origin master",
         "dev": "node build/dev-server.js",
         "start": "node build/dev-server.js",
