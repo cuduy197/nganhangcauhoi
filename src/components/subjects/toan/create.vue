@@ -1,10 +1,6 @@
 <template lang="pug">
-div(class="mdl-layout mdl-js-layout mdl-layout--fixed-header")
-  top-header(style="background-color: teal  ;")
-  sidebar
-  main(class="mdl-layout__content")
-    div(class="page-content")
-     <h1>Tiếng anh</h1>
+    div
+     createQuiz
 </template>
 <script>
 import {
@@ -14,10 +10,7 @@ import {
     mapActions
 } from 'vuex';
 
-
-import topHeader from "../../ui/header.vue";
-import sidebar from "../../ui/sidebar.vue";
-
+import createQuiz from '../../tools/createQuiz.vue';
 
 export default {
     name: 'home',
@@ -31,8 +24,7 @@ export default {
     },
     watch: {},
     components: {
-        topHeader,
-        sidebar
+        createQuiz
     }
 }
 </script>

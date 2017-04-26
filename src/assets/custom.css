@@ -2,6 +2,10 @@ body {
     background: url(https://www.toptal.com/designers/subtlepatterns/patterns/xv.png) repeat;
 }
 
+.center {
+    text-align: center;
+}
+
 @charset "UTF-8";
 .el-loading-mask {
     position: absolute;
@@ -13,6 +17,10 @@ body {
     bottom: 0;
     left: 0;
     transition: opacity .3s
+}
+
+.white {
+    color: white;
 }
 
 .bg-purple {
@@ -41,6 +49,10 @@ body {
 
 .bg-red-pink {
     background-color: #D81B60;
+}
+
+.bg-orange {
+    background-color: orange;
 }
 
 .el-loading-mask.is-fullscreen {

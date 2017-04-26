@@ -1,10 +1,6 @@
 <template lang="pug">
-div(class="mdl-layout mdl-js-layout mdl-layout--fixed-header")
-  top-header(style="background-color: teal  ;")
-  sidebar
-  main(class="mdl-layout__content")
-    div(class="page-content")
-     <h1>Tiếng anh</h1>
+    div
+     <h1>Quizz văn</h1>
 </template>
 <script>
 import {
@@ -13,11 +9,6 @@ import {
     mapMutations,
     mapActions
 } from 'vuex';
-
-
-import topHeader from "../../ui/header.vue";
-import sidebar from "../../ui/sidebar.vue";
-
 
 export default {
     name: 'home',
@@ -30,10 +21,7 @@ export default {
     computed: {...mapState([])
     },
     watch: {},
-    components: {
-        topHeader,
-        sidebar
-    }
+    components: {}
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -2,11 +2,7 @@
 <header class="mdl-layout__header">
     <div class="mdl-layout__header-row ">
         <!-- Title -->
-        <img v-if="singin" :title="user.email" class="" :src="user.photoURL" width="42" style="border-radius: 50%; border: solid 3px; margin: 15px;">
-        <span v-if="!singin" class="mdl-layout-title">Ngân hàng câu hỏi</span>
-        <button @click="LOGOUT" v-if="singin" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-            Đăng xuất
-        </button>
+          <span class="mdl-layout-title">Ngân hàng câu hỏi</span>
         <!-- Add spacer, to align navigation to the right -->
         <div class="mdl-layout-spacer"></div> 
         <!-- Navigation. We hide it in small screens. -->
@@ -49,5 +45,20 @@ export default {
         mounted() {},
 }
 </script>
-<style>
+<style scoped>
+img:hover {
+    transform: rotate(360deg) scale(1.2, 1.2);
+}
+
+.mdl-navigation__link,
+.mdl-button {
+    font-weight: bold;
+    transition: all .25s ease-in-out;
+}
+
+.mdl-navigation__link:hover,
+.mdl-button:hover {
+    text-decoration: underline;
+    transform: scale(1.15, 1.15);
+}
 </style>

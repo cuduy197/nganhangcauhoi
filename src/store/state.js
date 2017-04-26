@@ -9,9 +9,16 @@ export const state = {
         isAdmin: ''
     },
     input: {
-        email: '',
-        password: '',
-        repassword: ''
+        question: '',
+        question_image: '',
+        answer: '',
+        answer2: '',
+        answer3: '',
+        answer4: '',
+        hint: '',
+        hint_image: '',
+        slove: '',
+        slove_image: ''
     },
     singin: false, //Check if was singin!
 };
