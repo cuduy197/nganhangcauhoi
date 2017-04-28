@@ -5,7 +5,7 @@
                 <el-form label-width="130px" class="ruleForm">
                     <el-form-item label="Câu hỏi ❓❓❓">
                         <toolbarQuiz :showTemplate="true" model="question"> </toolbarQuiz>
-                        <el-input @change="reset_mathjax" v-model.lazy="question" :autosize="{ minRows: 6}" type="textarea" placeholder="nhập nội dung"></el-input>
+                        <el-input name="question" @change="reset_mathjax" v-model.lazy="question" :autosize="{ minRows: 6}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Hình ảnh câu hỏi">
                         <el-input @change="reset_mathjax" v-model="question_image" icon="picture" type="text" placeholder="Nhập địa chỉ hình ảnh"></el-input>

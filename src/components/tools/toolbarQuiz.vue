@@ -88,14 +88,25 @@ export default {
                 console.log('ok')
             }
         },
-        customInput(val, model = "question") {
+        customInput(val) {
+            input = "";
+            console.log(this.model);
             let input = this.$store.state.input[this.model];
 
             function getTextFieldSelection(textField) {
                 return textField.value.substring(textField.selectionStart, textField.selectionEnd);
             }
-            let selectText = getTextFieldSelection(document.getElementsByTagName("textarea")[0]);
-
+            let selectText;
+            if (this.model == 'question') {
+                selectText = getTextFieldSelection(document.getElementsByTagName("textarea")[0]);
+            }
+            if (this.model == 'hint') {
+                console.log(document.getElementsByTagName("textarea"));
+                selectText = getTextFieldSelection(document.getElementsByTagName("textarea")[5]);
+            }
+            if (this.model == 'slove') {
+                selectText = getTextFieldSelection(document.getElementsByTagName("textarea")[6]);
+            }
             if (val === "b") {
                 input =
                     input.replace(selectText, "<b>" + selectText + "</b>");
