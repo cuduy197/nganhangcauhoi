@@ -4,37 +4,40 @@
             <el-card class="box-card animated fadeIn">
                 <el-form label-width="130px" class="ruleForm">
                     <el-form-item label="Câu hỏi ❓❓❓">
-                        <el-input v-model.lazy="question" :autosize="{ minRows: 3}" type="textarea" placeholder="..."></el-input>
+                        <toolbarQuiz :showTemplate="true" model="question"> </toolbarQuiz>
+                        <el-input @change="reset_mathjax" v-model.lazy="question" :autosize="{ minRows: 6}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Hình ảnh câu hỏi">
-                        <el-input v-model="question_image" icon="picture" type="text" placeholder="Nhập địa chỉ hình ảnh"></el-input>
+                        <el-input @change="reset_mathjax" v-model="question_image" icon="picture" type="text" placeholder="Nhập địa chỉ hình ảnh"></el-input>
                     </el-form-item>
                     <hr>
                     <el-form-item label="Đáp án đúng ✔">
-                        <el-input v-model="answer" autosize type="textarea" placeholder="..."></el-input>
+                        <el-input @change="reset_mathjax" v-model="answer" autosize type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Đáp án sai 1 ❌">
-                        <el-input v-model="answer2" autosize type="textarea" placeholder="..."></el-input>
+                        <el-input @change="reset_mathjax" v-model="answer2" autosize type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Đáp án sai 2 ❌">
-                        <el-input v-model="answer3" autosize type="textarea" placeholder="..."></el-input>
+                        <el-input @change="reset_mathjax" v-model="answer3" autosize type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Đáp án sai 3 ❌">
-                        <el-input v-model="answer4" autosize type="textarea" placeholder="..."></el-input>
+                        <el-input @change="reset_mathjax" v-model="answer4" autosize type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <hr>
                     <el-form-item label=" Gợi ý 💡">
-                        <el-input v-model="hint" :autosize="{ minRows: 2}" type="textarea" placeholder="..."></el-input>
+                        <toolbarQuiz model="hint"> </toolbarQuiz>
+                        <el-input @change="reset_mathjax" v-model="hint" :autosize="{ minRows: 3}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Hình ảnh gợi ý ">
-                        <el-input v-model="hint_image" type="text" icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
+                        <el-input @change="reset_mathjax" v-model="hint_image" type="text" icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
                     </el-form-item>
                     <hr>
                     <el-form-item label=" Lời giải 📖">
-                        <el-input v-model="slove" :autosize="{ minRows: 2}" type="textarea" placeholder="..."></el-input>
+                        <toolbarQuiz model="slove"> </toolbarQuiz>
+                        <el-input @change="reset_mathjax" v-model="slove" :autosize="{ minRows: 3}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Hình ảnh lời giải ">
-                        <el-input v-model="slove_image" type="text" icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
+                        <el-input @change="reset_mathjax" v-model="slove_image" type="text" icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -44,7 +47,7 @@
          
                 <el-form label-width="150px" label-position="top" class="ruleForm">
                     <el-form-item label=" Lời giải 📖" > 
-                        <el-input  :autosize="{ minRows: 15}"  type="textarea" placeholder="..."></el-input>
+                        <el-input  :autosize="{ minRows: 15}"  type="textarea"  placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                       <el-form-item label="Hình ảnh gợi ý 🎴" >
                         <el-input type="text"  icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
@@ -57,8 +60,8 @@
             <el-card class="box-card animated fadeIn">
                 <el-form label-width="150px" label-position="top" class="ruleForm">
                     <el-form-item class="center">
-                        <el-button icon="edit" type="primary">Tạo câu hỏi </el-button>
-                        <el-button icon="delete" type="warning">Đặt lại</el-button>
+                        <el-button @click="CREATE_QUIZ" icon="edit" type="primary">Tạo câu hỏi </el-button>
+                        <el-button @click="RESET_INPUT" icon="delete" type="warning">Đặt lại</el-button>
                     </el-form-item>
                 </el-form>
                 <hr>
@@ -70,43 +73,36 @@
                 <el-row :gutter="5">
                     <el-col :span="12">
                         <div class="bg-green center ">
-                            <mark class="bg-green white">Đáp án đúng:</mark>
+                            <mark class="bg-green white">ĐÁP ÁN ĐÚNG</mark>
                         </div>
                         <div class="preview" v-html="input.answer"> </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="bg-salmon center">
-                            <mark class="bg-salmon white">Đáp án sai 1</mark>
+                            <mark class="bg-salmon white">ĐÁP ÁN SAI 1</mark>
                         </div>
                         <div class="preview" v-html="input.answer2"> </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="bg-salmon center">
-                            <mark class="bg-salmon white">Đáp án sai 2</mark>
+                            <mark class="bg-salmon white">ĐÁP ÁN SAI 2</mark>
                         </div>
                         <div class="preview" v-html="input.answer3"> </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="bg-salmon center">
-                            <mark class="bg-salmon white">Đáp án sai 3</mark>
+                            <mark class="bg-salmon white">ĐÁP ÁN SAI 3</mark>
                         </div>
                         <div class="preview" v-html="input.answer4"> </div>
                     </el-col>
                 </el-row>
                 <hr>
-                <hr>
-                <div class="center">
-                    <el-button>Hiển thị gợi ý:</el-button>
-                </div>
-                <br>
+                <div>Hiển thị gợi ý:</div>
                 <div class="preview" v-html="input.hint"> </div>
                 <br>
                 <img v-show="input.hint_image.length > 5" :src="input.hint_image" alt="image hint">
                 <hr>
-                <div class="center">
-                    <el-button>Hiển thị lời giải:</el-button>
-                </div>
-                <br>
+                <div>Hiển thị lời giải:</div>
                 <div class="preview" v-html="input.slove"> </div>
                 <br>
                 <img v-show="input.slove_image.length > 5" :src="input.slove_image" alt="image slove">
@@ -122,10 +118,27 @@ import {
     mapActions
 } from 'vuex';
 
+import toolbarQuiz from './toolbarQuiz.vue';
 
 export default {
     data() {
-            return {}
+            return {
+                name: 'custom-toolbar-example',
+                content: '<h2>I am Example 3</h2>',
+                editorOption: {
+                    modules: {
+                        toolbar: '#toolbar'
+                    }
+                }
+            }
+        },
+        methods: {
+            ...mapMutations(['RESET_INPUT', 'CREATE_QUIZ']),
+            reset_mathjax() {
+                this.$nextTick(function() {
+                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                });
+            }
         },
         computed: {
             ...mapState(['input', 'singin', 'user']),
@@ -211,43 +224,8 @@ export default {
             },
 
         },
-        watch: {
-
-            question(val) {
-                this.$nextTick(function() {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                });
-            },
-            answer(val) {
-                this.$nextTick(function() {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                });
-            },
-            answer2(val) {
-                this.$nextTick(function() {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                });
-            },
-            answer3(val) {
-                this.$nextTick(function() {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                });
-            },
-            answer4(val) {
-                this.$nextTick(function() {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                });
-            },
-            hint(val) {
-                this.$nextTick(function() {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                });
-            },
-            slove(val) {
-                this.$nextTick(function() {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                });
-            },
+        components: {
+            toolbarQuiz
         }
 }
 </script>
@@ -262,6 +240,7 @@ img {
 }
 
 .preview {
+    word-wrap: break-word;
     padding: 15px 0px 15px 5px;
     border: solid 1px;
     border-radius: 5px;

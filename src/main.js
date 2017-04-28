@@ -19,6 +19,10 @@ import { store } from './store/index';
 
 //sync(store, router); // done.
 
+import VueQuillEditor from 'vue-quill-editor';
+Vue.use(VueQuillEditor);
+
+
 Vue.use(ElementUI, { locale });
 Vue.config.productionTip = false;
 

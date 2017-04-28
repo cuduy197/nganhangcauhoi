@@ -18,7 +18,9 @@ export const state = {
         hint: '',
         hint_image: '',
         slove: '',
-        slove_image: ''
+        slove_image: '',
+        author: '',
+        create_time: ''
     },
     singin: false, //Check if was singin!
 };

@@ -10,7 +10,7 @@ const db = firebase.initializeApp({
 
 
 const userRef = db.ref('users');
-//const dataRef = db.ref('cauhoi');
+const dataRef = db.ref('cauhoi');
 
 
-export { db, userRef };
+export { db, userRef, dataRef };
