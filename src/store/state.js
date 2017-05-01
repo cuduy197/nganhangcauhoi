@@ -1,5 +1,3 @@
-/*jshint esversion: 6 */
-/*jshint -W030 */
 export const state = {
     user: {
         email: 'Đang tải...',
@@ -21,6 +19,17 @@ export const state = {
         slove_image: '',
         author: '',
         create_time: ''
+    },
+    quiz: {
+        create: '',
+        val: [],
+        numChildren: 0,
+        show: false
+    },
+    subject: {
+        path: '',
+        subpath: '',
+        tilte: ''
     },
     singin: false, //Check if was singin!
 };

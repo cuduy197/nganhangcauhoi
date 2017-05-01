@@ -1,18 +1,18 @@
 <template>
-<div class="login" style="">
-    <el-row :gutter="20" v-if="!this.$store.state.singin">
-        <slot name="unsingin"></slot>
-    </el-row>
-    <el-row :gutter="20" v-if="this.$store.state.singin">
-        <slot name="singin"></slot>
-    </el-row>
-</div>
+    <div class="login" style="">
+        <el-row :gutter="20" v-if="!this.$store.state.singin">
+            <slot name="unsingin"></slot>
+        </el-row>
+        <el-row :gutter="20" class="showlist" v-if="this.$store.state.singin">
+            <slot name="singin"></slot>
+        </el-row>
+    </div>
 </template>
 <script>
 </script>
 <style scoped>
 .login {
-    text-align: center;
+    /* text-align: center;*/
     padding: 25px;
 }
 

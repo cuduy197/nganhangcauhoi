@@ -12,6 +12,7 @@ export const mutations = {
         document.onkeydown = function() {
             switch (event.keyCode) {
                 case 116: //F5 button
+                    window.scrollTo(0, 0);
                     event.returnValue = false;
                     MessageBox.confirm('Bạn có muốn tải lại trang?', 'Thông báo', {
                         confirmButtonText: 'Đồng ý',
@@ -31,29 +32,31 @@ export const mutations = {
                     }
             }
         };
-        //[Get current location path]
-        var pathname = window.location.pathname;
+        //Fix pathname like http://localhost:8080/toan#/toan --> http://localhost:8080/#/
+        if (location.pathname != "/") {
+            location.href = "/";
+        }
+        //[Get current location hash]
+        if (location.hash !== '#/') {
+            state.subject.path = (location.hash).replace('create', '').match(/[^#/]/g).join('');
+            console.log(state.subject.path);
+        }
         let loadingInstance;
-        switch (pathname) {
-            case "/toan":
-            case "/toan/create":
-            case "/toan/":
-            case "/toan/create/":
+        var pathname = location.hash;
+        if (state.subject.subpath === "") {
+            window.location.href = '#/' + state.subject.path;
+        }
+        switch (state.subject.path) {
+            case "toan":
                 loadingInstance = Loading.service({ text: 'Toán học', customClass: 'bg-indigo' });
                 break;
-            case "/anh":
-            case "/anh/":
-            case "/anh/create":
-            case "/anh/create/":
+            case "anh":
                 loadingInstance = Loading.service({ text: 'Tiếng Anh', customClass: 'bg-teal' });
                 break;
-            case "/van":
-            case "/van/":
-            case "/van/create":
-            case "/van/create/":
+            case "van":
                 loadingInstance = Loading.service({ text: 'Ngữ văn', customClass: 'bg-salmon' });
                 break;
-            case "/":
+            case "":
                 loadingInstance = Loading.service({ text: 'Đang tải', customClass: 'bg-purple' });
                 break;
             default:
@@ -91,14 +94,14 @@ export const mutations = {
                 state.singin = false;
                 loadingInstance.close();
                 if (pathname != '/') {
-                    window.location.href = '/';
+                    window.location.href = '#/';
                 }
-                setTimeout(() => {
-                    Message({
+                /*setTimeout(() => {
+                    Notification({
                         message: 'Bạn chưa đăng nhập!',
                         type: 'info'
                     });
-                }, 2000);
+                }, 2000);*/
                 // [END_EXCLUDE]
             }
 
@@ -118,78 +121,177 @@ export const mutations = {
             type: 'warning'
         }).then(() => {
             let loadingInstance = Loading.service({ text: 'Đăng xuất ...', customClass: 'bg-red-pink' });
+            firebase.auth().signOut();
             setTimeout(() => {
                 loadingInstance.close();
-                history.go(0);
+                setTimeout(function() {
+                    Notification({
+                        message: 'Bạn đã đăng xuất thành công!',
+                        type: 'success'
+                    });
+                }, 200);
             }, 1234);
-            Message({
-                message: 'Bạn đã đăng xuất thành công!',
-                type: 'success'
-            });
+
             //Do
-            firebase.auth().signOut();
         }).catch(() => {});
     },
-    CREATE_QUIZ(state, value) {
+    BEFORE_CREATE_QUIZ(state, subpath) {
+        window.scrollTo(0, 0);
+        state.subject.path = (location.hash).replace('create', '').match(/[^#/]/g).join('');
+        state.subject.subpath = subpath;
+        console.info(state.subject.path + "/" + state.subject.subpath);
+        let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
+        dataRef
+            .child(state.subject.path)
+            .child(state.subject.subpath)
+            .once('value', (d) => {
+                console.info(d.numChildren());
+                state.quiz.numChildren = Number(d.numChildren() + 1);
+                if (Number(d.numChildren()) >= 0 && d.numChildren() !== null) {
+                    setTimeout(function() {
+                        loadingInstance.close();
+                    }, 777);
+                } else {
+                    loadingInstance.close();
+                    loadingInstance = Loading.service({ text: 'Có lỗi, tải lại , tự động tải lại trang sau 3 giây ...', customClass: 'bg-red-pink' });
+                    setTimeout(function() {
+                        loadingInstance.close();
+                        setTimeout(function() {
+                            location.href = "/";
+                        }, 300);
+                    }, 3000);
 
-        if (state.input.question.length > 10 &&
-            state.input.answer.length > 10 &&
-            state.input.answer2.length > 10 &&
-            state.input.answer3.length > 10 &&
-            state.input.answer4.length > 10) {
+                }
+
+            });
+    },
+    VIEW_QUIZ(state, subpath) {
+        window.scrollTo(0, 0);
+        state.quiz.val = [];
+        state.subject.path = (location.hash).replace('create', '').match(/[^#/]/g).join('');
+        state.subject.subpath = subpath;
+        console.info(state.subject.path + "/" + state.subject.subpath);
+        let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
+        dataRef
+            .child(state.subject.path)
+            .child(state.subject.subpath)
+            .limitToFirst(10)
+            .once('value', (d) => {
+
+                if (Number(d.numChildren()) >= 0 && d.numChildren() !== null) {
+                    setTimeout(function() {
+                        state.quiz.numChildren = Number(d.numChildren());
+                        console.info(state.quiz.numChildren);
+
+                        d.forEach(function(item) {
+                            var itemVal = item.val();
+                            state.quiz.val.push(itemVal);
+                        });
+
+
+                        loadingInstance.close();
+                    }, 777);
+                } else {
+                    loadingInstance.close();
+                    loadingInstance = Loading.service({ text: 'Có lỗi, tải lại , tự động tải lại trang sau 3 giây ...', customClass: 'bg-red-pink' });
+                    setTimeout(function() {
+                        loadingInstance.close();
+                        setTimeout(function() {
+                            location.href = "/";
+                        }, 300);
+                    }, 3000);
+                }
+
+            });
+
+    },
+    CREATE_QUIZ(state) {
+
+        if (state.input.question.length > 1 &&
+            state.input.answer.length > 1 &&
+            state.input.answer2.length > 1 &&
+            state.input.answer3.length > 1 &&
+            state.input.answer4.length > 1) {
             MessageBox.confirm('Bạn đã hoàn thành soạn thảo và muốn tạo câu hỏi ?', 'Thông báo', {
                 confirmButtonText: 'Đúng vậy',
                 cancelButtonText: 'Hủy',
                 type: 'warning'
             }).then(() => {
-
-
-
                 let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 state.input.author = state.user.email;
                 state.input.create_time = new Date().toLocaleString('vi', options);
 
-                dataRef.once('value', (snapshot) => {
-                    let numChild = snapshot.numChildren();
-                    dataRef.child(numChild + 1).set(state.input);
+                dataRef
+                    .child(state.subject.path)
+                    .child(state.subject.subpath)
+                    .once('value', (snapshot) => {
+                        let nChild = snapshot.numChildren();
+                        let path = state.subject.path;
+                        let subpath = state.subject.subpath;
+                        console.info(path + "/" + subpath + "/" + Number(nChild + 1));
+                        //Set quiz
+                        dataRef
+                            .child(path)
+                            .child(subpath)
+                            .child(nChild + 1)
+                            .set(state.input);
 
-                    state.input.question = "";
-                    state.input.question_image = "";
-                    state.input.answer = "";
-                    state.input.answer2 = "";
-                    state.input.answer3 = "";
-                    state.input.answer4 = "";
-                    state.input.hint = "";
-                    state.input.hint_image = "";
-                    state.input.slove = "";
-                    state.input.slove_image = "";
-                }).then(() => {
-                    let loadingInstance = Loading.service({ text: 'Đang tạo câu hỏi ...', customClass: 'bg-green' });
-                    setTimeout(function() {
-                        loadingInstance.close();
+                        userRef
+                            .child(state.user.uid)
+                            .child('cauhoi').child(path)
+                            .child(subpath)
+                            .child(nChild + 1)
+                            .set(state.input);
 
-                        Message({
-                            message: 'Đã tạo câu hỏi thành công!',
-                            type: 'success'
+                        state.input.question = "";
+                        state.input.question_image = "";
+                        state.input.answer = "";
+                        state.input.answer2 = "";
+                        state.input.answer3 = "";
+                        state.input.answer4 = "";
+                        state.input.hint = "";
+                        state.input.hint_image = "";
+                        state.input.slove = "";
+                        state.input.slove_image = "";
+
+
+
+                    }).then((snapshot) => {
+
+                        let loadingInstance = Loading.service({
+                            text: 'Đang tạo câu hỏi số ' + Number(snapshot.numChildren() + 1),
+                            customClass: 'bg-green'
                         });
-                    }, 1000);
-                }).catch((error) => {
-                    console.log(error);
-                    let loadingInstance = Loading.service({ text: 'Có lỗi ...', customClass: 'bg-red-pink' });
-                    setTimeout(function() {
-                        loadingInstance.close();
+                        setTimeout(function() {
+                            loadingInstance.close();
 
-                        Message({
-                            message: 'Đã  có lỗi khi tạo câu hỏi và ngân hàng câu hỏi. Kiểm tra kết nối của bạng, đảm bảo bạn có kết nối mạng !',
-                            type: 'error'
-                        });
-                    }, 1000);
-                });
+                            Notification({
+                                message: 'Đã tạo câu hỏi thành công!',
+                                type: 'success'
+                            });
+
+                        }, 1234);
+                    }).catch((error) => {
+                        console.log(error);
+                        let loadingInstance = Loading.service({ text: 'Có lỗi ...', customClass: 'bg-red-pink' });
+                        setTimeout(function() {
+                            loadingInstance.close();
+
+                            Notification({
+                                message: 'Đã  có lỗi khi tạo câu hỏi và ngân hàng câu hỏi. Kiểm tra kết nối của bạng, đảm bảo bạn có kết nối mạng !',
+                                type: 'error'
+                            });
+                        }, 1000);
+                    });
                 //Do
             }).catch(() => {});
         } else {
 
-            Message('Bạn chưa soạn thảo xong câu hỏi, hãy kiểm tra lại!');
+            console.log(state.subject.path + "/" + state.subject.subpath);
+            Notification({
+                message: 'Bạn chưa soạn thảo xong câu hỏi, hãy kiểm tra lại!',
+                type: 'warning'
+            });
         }
 
     },
@@ -199,7 +301,7 @@ export const mutations = {
             cancelButtonText: 'Hủy',
             type: 'warning'
         }).then(() => {
-            Message({
+            Notification({
                 message: 'Đã xóa các mục đã nhập!',
                 type: 'success'
             });

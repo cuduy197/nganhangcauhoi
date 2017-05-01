@@ -1,29 +1,13 @@
-<template lang="pug">
-    div
-     <h1>Quizz văn</h1>
+<template>
+    <div>
+        <createQuiz />
+    </div>
 </template>
 <script>
-import {
-    mapState,
-    mapGetters,
-    mapMutations,
-    mapActions
-} from 'vuex';
-
+import createQuiz from '../../tools/createQuiz.vue';
 export default {
-    name: 'home',
-    data() {
-        return {}
-    },
-    mounted() {},
-    methods: {...mapMutations([])
-    },
-    computed: {...mapState([])
-    },
-    watch: {},
-    components: {}
+    components: {
+        createQuiz
+    }
 }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

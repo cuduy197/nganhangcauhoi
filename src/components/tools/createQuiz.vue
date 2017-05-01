@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <el-col :span="13">
+    <div class="create_quiz">
+        <el-col :sm="24" :md="13">
             <el-card class="box-card animated fadeIn">
-                <el-form label-width="130px" class="ruleForm">
+                <el-form label-position="top" class="ruleForm">
                     <el-form-item label="Câu hỏi ❓❓❓">
-                        <toolbarQuiz :showTemplate="true" model="question"> </toolbarQuiz>
+                        <toolbarQuiz model="question"> </toolbarQuiz>
                         <el-input name="question" @change="reset_mathjax" v-model.lazy="question" :autosize="{ minRows: 6}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Hình ảnh câu hỏi">
@@ -26,7 +26,7 @@
                     <hr>
                     <el-form-item label=" Gợi ý 💡">
                         <toolbarQuiz model="hint"> </toolbarQuiz>
-                        <el-input @change="reset_mathjax" v-model="hint" :autosize="{ minRows: 3}" type="textarea" placeholder="nhập nội dung"></el-input>
+                        <el-input name="hint" @change="reset_mathjax" v-model="hint" :autosize="{ minRows: 3}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Hình ảnh gợi ý ">
                         <el-input @change="reset_mathjax" v-model="hint_image" type="text" icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
@@ -34,7 +34,7 @@
                     <hr>
                     <el-form-item label=" Lời giải 📖">
                         <toolbarQuiz model="slove"> </toolbarQuiz>
-                        <el-input @change="reset_mathjax" v-model="slove" :autosize="{ minRows: 3}" type="textarea" placeholder="nhập nội dung"></el-input>
+                        <el-input name="slove" @change="reset_mathjax" v-model="slove" :autosize="{ minRows: 3}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
                     <el-form-item label="Hình ảnh lời giải ">
                         <el-input @change="reset_mathjax" v-model="slove_image" type="text" icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
@@ -56,17 +56,20 @@
          
         </el-card>
     </el-col> -->
-        <el-col :span="11">
+        <el-col :sm="24" :md="11">
             <el-card class="box-card animated fadeIn">
-                <el-form label-width="150px" label-position="top" class="ruleForm">
+                <el-form label-position="top" class="ruleForm">
                     <el-form-item class="center">
                         <el-button @click="CREATE_QUIZ" icon="edit" type="primary">Tạo câu hỏi </el-button>
                         <el-button @click="RESET_INPUT" icon="delete" type="warning">Đặt lại</el-button>
                     </el-form-item>
                 </el-form>
+                <div class="center">
+                    <span>Câu hỏi số: [ {{ quiz.numChildren }} ]</span> trong mục <span>[ {{ title_subpath }} ]</span>
+                </div>
                 <hr>
-                <span>Câu hỏi: </span>
-                <div class="preview" v-html="input.question"> </div>
+                <div class="preview" v-html="input.question">
+                </div>
                 <br>
                 <img v-show="input.question_image.length > 5" :src="input.question_image" alt="image question">
                 <hr>
@@ -75,25 +78,25 @@
                         <div class="bg-green center ">
                             <mark class="bg-green white">ĐÁP ÁN ĐÚNG</mark>
                         </div>
-                        <div class="preview" v-html="input.answer"> </div>
+                        <div class="preview_answer" v-html="input.answer"> </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="bg-salmon center">
                             <mark class="bg-salmon white">ĐÁP ÁN SAI 1</mark>
                         </div>
-                        <div class="preview" v-html="input.answer2"> </div>
+                        <div class="preview_answer" v-html="input.answer2"> </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="bg-salmon center">
                             <mark class="bg-salmon white">ĐÁP ÁN SAI 2</mark>
                         </div>
-                        <div class="preview" v-html="input.answer3"> </div>
+                        <div class="preview_answer" v-html="input.answer3"> </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="bg-salmon center">
                             <mark class="bg-salmon white">ĐÁP ÁN SAI 3</mark>
                         </div>
-                        <div class="preview" v-html="input.answer4"> </div>
+                        <div class="preview_answer" v-html="input.answer4"> </div>
                     </el-col>
                 </el-row>
                 <hr>
@@ -123,12 +126,15 @@ import toolbarQuiz from './toolbarQuiz.vue';
 export default {
     data() {
             return {
-                name: 'custom-toolbar-example',
-                content: '<h2>I am Example 3</h2>',
-                editorOption: {
-                    modules: {
-                        toolbar: '#toolbar'
-                    }
+                title_subpath: '',
+                title_toan: {
+                    hamso: 'Hàm số và các bài toán liên quan',
+                    mu_logarit: 'Mũ và logarit',
+                    nguyenham_tichphan: 'Nguyên hàm - tích phân và ứng dụng',
+                    sophuc: 'Số phức',
+                    khoi_da_dien: 'Thể tích khối đa diện',
+                    khoi_tron_xoay: 'Khối tròn xoay',
+                    toado_khonggian: 'Phương pháp tọa độ không gian'
                 }
             }
         },
@@ -141,7 +147,7 @@ export default {
             }
         },
         computed: {
-            ...mapState(['input', 'singin', 'user']),
+            ...mapState(['input', 'singin', 'user', 'quiz']),
             question: {
                 get() {
                     return this.$store.state.input.question
@@ -222,6 +228,31 @@ export default {
                     this.$store.commit('updateSlove_image', value)
                 }
             },
+        },
+        mounted() {
+            let subpath = this.$store.state.subject.subpath;
+            if (subpath == 'hamso') {
+                this.title_subpath = this.title_toan[subpath]
+            }
+            if (subpath == 'mu_logarit') {
+                this.title_subpath = this.title_toan[subpath]
+            }
+            if (subpath == 'nguyenham_tichphan') {
+                this.title_subpath = this.title_toan[subpath]
+            }
+            if (subpath == 'sophuc') {
+                this.title_subpath = this.title_toan[subpath]
+            }
+            if (subpath == 'khoi_da_dien') {
+                this.title_subpath = this.title_toan[subpath]
+            }
+            if (subpath == 'khoi_tron_xoay') {
+                this.title_subpath = this.title_toan[subpath]
+            }
+
+            if (subpath == 'toado_khonggian') {
+                this.title_subpath = this.title_toan[subpath]
+            }
 
         },
         components: {
@@ -231,6 +262,10 @@ export default {
 </script>
 <style scoped>
 .ruleForm {}
+
+.create_quiz {
+    padding: 1em 10px 3em 10px;
+}
 
 img {
     border: groove;
@@ -244,5 +279,11 @@ img {
     padding: 15px 0px 15px 5px;
     border: solid 1px;
     border-radius: 5px;
+}
+
+.preview_answer {
+    word-wrap: break-word;
+    padding: 15px 0px 15px 5px;
+    border: solid 1px;
 }
 </style>

@@ -1,18 +1,30 @@
 <template>
-    <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row ">
-            <!-- Title -->
-            <span class="mdl-layout-title">Ngân hàng câu hỏi</span>
-            <!-- Add spacer, to align navigation to the right -->
-            <div class="mdl-layout-spacer"></div>
-            <!-- Navigation. We hide it in small screens. -->
-            <nav class="mdl-navigation mdl-layout--large-screen-only">
-                <a v-if="!singin" class="mdl-navigation__link" href="/">Giới thiệu</a>
-                <a v-if="singin" class="mdl-navigation__link" href="/">Trang chủ</a>
-                <a v-if="singin" class="mdl-navigation__link" href="/toan/">Toán học</a>
-                <a v-if="singin" class="mdl-navigation__link" href="/anh/">Tiếng Anh</a>
-                <a v-if="singin" class="mdl-navigation__link" href="/van/">Ngữ văn</a>
-            </nav>
+    <header>
+        <div class="w3-top">
+            <div class="w3-bar w3-large">
+                <div v-if="!singin" class="float-center">
+                    <a class="w3-bar-item w3-button" href="#/">Giới thiệu</a>
+                </div>
+                <div v-if="singin">
+                    <a class="w3-bar-item w3-button" href="#/">Trang chủ</a>
+                </div>
+                <div class="no-mobile">
+                    <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán học</a>
+                    <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Tiếng Anh</a>
+                    <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Ngữ văn</a>
+                </div>
+                <div class="w3-dropdown-hover float-right" v-if="singin">
+                    <button class="w3-bar-item w3-button">
+                        Môn học <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-2 animated fadeInRight">
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán học  </a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Tiếng Anh  </a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Ngữ văn  </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </header>
 </template>
@@ -23,25 +35,28 @@ import {
     mapMutations,
     mapActions
 } from 'vuex';
-import sidebar from './sidebar';
+
 export default {
     data() {
-            return {
-                activeIndex: '1',
-                activeIndex2: '1'
-            };
+            return {};
         },
         methods: {...mapMutations(['LOGOUT']),
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);
+            },
+            myFunction() {
+                var x = document.getElementById("demo");
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                } else {
+                    x.className = x.className.replace(" w3-show", "");
+                }
             }
         },
-        computed: {...mapState(['user', 'singin'])
+        computed: {...mapState(['user', 'singin', 'subject'])
         },
         watch: {},
-        components: {
-            sidebar
-        },
+        components: {},
         mounted() {},
 }
 </script>
@@ -50,15 +65,46 @@ img:hover {
     transform: rotate(360deg) scale(1.2, 1.2);
 }
 
-.mdl-navigation__link,
-.mdl-button {
-    font-weight: bold;
-    transition: all .25s ease-in-out;
+.w3-dropdown-hover {
+    display: none;
 }
 
-.mdl-navigation__link:hover,
-.mdl-button:hover {
+.w3-bar {
+    color: white;
+    font-family: 'Comfortaa', cursive;
+    background-color: rgba(103, 58, 183, .8) !important;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.w3-bar:hover {
+    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-family: 'Comfortaa', cursive;
+    background-color: rgba(94, 53, 177, .8) !important
+}
+
+.w3-bar-item {
+    font-size: 1.35em;
+}
+
+.w3-bar-item:hover {
+    color: white !important;
     text-decoration: underline;
-    /* transform: scale(1.15, 1.15);*/
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.float-center {
+    margin: 0 auto;
+    float: center !important;
+}
+
+@media only screen and (max-width: 800px) and (min-width: 320px) {
+    .float-right {
+        display: block;
+        float: right;
+    }
+    .w3-bar-item:hover {
+        color: black !important;
+    }
 }
 </style>

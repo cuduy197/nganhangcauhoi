@@ -1,5 +1,3 @@
-/*jshint esversion: 6 */
-/*jshint -W030 */
 import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);

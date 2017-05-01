@@ -15,7 +15,7 @@ import anhCreate from '@/components/subjects/anh/create';
 Vue.use(Router);
 
 export default new Router({
-    mode: 'history',
+    mode: 'hash',
     routes: [{
             path: '/',
             name: 'Home',

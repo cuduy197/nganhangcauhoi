@@ -2,7 +2,7 @@
     <div>
         <div class="toolbar" style="padding-bottom: 5px;">
             <el-tooltip content="Chèn chữ đậm" placement="top" effect="light">
-                <el-button @click.native="customInput('b')"><b>B</b></el-button>
+                <el-button @click="customInput('b')"><b>B</b></el-button>
             </el-tooltip>
             <el-tooltip content="Chèn chữ nghiêng" placement="top" effect="light">
                 <el-button @click="customInput('i')"><i>I</i></el-button>
@@ -13,10 +13,10 @@
             <el-tooltip content="Chèn biểu thức toán" placement="top" effect="light">
                 <el-button @click="customInput('math')">f(x)</el-button>
             </el-tooltip>
-            <el-tooltip v-if="showTemplate" content="Khởi tạo câu hỏi từ các mẫu có sẵn" placement="top" effect="light">
-                <el-cascader label="OK" placeholder="Chọn mẫu câu hỏi" :options="options" v-model="selectedOptions" @change="handleChange">
+            <!--  <el-tooltip v-show="subject.path== 'toan' " content="Khởi tạo câu hỏi từ các mẫu có sẵn" placement="top" effect="light">
+                <el-cascader filterable label="OK" placeholder="Chọn mẫu câu hỏi" :options="toan" v-model="selectedOptions" @change="handleChange">
                 </el-cascader>
-            </el-tooltip>
+            </el-tooltip> -->
             <el-tooltip content="Bấm để hiển thị hướng dấn nhập câu hỏi." placement="top" effect="light">
                 <el-button @click="customInput('help')">?</el-button>
             </el-tooltip>
@@ -35,46 +35,81 @@ export default {
     props: {
         model: {
             type: String
-        },
-        showTemplate: {
-            type: Boolean,
-            default: false
-        },
+        }
     },
     data() {
         return {
-            options: [{
+            toan: [{
                 value: 'guide',
-                label: 'Đạo hàm',
+                label: 'Hàm số và các bài toán liên quan',
                 children: [{
-                    value: 'Đơn điệu',
-                    label: 'Tính đơn điệu'
+                    value: '1',
+                    label: 'Bảng biến thiên'
                 }, {
-                    value: 'đồ thị',
-                    label: 'Feedback'
+                    value: '2',
+                    label: 'Cực trị của hàm số'
                 }, {
-                    value: 'efficiency',
-                    label: 'Efficiency'
+                    value: '3',
+                    label: 'Phương trình tiếp tuyến'
+                }]
+            }, {
+                value: 'guide2',
+                label: 'Mũ và Lôgarit',
+                children: [{
+                    value: '1',
+                    label: 'Tính đạo hàm'
                 }, {
-                    value: 'controllability',
-                    label: 'Controllability'
+                    value: '2',
+                    label: 'Giá trị lớn nhất/nhỏ nhất của hàm số'
+                }, ]
+
+            }, {
+                value: 'guide3',
+                label: 'Nguyên hàm - tích phân',
+                children: [{
+                    value: '1',
+                    label: 'Tìm nguyên hàm của hàm số'
+                }, {
+                    value: '2',
+                    label: 'Tính tích phân'
                 }]
 
             }, {
-                value: 'guide2',
-                label: 'Đạo hàm 2',
+                value: 'guide4',
+                label: 'Số phức ',
                 children: [{
-                    value: 'Đơn điệu 2',
-                    label: 'Tính đơn điệu2'
+                    value: '1',
+                    label: 'Tìm mô-đun của số phức'
                 }, {
-                    value: 'đồ thị',
-                    label: 'Feedback'
+                    value: '2',
+                    label: 'Số phức liên hợp'
                 }, {
-                    value: 'efficiency',
-                    label: 'Efficiency'
-                }, {
-                    value: 'controllability',
-                    label: 'Controllability'
+                    value: '3',
+                    label: 'Tìm phần thực, phần ảo'
+                }]
+
+            }, {
+                value: 'guide5',
+                label: 'Thể tích khối đa diện',
+                children: [{
+                    value: '1',
+                    label: 'Tính thể tích hình chóp'
+                }]
+
+            }, {
+                value: 'guide6',
+                label: 'Khối tròn xoay',
+                children: [{
+                    value: '1',
+                    label: 'Thể tích khối tròn xoay'
+                }]
+
+            }, {
+                value: 'guide7',
+                label: 'Phương pháp tọa độ trong không gian',
+                children: [{
+                    value: '1',
+                    label: 'Tọa độ điểm và vector'
                 }]
 
             }],
@@ -90,34 +125,47 @@ export default {
         },
         customInput(val) {
             input = "";
-            console.log(this.model);
             let input = this.$store.state.input[this.model];
 
             function getTextFieldSelection(textField) {
                 return textField.value.substring(textField.selectionStart, textField.selectionEnd);
             }
-            let selectText;
+            let selectText = '';
             if (this.model == 'question') {
-                selectText = getTextFieldSelection(document.getElementsByTagName("textarea")[0]);
+                selectText = getTextFieldSelection(document.getElementsByName("question")[0]);
             }
             if (this.model == 'hint') {
-                console.log(document.getElementsByTagName("textarea"));
-                selectText = getTextFieldSelection(document.getElementsByTagName("textarea")[5]);
+                selectText = getTextFieldSelection(document.getElementsByName("hint")[0]);
             }
             if (this.model == 'slove') {
-                selectText = getTextFieldSelection(document.getElementsByTagName("textarea")[6]);
+                selectText = getTextFieldSelection(document.getElementsByName("slove")[0]);
             }
             if (val === "b") {
-                input =
-                    input.replace(selectText, "<b>" + selectText + "</b>");
+                if (selectText == '') {
+                    input = input + "<b></b> ";
+                } else {
+                    input =
+                        input.replace(String(selectText), "<b>" + String(selectText) + "</b>")
+                };
             }
             if (val === "i") {
-                input =
-                    input.replace(selectText, "<i>" + selectText + "</i>");
+                if (selectText == '') {
+                    input = input + "<i></i> ";
+                } else {
+                    input =
+                        input.replace(String(selectText), "<i>" + String(selectText) + "</i>");
+                };
+
             }
             if (val === "u") {
-                input =
-                    input.replace(selectText, "<u>" + selectText + "</u>");
+
+                if (selectText == '') {
+                    input = input + " <u></u> ";
+                } else {
+                    input =
+                        input.replace(String(selectText), "<u>" + String(selectText) + "</u>");
+                };
+
             }
             if (val === "math") {
                 input = input + "`fx`"
@@ -131,7 +179,8 @@ export default {
             });
         }
     },
-    computed: {},
+    computed: {...mapState(['subject'])
+    },
     watch: {},
     components: {},
     mounted() {},

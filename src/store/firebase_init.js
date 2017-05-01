@@ -1,5 +1,3 @@
-/*jshint esversion: 6 */
-/*jshint -W030 */
 import firebase from 'firebase';
 
 const db = firebase.initializeApp({
@@ -11,6 +9,5 @@ const db = firebase.initializeApp({
 
 const userRef = db.ref('users');
 const dataRef = db.ref('cauhoi');
-
 
 export { db, userRef, dataRef };
