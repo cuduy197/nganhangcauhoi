@@ -107,10 +107,10 @@ export const mutations = {
                         }, 777);
                     } else {
                         loadingInstance.close();
-                        /* loadingInstance = Loading.service({ text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!', customClass: 'bg-red-pink' });
-                         setTimeout(function() {
-                             loadingInstance.close();
-                         }, 1000);*/
+                        loadingInstance = Loading.service({ text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!', customClass: 'bg-red-pink' });
+                        setTimeout(function() {
+                            loadingInstance.close();
+                        }, 4000);
                     }
                 });
         }
@@ -175,10 +175,13 @@ export const mutations = {
                         console.log(String(input.value));
                         let loadingInstance = Loading.service({ text: `Đang tải dữ liệu của [${input.value}]`, customClass: 'bg-green' });
                         dataRef
+                            .child('users')
+                            .child(String((input.value).split("@")[0]))
                             .child(p)
                             .child(s)
-                            .orderByChild("author")
-                            .equalTo(input.value)
+                            .orderByKey()
+                            .startAt(String(payload.begin))
+                            .endAt(String(payload.end))
                             .once('value', (snapshot) => {
                                 let n = snapshot.numChildren();
                                 console.log(n);
@@ -194,7 +197,7 @@ export const mutations = {
                                     }, 777);
                                 } else {
                                     loadingInstance.close();
-                                    loadingInstance = Loading.service({ text: `Không tồn tại dữ liệu của [ ${input.value} ]`, customClass: 'bg-red-pink' });
+                                    loadingInstance = Loading.service({ text: `Không tồn tại dữ liệu của [${input.value}]`, customClass: 'bg-red-pink' });
                                     setTimeout(function() {
                                         loadingInstance.close();
                                     }, 3000);
@@ -210,21 +213,24 @@ export const mutations = {
             }
 
             if (payload.myquiz) {
-                state.quiz.author = state.user.email;
                 if (Number(state.quiz.numChildren) > 0) {
                     let loadingInstance = Loading.service({ text: `Đang tải dữ liệu của [${state.user.email}]`, customClass: 'bg-green' });
                     dataRef
+                        .child('users')
+                        .child(String((state.user.email).split("@")[0]))
                         .child(p)
                         .child(s)
-                        .orderByChild("author")
-                        .equalTo(state.user.email)
+                        .orderByKey()
+                        .startAt(String(payload.begin))
+                        .endAt(String(payload.end))
                         .once('value', (snapshot) => {
                             let n = snapshot.numChildren();
+                            console.log(snapshot.val());
                             console.log(n);
                             if (snapshot.numChildren() !== 0) {
                                 setTimeout(function() {
-
-                                    console.info(`|${n}|`);
+                                    state.quiz.author = state.user.email;
+                                    console.info(`${state.quiz.author} : |${n}| quizz`);
                                     state.quiz.val = [];
                                     snapshot.forEach(function(item) {
                                         var itemVal = item.val();
@@ -234,10 +240,10 @@ export const mutations = {
                                 }, 777);
                             } else {
                                 loadingInstance.close();
-                                loadingInstance = Loading.service({ text: `Không tồn tại dữ liệu của [ ${input.value} ]`, customClass: 'bg-red-pink' });
+                                loadingInstance = Loading.service({ text: `Bạn chưa tạo câu hỏi trong mục này !`, customClass: 'bg-red-pink' });
                                 setTimeout(function() {
                                     loadingInstance.close();
-                                }, 3000);
+                                }, 2000);
                             }
                         });
 
@@ -276,11 +282,13 @@ export const mutations = {
         dataRef
             .child(state.subject.path)
             .child(state.subject.subpath)
-            .child(String(payload))
+            .child(String(payload.id))
             .once('value', (snapshot) => {
                 state.input = snapshot.val();
                 state.quiz.edit = true;
-                state.quiz.edit_child = String(payload);
+                state.quiz.edit_child = String(payload.id);
+                state.quiz.edit_user_child = String(payload.id_in_user);
+
                 setTimeout(function() {
                     loadingInstance.close();
                 }, 777);
@@ -303,27 +311,74 @@ export const mutations = {
                 state.input.create_time = new Date().toLocaleString('vi', options);
 
                 if (!state.quiz.edit) {
-                    // statement
+                    //1 [GET DATABANK]
                     dataRef
                         .child(state.subject.path)
                         .child(state.subject.subpath)
                         .once('value', (snapshot) => {
-                            let n = snapshot.numChildren();
+                            const n = snapshot.numChildren();
                             let p = state.subject.path;
                             let s = state.subject.subpath;
-                            state.input.id = 0;
-                            console.info(p + "/" + s + "/" + Number(n + 1));
-                            //Set quiz
+                            //console.info(p + "/" + s + "/" + Number(n + 1));
                             state.input.id = Number(n + 1);
+                            //2 [Set data to databank]
                             dataRef
                                 .child(p)
                                 .child(s)
                                 .child(n + 1)
                                 .set(state.input);
+                            //3 [Call user data]
+                            dataRef
+                                .child('users')
+                                .child(String((state.user.email).split("@")[0]))
+                                .child(p)
+                                .child(s)
+                                .once('value', (snapshot) => {
+                                    console.log(n);
+                                    state.input.id_in_user = Number(snapshot.numChildren() + 1);
+                                    //4 [UPDATE id_in_user to User data]
+                                    dataRef
+                                        .child('users')
+                                        .child(String((state.user.email).split("@")[0]))
+                                        .child(p)
+                                        .child(s)
+                                        .child(Number(snapshot.numChildren() + 1))
+                                        .set(state.input);
+                                    //5 [UPDATE id_in_user to Databank]
+                                    dataRef
+                                        .child(p)
+                                        .child(s)
+                                        .child(n + 1)
+                                        .update({ id_in_user: Number(snapshot.numChildren() + 1) });
+
+                                }).then(() => {
+                                    resetInput(state);
+                                });
+
+
+                            /* //[DEV]
+                             for (let i = 1; i < 100; i++) {
+                                 state.input.id = i;
+                                 state.input.question = "CÂU HỎI: " + i;
+                                 dataRef
+                                     .child(p)
+                                     .child(s)
+                                     .child(i)
+                                     .set(state.input);
+                                 dataRef
+                                     .child('users')
+                                     .child(String((state.user.email).split("@")[0]))
+                                     .child(p)
+                                     .child(s)
+                                     .child(i)
+                                     .set(state.input);
+                             } //end DEV*/
+
+
                         }).then((snapshot) => {
                             console.info('$CREATED QUIZ!');
                             //[Reset input]
-                            resetInput(state);
+
                             let loadingInstance = Loading.service({
                                 text: 'Đang tạo câu hỏi số [ ' + Number(snapshot.numChildren() + 1) + ' ]',
                                 customClass: 'bg-green'
@@ -355,6 +410,15 @@ export const mutations = {
                         .child(s)
                         .child(state.quiz.edit_child)
                         .update(state.input).then(() => {
+                            //[Update userdata]
+                            dataRef
+                                .child('users')
+                                .child(String((state.user.email).split("@")[0]))
+                                .child(p)
+                                .child(s)
+                                .child(state.quiz.edit_user_child)
+                                .update(state.input);
+
                             console.log('Update done!');
                             let loadingInstance = Loading.service({
                                 text: 'Đang cập nhật... ',

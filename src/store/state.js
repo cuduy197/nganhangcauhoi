@@ -8,6 +8,7 @@ export const state = {
     },
     input: {
         id: 0,
+        id_in_user: 0,
         question: '',
         question_image: '',
         answer: '',
@@ -24,6 +25,7 @@ export const state = {
     quiz: {
         edit: false,
         edit_child: '',
+        edit_user_child: '',
         create: '',
         val: [],
         numChildren: 0,

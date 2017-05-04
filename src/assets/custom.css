@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Comfortaa:400,700&subset=vietnamese');
-.center {
-    text-align: center;
-}
-
 body {
     background: url(https://www.toptal.com/designers/subtlepatterns/patterns/xv.png) repeat;
+}
+
+.center {
+    text-align: center;
 }
 
 * {

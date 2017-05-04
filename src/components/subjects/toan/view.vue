@@ -13,7 +13,7 @@
                                         <el-button @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
                                     </a>
                                     <a @click="show_quiz=true">
-                                        <el-button @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Xem câu hỏi</el-button>
+                                        <el-button @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Danh sách câu hỏi</el-button>
                                     </a>
                                 </el-button-group>
                             </div>
@@ -30,18 +30,20 @@
                 </a>
                 <el-button @click="VIEW_QUIZ({subpath: subject.subpath, begin: 1,end: 25, view: 'all'})" type="" icon="information" style="margin: 3px">Tất cả câu hỏi</el-button>
                 <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'custom'})" icon="view" style="margin: 3px">Số thứ tự</el-button>
-                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',myquiz: false})" icon="search" style="margin: 3px">Người soạn câu hỏi</el-button>
-                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',myquiz: true})" icon="edit" type="warning" style="margin: 3px">Sửa câu hỏi của bạn </el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: false})" icon="search" style="margin: 3px">Người soạn câu hỏi</el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: true})" icon="edit" type="warning" style="margin: 3px">Sửa câu hỏi của bạn </el-button>
             </div>
             <div class="container-card no-mobile " style="padding-bottom: 10em ">
                 <h2 class="indigo comfortaa ">{{title}} </h2>
                 <mark><span>Tổng số câu hỏi hiện tại là  [ {{quiz.numChildren}} ]</span></mark>
                 <div v-if="quiz.numChildren> 0" class="comfortaa" style="padding: .5em 0em .5em 0em">
-                    <el-pagination :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="prev, pager, next">
+                    <el-pagination :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="viewAll" layout="prev, pager, next">
                     </el-pagination>
                 </div>
                 <el-table v-if="quiz.numChildren > 0" ref="singleTable" :data="quiz.val" border>
                     <el-table-column property="id" label="STT" width="70">
+                    </el-table-column>
+                    <el-table-column property="id_in_user" label="STT2" width="80">
                     </el-table-column>
                     <el-table-column property="create_time" label="Ngày tạo" width="240">
                     </el-table-column>
@@ -97,7 +99,7 @@
             <div class="on-mobile">
                 <el-row :gutter="10" class="animated fadeInUp ">
                     <div class="comfortaa" style="padding: .5em 0em .5em 0em">
-                        <el-pagination v-if="quiz.numChildren> 0" :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="prev, pager, next">
+                        <el-pagination v-if="quiz.numChildren> 0" :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="viewAll" layout="prev, pager, next">
                         </el-pagination>
                         <mark><span>Tổng số câu hỏi hiện tại là  [ {{quiz.numChildren}} ]</span></mark>
                     </div>
@@ -123,7 +125,7 @@
                             </el-table-column>
                             <el-table-column v-if="quiz.author!=user.email" label="Người soạn câu hỏi" prop="author">
                             </el-table-column>
-                            <el-table-column v-if="quiz.author==user.email" label="">
+                            <el-table-column v-if="quiz.author==user.email" :label="user.email">
                                 <template scope="scope">
                                     <a href="#/toan/create/">
                                         <el-button @click="handleEdit(scope.$index,scope.row)" type="warning" size="small">Chỉnh sửa</el-button>
@@ -213,17 +215,28 @@ export default {
             },
             handleEdit(index, row) {
                 console.log(row.id);
-                this.$store.commit('BEFORE_EDIT_QUIZ', row.id);
+                this.$store.commit('BEFORE_EDIT_QUIZ', {
+                    id: row.id,
+                    id_in_user: row.id_in_user
+                });
             },
             handleSizeChange(val) {
                 console.log(`${val} items per page`);
             },
-            handleCurrentChange(val) {
+            viewAll(val) {
+                let begin, end;
+                if (val == 1) {
+                    begin = 1;
+                    end = 25;
+                } else {
+                    begin = 25 * (val - 1);
+                    end = 25 * (val);
+                }
                 console.log(`current page: ${val-1} --> ${val}`);
                 this.$store.commit('VIEW_QUIZ', {
                     subpath: this.$store.state.subject.subpath,
-                    begin: val,
-                    end: val + 24,
+                    begin: begin,
+                    end: end,
                     view: 'all'
                 })
             }
