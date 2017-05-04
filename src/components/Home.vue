@@ -3,7 +3,7 @@
         <login>
             <template slot="unsingin">
                 <el-col :sm="24" :md="12">
-                    <el-card class="box-card animated fadeIn">
+                    <el-card class="animated fadeIn">
                         <div class="grid-content comfortaa center">
                             <h2 class="comfortaa">Chào mừng bạn, đăng nhập để sử dụng ứng dụng.</h2>
                             <el-button style="height: 100px; width: 200px; font-size: 30px" class="animated flipInX" size="large" type="primary" @click="LOGIN">Đăng nhập</el-button>
@@ -65,21 +65,4 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.box-card {
-    margin: 5px;
-    transition: all .3s ease-in-out;
-    /*    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);*/
-}
-
-.box-card:hover {
-    transform: scale(1.02, 1.02);
-    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.2);
-}
-
-@media only screen and (max-width: 800px) and (min-width: 320px) {
-    .box-card:hover {
-        transform: scale(1, 1);
-        box-shadow: 0 0px 30px rgba(0, 0, 0, 0.2);
-    }
-}
 </style>

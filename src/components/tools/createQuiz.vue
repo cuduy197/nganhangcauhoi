@@ -1,7 +1,7 @@
 <template>
     <div class="create_quiz">
-        <el-col :sm="24" :md="13">
-            <el-card class="box-card animated fadeIn">
+        <el-col :sm="24" :md="13" style="padding-right: 10px">
+            <el-card class="animated fadeIn">
                 <el-form label-position="top" class="ruleForm">
                     <el-form-item label="Câu hỏi ❓❓❓">
                         <toolbarQuiz model="question"> </toolbarQuiz>
@@ -57,21 +57,23 @@
         </el-card>
     </el-col> -->
         <el-col :sm="24" :md="11">
-            <el-card class="box-card animated fadeIn">
+            <el-card class="animated fadeIn">
                 <el-form label-position="top" class="ruleForm">
                     <el-form-item class="center">
-                        <el-button @click="CREATE_QUIZ" icon="edit" type="primary">Tạo câu hỏi </el-button>
+                        <el-button style="margin: 4px;" v-if="!quiz.edit" @click="CREATE_QUIZ" icon="edit" type="primary">Tạo câu hỏi </el-button>
+                        <el-button style="margin: 4px;" v-if="quiz.edit" @click="CREATE_QUIZ" icon="edit" type="primary">Cập nhật câu hỏi </el-button>
                         <el-button @click="RESET_INPUT" icon="delete" type="warning">Đặt lại</el-button>
                     </el-form-item>
                 </el-form>
                 <div class="center">
-                    <span>Câu hỏi số: [ {{ quiz.numChildren }} ]</span> trong mục <span>[ {{ title_subpath }} ]</span>
+                    <span>[ {{ title_subpath }} ]</span>
+                    <p v-if="quiz.edit"> Số thứ tự của câu hỏi : [ {{ quiz.edit_child }} ] trong mục [ {{ title_subpath }} ] </p>
                 </div>
                 <hr>
                 <div class="preview" v-html="input.question">
                 </div>
                 <br>
-                <img v-show="input.question_image.length > 5" :src="input.question_image" alt="image question">
+                <img v-show="input.question_image.length > 5" :src="input.question_image" alt="image question" width="80%" height="80%">
                 <hr>
                 <el-row :gutter="5">
                     <el-col :span="12">
@@ -103,12 +105,12 @@
                 <div>Hiển thị gợi ý:</div>
                 <div class="preview" v-html="input.hint"> </div>
                 <br>
-                <img v-show="input.hint_image.length > 5" :src="input.hint_image" alt="image hint">
+                <img v-show="input.hint_image.length > 5" :src="input.hint_image" width="80%" height="80%" alt="image hint">
                 <hr>
                 <div>Hiển thị lời giải:</div>
                 <div class="preview" v-html="input.slove"> </div>
                 <br>
-                <img v-show="input.slove_image.length > 5" :src="input.slove_image" alt="image slove">
+                <img v-show="input.slove_image.length > 5" :src="input.slove_image" width="80%" height="80%" alt="image slove">
             </el-card>
         </el-col>
     </div>

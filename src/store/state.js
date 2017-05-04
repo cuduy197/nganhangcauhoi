@@ -7,6 +7,7 @@ export const state = {
         isAdmin: ''
     },
     input: {
+        id: 0,
         question: '',
         question_image: '',
         answer: '',
@@ -21,10 +22,14 @@ export const state = {
         create_time: ''
     },
     quiz: {
+        edit: false,
+        edit_child: '',
         create: '',
         val: [],
         numChildren: 0,
-        show: false
+        show: false,
+        custom: 0,
+        author: ''
     },
     subject: {
         path: '',

@@ -17,7 +17,7 @@
                     <button class="w3-bar-item w3-button">
                         Môn học <i class="fa fa-caret-down"></i>
                     </button>
-                    <div class="w3-dropdown-content w3-bar-block w3-card-2 animated fadeInRight">
+                    <div class="w3-dropdown-content w3-bar-block w3-card-2 animated zoomIn" style="padding-right: 02px">
                         <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán học  </a>
                         <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Tiếng Anh  </a>
                         <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Ngữ văn  </a>

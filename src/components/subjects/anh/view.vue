@@ -2,17 +2,8 @@
     <el-row :gutter="10" class="center animated fadeInUp showlist">
         <div v-for="item in items" :key="item.id">
             <el-col :span="24">
-                <el-card class="box-card">
-                    <h3 class="textHeader"> {{ item.title }} </h3>
-                    <hr>
-                    <el-button-group>
-                        <a href="#/anh/create/" title="Bấm để tạo câu hỏi">
-                            <el-button @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
-                        </a>
-                        <a href="#" title="Bấm để xem hỏi">
-                            <el-button icon="search">Xem câu hỏi</el-button>
-                        </a>
-                    </el-button-group>
+                <el-card class="box-card ">
+                    <h1 class="indigo comfortaa"> {{ item.title }} </h1>
                 </el-card>
             </el-col>
         </div>
@@ -38,26 +29,4 @@ export default {
 }
 </script>
 <style scoped>
-.textHeader {
-    color: indigo;
-    font-family: 'Comfortaa', cursive;
-    transition: all .25s ease-in-out;
-}
-
-.textHeader:hover {}
-
-.box-card {
-    transition: all .3s ease-in-out;
-}
-
-.box-card:hover {
-    text-decoration: underline;
-    transform: scale(1.2, 1.2);
-}
-
-@media only screen and (max-width: 800px) and (min-width: 320px) {
-    .box-card:hover {
-        transform: scale(1, 1);
-    }
-}
 </style>

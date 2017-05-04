@@ -5,15 +5,15 @@
                 <div v-for="item in items" :key="item.id">
                     <el-col :span="24">
                         <el-card class="box-card">
-                            <h3 class="textHeader"> <blockquote> {{ item.title }}</blockquote>  </h3>
+                            <h3 class="indigo"> <blockquote> {{ item.title }}</blockquote>  </h3>
                             <hr>
                             <div>
                                 <el-button-group>
                                     <a href="#/toan/create/">
-                                        <el-button @click="BEFORE_CREATE_QUIZ(item.subpath)" type="" icon="edit">Tạo câu hỏi</el-button>
+                                        <el-button @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
                                     </a>
                                     <a @click="show_quiz=true">
-                                        <el-button @click="VIEW_QUIZ(item.subpath)" type="" icon="search">Xem câu hỏi</el-button>
+                                        <el-button @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Xem câu hỏi</el-button>
                                     </a>
                                 </el-button-group>
                             </div>
@@ -23,47 +23,147 @@
             </el-row>
         </div>
         <div class="center" v-show="show_quiz">
-            <div style="padding-bottom: 2em;" class="animated fadeIn">
+            <div style="padding-bottom: .1em;" class="">
                 <br>
                 <a @click="show_quiz=false" title="Bấm để trở lại">
-                    <el-button type="" icon="search">Trở lại</el-button>
-                    <el-button type="" icon="">{{title}}</el-button>
+                    <el-button type="" icon="arrow-left">Trở lại</el-button>
                 </a>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, begin: 1,end: 25, view: 'all'})" type="" icon="information" style="margin: 3px">Tất cả câu hỏi</el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'custom'})" icon="view" style="margin: 3px">Số thứ tự</el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',myquiz: false})" icon="search" style="margin: 3px">Người soạn câu hỏi</el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',myquiz: true})" icon="edit" type="warning" style="margin: 3px">Sửa câu hỏi của bạn </el-button>
             </div>
-            <!--    <div class="container-card">
-                <el-table ref="singleTable" :data="quiz.val" border>
-                    <el-table-column type="index" width="50">
+            <div class="container-card no-mobile " style="padding-bottom: 10em ">
+                <h2 class="indigo comfortaa ">{{title}} </h2>
+                <mark><span>Tổng số câu hỏi hiện tại là  [ {{quiz.numChildren}} ]</span></mark>
+                <div v-if="quiz.numChildren> 0" class="comfortaa" style="padding: .5em 0em .5em 0em">
+                    <el-pagination :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="prev, pager, next">
+                    </el-pagination>
+                </div>
+                <el-table v-if="quiz.numChildren > 0" ref="singleTable" :data="quiz.val" border>
+                    <el-table-column property="id" label="STT" width="70">
                     </el-table-column>
-                    <el-table-column sortable property="create_time" label="Ngày tạo" width="250">
+                    <el-table-column property="create_time" label="Ngày tạo" width="240">
                     </el-table-column>
-                    <el-table-column property="author" label="Người soạn câu hỏi" width="250">
+                    <el-table-column property="author" label="Người soạn câu hỏi" width="200">
                     </el-table-column>
-                    <el-table-column property="question" label="Nội dung câu hỏi">
+                    <el-table-column label="Nội dung câu hỏi" width="250">
+                        <template scope="scope">
+                            <p v-html="scope.row.question"> </p>
+                            <img v-if="scope.row.question_image!==''" :src="scope.row.question_image" width="100%" alt="" height="100%">
+                        </template>
                     </el-table-column>
-                    <el-table-column property="answer" label="Câu trả lời đúng">
+                    <el-table-column label="Câu trả lời đúng" width="250">
+                        <template scope="scope">
+                            <p v-html="scope.row.answer"> </p>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="Câu trả lời sai 1" width="250">
+                        <template scope="scope">
+                            <p v-html="scope.row.answer2"> </p>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="Câu trả lời sai 2" width="250">
+                        <template scope="scope">
+                            <p v-html="scope.row.answer3"> </p>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="Câu trả lời sai 3" width="250">
+                        <template scope="scope">
+                            <p v-html="scope.row.answer4"> </p>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="Gợi ý" width="250">
+                        <template scope="scope">
+                            <p v-html="scope.row.hint"> </p>
+                            <img v-if="scope.row.hint_image!==''" :src="scope.row.hint_image" width="100%" alt="" height="100%">
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="Lời giải" width="250">
+                        <template scope="scope">
+                            <p v-html="scope.row.slove"> </p>
+                            <img v-if="scope.row.slove_image!==''" :src="scope.row.slove_image" width="100%" alt="" height="100%">
+                        </template>
+                    </el-table-column>
+                    <el-table-column v-if="quiz.author==user.email" fixed="right" label="Tùy chọn" width="120">
+                        <template scope="scope">
+                            <a href="#/toan/create/">
+                                <el-button @click="handleEdit(scope.$index,scope.row)" type="warning" size="small">Chỉnh sửa</el-button>
+                            </a>
+                        </template>
                     </el-table-column>
                 </el-table>
-            </div> -->
-            <el-row :gutter="10" class="animated fadeInUp ">
-                <div v-show="quiz.numChildren === 0" class="container-card">
-                    <el-card class="box-card">
-                        <h3 class="textHeader">Chưa có câu hỏi nào trong ngân hàng câu hỏi<br>bạn hãy là người đầu tiên tạo câu hỏi ^^</h3>
-                    </el-card>
-                </div>
-                <div v-for="quiz,index in quiz.val" :key="quiz.id">
-                    <el-col :span="24">
-                        <div class="container-card" @click="showmath">
-                            <el-card class="box-card">
-                                <mark title="Số thứ tự câu hỏi"> [ {{++index}} ]</mark>
-                                <span title="Tác giả"> [ {{quiz.author}} ] </span>
-                                <p title="Thời gian soạn câu hỏi"> {{quiz.create_time}}</p>
-                                <span>[Câu hỏi] : </span> <span class="textHeader" v-html="quiz.question"> </span>
-                                <p class="container-card">[Đáp án đúng] : {{ quiz.answer }} </p>
-                            </el-card>
+            </div>
+            <div class="on-mobile">
+                <el-row :gutter="10" class="animated fadeInUp ">
+                    <div class="comfortaa" style="padding: .5em 0em .5em 0em">
+                        <el-pagination v-if="quiz.numChildren> 0" :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="prev, pager, next">
+                        </el-pagination>
+                        <mark><span>Tổng số câu hỏi hiện tại là  [ {{quiz.numChildren}} ]</span></mark>
+                    </div>
+                    <div @click="showmath">
+                        <el-table :data="quiz.val" style="width: 100%">
+                            <el-table-column type="expand">
+                                <template scope="props">
+                                    <p>Câu hỏi: <span v-html="props.row.question"></span> </p>
+                                    <img v-if="props.row.question_image!==''" :src="props.row.question_image" width="100" class="img-zoom" height="100">
+                                    <p>Đáp án đúng: <span v-html="props.row.answer"></span> </p>
+                                    <p>Đáp án sai 1 : <span v-html="props.row.answer"></span> </p>
+                                    <p>Đáp án sai 2 : <span v-html="props.row.answer"></span> </p>
+                                    <p>Đáp án sai 3 : <span v-html="props.row.answer"></span> </p>
+                                    <p>Gợi ý: <span v-html="props.row.hint"></span> </p>
+                                    <img v-if="props.row.hint_image!==''" :src="props.row.hint_image" width="100" class="img-zoom" height="100">
+                                    <p>Lời giải : <span v-html="props.row.slove"></span></p>
+                                    <img v-if="props.row.slove_image!==''" :src="props.row.slove_image" width="100" class="img-zoom" height="100">
+                                    <br>
+                                    <hr>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="STT" prop="id" width="70">
+                            </el-table-column>
+                            <el-table-column v-if="quiz.author!=user.email" label="Người soạn câu hỏi" prop="author">
+                            </el-table-column>
+                            <el-table-column v-if="quiz.author==user.email" label="">
+                                <template scope="scope">
+                                    <a href="#/toan/create/">
+                                        <el-button @click="handleEdit(scope.$index,scope.row)" type="warning" size="small">Chỉnh sửa</el-button>
+                                    </a>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                    <!--                     <div v-if="quiz.custom!==0">
+                        <div>
+                            <el-col :span="24">
+                                <div class="container-card" @click="showmath">
+                                    <el-card class="box-card">
+                                        <mark title="Số thứ tự câu hỏi"> [ {{quiz.custom}} ]</mark>
+                                        <span title="Tác gỉa"> [ {{quiz.val[0].author}} ] </span>
+                                        <p title="Thời gian soạn câu hỏi"> {{quiz.val[0].create_time}}</p>
+                                        <span>[Câu hỏi] : </span> <span class="indigo" v-html="quiz.val[0].question"> </span>
+                                        <p class="container-card">[Đáp án đúng] : {{ quiz.val[0].answer }} </p>
+                                    </el-card>
+                                </div>
+                            </el-col>
                         </div>
-                    </el-col>
-                </div>
-            </el-row>
+                    </div>
+                    <div v-if="quiz.custom===0">
+                        <div v-for="quiz,index in quiz.val" :key="quiz.id">
+                            <el-col :span="24">
+                                <div class="container-card" @click="showmath">
+                                    <el-card class="box-card">
+                                        <mark title="Số thứ tự câu hỏi"> [ {{++index}} ]</mark>
+                                        <span title="Tác gỉa"> [ {{quiz.author}} ] </span>
+                                        <p title="Thời gian soạn câu hỏi"> {{quiz.create_time}}</p>
+                                        <span>[Câu hỏi] : </span> <span class="indigo" v-html="quiz.question"> </span>
+                                        <p class="container-card">[Đáp án đúng] : {{ quiz.answer }} </p>
+                                    </el-card>
+                                </div>
+                            </el-col>
+                        </div>
+                    </div> -->
+                </el-row>
+            </div>
         </div>
     </div>
 </template>
@@ -102,7 +202,7 @@ export default {
             }
         },
         computed: {
-            ...mapState(['quiz'])
+            ...mapState(['quiz', 'subject', 'user'])
         },
         methods: {
             ...mapMutations(['BEFORE_CREATE_QUIZ', 'VIEW_QUIZ']),
@@ -110,10 +210,28 @@ export default {
                 this.$nextTick(function() {
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 });
+            },
+            handleEdit(index, row) {
+                console.log(row.id);
+                this.$store.commit('BEFORE_EDIT_QUIZ', row.id);
+            },
+            handleSizeChange(val) {
+                console.log(`${val} items per page`);
+            },
+            handleCurrentChange(val) {
+                console.log(`current page: ${val-1} --> ${val}`);
+                this.$store.commit('VIEW_QUIZ', {
+                    subpath: this.$store.state.subject.subpath,
+                    begin: val,
+                    end: val + 24,
+                    view: 'all'
+                })
             }
         },
+        beforeCreate() {
+
+        },
         updated() {
-            console.info('updated!')
             this.$nextTick(function() {
                 setTimeout(function() {
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
@@ -126,6 +244,7 @@ export default {
                 for (let i = 0; i < this.items.length; i++) {
                     if (subpath == this.items[i].subpath) {
                         this.title = this.items[i].title;
+                        this.$store.state.subject.title = this.title;
                         break;
                     }
                 }
@@ -136,30 +255,4 @@ export default {
 }
 </script>
 <style scoped>
-.textHeader {
-    color: indigo;
-    font-family: 'Comfortaa', cursive;
-}
-
-.textHeader:hover {}
-
-.box-card {
-    transition: all .3s ease-in-out;
-}
-
-.box-card:hover {
-    transform: scale(1.1, 1.1);
-    border: solid;
-    box-shadow: 0 0px 15px rgba(0, 0, 0, 0.2);
-}
-
-@media only screen and (max-width: 800px) and (min-width: 320px) {
-    .box-card:hover {
-        transform: scale(1, 1);
-    }
-}
-
-.box-card:focus {
-    transform: rotateX(90deg);
-}
 </style>
