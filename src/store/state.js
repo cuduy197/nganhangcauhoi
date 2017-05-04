@@ -36,7 +36,24 @@ export const state = {
     subject: {
         path: '',
         subpath: '',
-        tilte: ''
+        tilte: '',
+        toan: {
+            num_hamso: 'Đang tải...',
+            my_num_hamso: 'Đang tải...',
+            num_mu_logarit: 'Đang tải...',
+            my_num_mu_logarit: 'Đang tải...',
+            num_nguyenham_tichphan: 'Đang tải...',
+            my_num_nguyenham_tichphan: 'Đang tải...',
+            num_sophuc: 'Đang tải...',
+            my_num_sophuc: 'Đang tải...',
+            num_khoi_da_dien: 'Đang tải...',
+            my_num_khoi_da_dien: 'Đang tải...',
+            num_khoi_tron_xoay: 'Đang tải...',
+            my_num_khoi_tron_xoay: 'Đang tải...',
+            num_toado_khonggian: 'Đang tải...',
+            mynum_toado_khonggian: 'Đang tải...'
+        }
     },
+
     singin: false, //Check if was singin!
 };

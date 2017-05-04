@@ -3,25 +3,29 @@
         <el-col :sm="24" :md="13" style="padding-right: 10px">
             <el-card class="animated fadeIn">
                 <el-form label-position="top" class="ruleForm">
-                    <el-form-item label="Câu hỏi ❓❓❓">
+                    <el-form-item>
                         <toolbarQuiz model="question"> </toolbarQuiz>
-                        <el-input name="question" @change="reset_mathjax" v-model.lazy="question" :autosize="{ minRows: 6}" type="textarea" placeholder="nhập nội dung"></el-input>
+                        <el-input name="question" @change="reset_mathjax" v-model.lazy="question" :autosize="{ minRows: 6}" type="textarea" placeholder="nhập nội dung câu hỏi"></el-input>
                     </el-form-item>
                     <el-form-item label="Hình ảnh câu hỏi">
                         <el-input @change="reset_mathjax" v-model="question_image" icon="picture" type="text" placeholder="Nhập địa chỉ hình ảnh"></el-input>
                     </el-form-item>
                     <hr>
-                    <el-form-item label="Đáp án đúng ✔">
-                        <el-input @change="reset_mathjax" v-model="answer" autosize type="textarea" placeholder="nhập nội dung"></el-input>
+                    <el-form-item>
+                        <toolbarQuiz model="answer"> </toolbarQuiz>
+                        <el-input name="answer" @change="reset_mathjax" v-model="answer" autosize type="textarea" placeholder="nhập nội dung đáp án đúng"></el-input>
                     </el-form-item>
-                    <el-form-item label="Đáp án sai 1 ❌">
-                        <el-input @change="reset_mathjax" v-model="answer2" autosize type="textarea" placeholder="nhập nội dung"></el-input>
+                    <el-form-item>
+                        <toolbarQuiz model="answer2"> </toolbarQuiz>
+                        <el-input name="answer2" @change="reset_mathjax" v-model="answer2" autosize type="textarea" placeholder="nhập nội dung đáp án sai "></el-input>
                     </el-form-item>
-                    <el-form-item label="Đáp án sai 2 ❌">
-                        <el-input @change="reset_mathjax" v-model="answer3" autosize type="textarea" placeholder="nhập nội dung"></el-input>
+                    <el-form-item>
+                        <toolbarQuiz model="answer3"> </toolbarQuiz>
+                        <el-input name="answer3" @change="reset_mathjax" v-model="answer3" autosize type="textarea" placeholder="nhập nội dung đáp án sai 2"></el-input>
                     </el-form-item>
-                    <el-form-item label="Đáp án sai 3 ❌">
-                        <el-input @change="reset_mathjax" v-model="answer4" autosize type="textarea" placeholder="nhập nội dung"></el-input>
+                    <el-form-item>
+                        <toolbarQuiz model="answer4"> </toolbarQuiz>
+                        <el-input name="answer4" @change="reset_mathjax" v-model="answer4" autosize type="textarea" placeholder="nhập nội dung đáp án sai 3"></el-input>
                     </el-form-item>
                     <hr>
                     <el-form-item label=" Gợi ý 💡">
@@ -60,41 +64,41 @@
             <el-card class="animated fadeIn">
                 <el-form label-position="top" class="ruleForm">
                     <el-form-item class="center">
-                        <el-button style="margin: 4px;" v-if="!quiz.edit" @click="CREATE_QUIZ" icon="edit" type="primary">Tạo câu hỏi </el-button>
-                        <el-button style="margin: 4px;" v-if="quiz.edit" @click="CREATE_QUIZ" icon="edit" type="primary">Cập nhật câu hỏi </el-button>
-                        <el-button @click="RESET_INPUT" icon="delete" type="warning">Đặt lại</el-button>
+                        <el-button style="margin: 4px;" v-if="!quiz.edit" @click="CREATE_QUIZ" icon="edit" type="warning">Tạo câu hỏi </el-button>
+                        <el-button style="margin: 4px;" v-if="quiz.edit" @click="CREATE_QUIZ" icon="edit" type="warning">Cập nhật câu hỏi </el-button>
                     </el-form-item>
                 </el-form>
                 <div class="center">
                     <span>[ {{ title_subpath }} ]</span>
-                    <p v-if="quiz.edit"> Số thứ tự của câu hỏi : [ {{ quiz.edit_child }} ] trong mục [ {{ title_subpath }} ] </p>
+                    <p v-if="quiz.edit"> Số thứ tự: [ {{ quiz.edit_child }} ] trong mục [ {{ title_subpath }} ] </p>
                 </div>
                 <hr>
+                <span>Câu hỏi: </span>
                 <div class="preview" v-html="input.question">
                 </div>
                 <br>
                 <img v-show="input.question_image.length > 5" :src="input.question_image" alt="image question" width="80%" height="80%">
                 <hr>
                 <el-row :gutter="5">
-                    <el-col :span="12">
+                    <el-col :span="24">
                         <div class="bg-green center ">
                             <mark class="bg-green white">ĐÁP ÁN ĐÚNG</mark>
                         </div>
                         <div class="preview_answer" v-html="input.answer"> </div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="24">
                         <div class="bg-salmon center">
                             <mark class="bg-salmon white">ĐÁP ÁN SAI 1</mark>
                         </div>
                         <div class="preview_answer" v-html="input.answer2"> </div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="24">
                         <div class="bg-salmon center">
                             <mark class="bg-salmon white">ĐÁP ÁN SAI 2</mark>
                         </div>
                         <div class="preview_answer" v-html="input.answer3"> </div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="24">
                         <div class="bg-salmon center">
                             <mark class="bg-salmon white">ĐÁP ÁN SAI 3</mark>
                         </div>

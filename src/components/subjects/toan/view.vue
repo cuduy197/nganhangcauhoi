@@ -1,19 +1,21 @@
 <template>
     <div>
-        <div class="" v-show="!show_quiz">
+        <div class="" v-show="!show_quiz" v-on:mouseover="showNum">
             <el-row :gutter="10" class="center animated fadeInUp showlist">
                 <div v-for="item in items" :key="item.id">
-                    <el-col :span="24">
+                    <el-col :sm="24" :md="24" :lg="12">
                         <el-card class="box-card">
                             <h3 class="indigo"> <blockquote> {{ item.title }}</blockquote>  </h3>
+                            <p>Tổng số câu hỏi: {{item.num}} </p>
+                            <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
                             <hr>
                             <div>
                                 <el-button-group>
-                                    <a href="#/toan/create/">
+                                    <a :href="'#/toan/create/'+ item.subpath">
                                         <el-button @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
                                     </a>
                                     <a @click="show_quiz=true">
-                                        <el-button @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Danh sách câu hỏi</el-button>
+                                        <el-button @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Xem câu hỏi</el-button>
                                     </a>
                                 </el-button-group>
                             </div>
@@ -89,7 +91,7 @@
                     </el-table-column>
                     <el-table-column v-if="quiz.author==user.email" fixed="right" label="Tùy chọn" width="120">
                         <template scope="scope">
-                            <a href="#/toan/create/">
+                            <a :href="'#/toan/edit/'+'cau_hoi_so_'+ scope.row.id">
                                 <el-button @click="handleEdit(scope.$index,scope.row)" type="warning" size="small">Chỉnh sửa</el-button>
                             </a>
                         </template>
@@ -134,36 +136,6 @@
                             </el-table-column>
                         </el-table>
                     </div>
-                    <!--                     <div v-if="quiz.custom!==0">
-                        <div>
-                            <el-col :span="24">
-                                <div class="container-card" @click="showmath">
-                                    <el-card class="box-card">
-                                        <mark title="Số thứ tự câu hỏi"> [ {{quiz.custom}} ]</mark>
-                                        <span title="Tác gỉa"> [ {{quiz.val[0].author}} ] </span>
-                                        <p title="Thời gian soạn câu hỏi"> {{quiz.val[0].create_time}}</p>
-                                        <span>[Câu hỏi] : </span> <span class="indigo" v-html="quiz.val[0].question"> </span>
-                                        <p class="container-card">[Đáp án đúng] : {{ quiz.val[0].answer }} </p>
-                                    </el-card>
-                                </div>
-                            </el-col>
-                        </div>
-                    </div>
-                    <div v-if="quiz.custom===0">
-                        <div v-for="quiz,index in quiz.val" :key="quiz.id">
-                            <el-col :span="24">
-                                <div class="container-card" @click="showmath">
-                                    <el-card class="box-card">
-                                        <mark title="Số thứ tự câu hỏi"> [ {{++index}} ]</mark>
-                                        <span title="Tác gỉa"> [ {{quiz.author}} ] </span>
-                                        <p title="Thời gian soạn câu hỏi"> {{quiz.create_time}}</p>
-                                        <span>[Câu hỏi] : </span> <span class="indigo" v-html="quiz.question"> </span>
-                                        <p class="container-card">[Đáp án đúng] : {{ quiz.answer }} </p>
-                                    </el-card>
-                                </div>
-                            </el-col>
-                        </div>
-                    </div> -->
                 </el-row>
             </div>
         </div>
@@ -181,25 +153,39 @@ export default {
                 title: '',
                 items: [{
                     title: 'Hàm số và các bài toán liên quan',
-                    subpath: 'hamso'
+                    subpath: 'hamso',
+                    num: 0,
+                    my_num: 0
                 }, {
                     title: 'Mũ và logarit',
-                    subpath: 'mu_logarit'
+                    subpath: 'mu_logarit',
+                    num: 0,
+                    my_num: 0
                 }, {
                     title: 'Nguyên hàm - tích phân và ứng dụng',
-                    subpath: 'nguyenham_tichphan'
+                    subpath: 'nguyenham_tichphan',
+                    num: 0,
+                    my_num: 0
                 }, {
                     title: 'Số phức',
-                    subpath: 'sophuc'
+                    subpath: 'sophuc',
+                    num: 0,
+                    my_num: 0
                 }, {
                     title: 'Thể tích khối đa diện',
-                    subpath: 'khoi_da_dien'
+                    subpath: 'khoi_da_dien',
+                    num: 0,
+                    my_num: 0
                 }, {
                     title: 'Khối tròn xoay',
-                    subpath: 'khoi_tron_xoay'
+                    subpath: 'khoi_tron_xoay',
+                    num: 0,
+                    my_num: 0
                 }, {
                     title: 'Phương pháp tọa độ không gian',
-                    subpath: 'toado_khonggian'
+                    subpath: 'toado_khonggian',
+                    num: 0,
+                    my_num: 0
                 }]
             }
         },
@@ -208,6 +194,30 @@ export default {
         },
         methods: {
             ...mapMutations(['BEFORE_CREATE_QUIZ', 'VIEW_QUIZ']),
+            showNum() {
+                //  console.log('hover');
+                var toan = this.$store.state.subject.toan;
+                this.items[0].num = toan.num_hamso;
+                this.items[0].my_num = toan.my_num_hamso;
+
+                this.items[1].num = toan.num_mu_logarit;
+                this.items[1].my_num = toan.my_num_mu_logarit;
+
+                this.items[2].num = toan.num_nguyenham_tichphan;
+                this.items[2].my_num = toan.my_num_nguyenham_tichphan;
+
+                this.items[3].num = toan.num_sophuc;
+                this.items[3].my_num = toan.my_num_sophuc;
+
+                this.items[4].num = toan.num_khoi_da_dien;
+                this.items[4].my_num = toan.my_num_khoi_da_dien;
+
+                this.items[5].num = toan.my_num_khoi_tron_xoay;
+                this.items[5].my_num = toan.my_num_khoi_tron_xoay;
+
+                this.items[6].num = toan.num_toado_khonggian;
+                this.items[6].my_num = toan.my_num_toado_khonggian;
+            },
             showmath() {
                 this.$nextTick(function() {
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
@@ -241,7 +251,19 @@ export default {
                 })
             }
         },
-        beforeCreate() {
+        created() {
+            console.log('created');
+            this.$store.watch(
+                function(state) {
+                    return state.subject;
+                },
+                function() {
+                    console.log('changed');
+                    //do something on data change
+                }, {
+                    deep: true //add this if u need to watch object properties change etc.
+                }
+            );
 
         },
         updated() {

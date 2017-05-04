@@ -24,6 +24,7 @@ export const mutations = {
                 state.singin = true;
                 var UserUID = userRef.child(user.uid);
                 UserUID.update({ login: true, email: user.email });
+                getNum_MyNum_Subject(state);
                 // [END_EXCLUDE]
             } else {
                 // User is signloadingInstance.close();ed out.
@@ -65,19 +66,20 @@ export const mutations = {
             //Do
         }).catch(() => {});
     },
-
     VIEW_QUIZ(state, payload) {
         window.scrollTo(0, 0);
 
         console.log(state.quiz.custom);
-        state.subject.path = (location.hash).replace('create', '').match(/[^#/]/g).join('');
+        state.subject.path = location.hash.split('/')[1];
         state.subject.subpath = payload.subpath;
-        let p = state.subject.path;
-        let s = state.subject.subpath;
+        const p = state.subject.path;
+        const s = state.subject.subpath;
+        const m = String((state.user.email).split("@")[0]);
+
         console.info("View:" + payload.view + "||" + p + "/" + s);
 
         //[Get total numChildren]
-        dataRef.child(p).child(s).once('value', (snapshot) => {
+        dataRef.child(`${p}/${s}`).once('value', (snapshot) => {
             state.quiz.numChildren = Number(snapshot.numChildren());
         });
 
@@ -88,15 +90,13 @@ export const mutations = {
             state.quiz.val = [];
             let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
             dataRef
-                .child(p)
-                .child(s)
+                .child(`${p}/${s}`)
                 .orderByKey()
                 .startAt(String(payload.begin))
                 .endAt(String(payload.end))
                 .once('value', (snapshot) => {
                     let n = snapshot.numChildren();
                     if (Number(n) > 0 && n !== null) {
-
                         setTimeout(function() {
                             console.info(`|${n}|`);
                             snapshot.forEach(function(item) {
@@ -114,23 +114,20 @@ export const mutations = {
                     }
                 });
         }
-        //[Custom]
+        //[View custom]
         if (payload.view == 'custom') {
             if (Number(state.quiz.numChildren) > 0) {
                 // statement
-                MessageBox.prompt(`Nhập số thứ tự câu hỏi trong khoảng từ [ 1 ] đến [ ${state.quiz.numChildren} ]`, 'Thông báo', {
-                    confirmButtonText: 'Hiển thị',
+                MessageBox.prompt(`Nhập số trong khoảng từ [ 1 ] đến [ ${state.quiz.numChildren} ]`, 'Hiển thị theo số thứ tự', {
+                    confirmButtonText: 'Hiển thị ',
                     cancelButtonText: 'Hủy',
                     inputPattern: /^[0-9]+$/,
                     inputErrorMessage: `Vui lòng nhập số trong khoảng từ [ 1 ] đến [ ${state.quiz.numChildren} ]`
                 }).then(input => {
-
-                    console.log(String(input.value));
+                    const i = String(input.value);
                     let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
                     dataRef
-                        .child(p)
-                        .child(s)
-                        .child(String(input.value))
+                        .child(`${p}/${s}/${i}`)
                         .once('value', (snapshot) => {
                             let n = snapshot.numChildren();
 
@@ -148,11 +145,8 @@ export const mutations = {
                                     loadingInstance.close();
                                 }, 500);
                             }
-
                         });
-                }).catch(() => {
-                    state.quiz.custom = 0;
-                });
+                }).catch(() => {});
             } else {
                 let loadingInstance = Loading.service({ text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!', customClass: 'bg-red-pink' });
                 setTimeout(function() {
@@ -173,12 +167,10 @@ export const mutations = {
                         inputErrorMessage: 'Vui lòng kiểm tra Email'
                     }).then(input => {
                         console.log(String(input.value));
+                        const i = String((input.value).split("@")[0]);
                         let loadingInstance = Loading.service({ text: `Đang tải dữ liệu của [${input.value}]`, customClass: 'bg-green' });
                         dataRef
-                            .child('users')
-                            .child(String((input.value).split("@")[0]))
-                            .child(p)
-                            .child(s)
+                            .child(`users/${p}/${s}/${i}`)
                             .orderByKey()
                             .startAt(String(payload.begin))
                             .endAt(String(payload.end))
@@ -216,18 +208,14 @@ export const mutations = {
                 if (Number(state.quiz.numChildren) > 0) {
                     let loadingInstance = Loading.service({ text: `Đang tải dữ liệu của [${state.user.email}]`, customClass: 'bg-green' });
                     dataRef
-                        .child('users')
-                        .child(String((state.user.email).split("@")[0]))
-                        .child(p)
-                        .child(s)
+                        .child(`users/${m}/${p}/${s}`)
                         .orderByKey()
                         .startAt(String(payload.begin))
                         .endAt(String(payload.end))
                         .once('value', (snapshot) => {
                             let n = snapshot.numChildren();
-                            console.log(snapshot.val());
-                            console.log(n);
-                            if (snapshot.numChildren() !== 0) {
+
+                            if (n !== 0) {
                                 setTimeout(function() {
                                     state.quiz.author = state.user.email;
                                     console.info(`${state.quiz.author} : |${n}| quizz`);
@@ -257,19 +245,20 @@ export const mutations = {
         }
     },
     BEFORE_CREATE_QUIZ(state, subpath) {
-        state.quiz.edit = false;
-        resetInput(state);
         window.scrollTo(0, 0);
-        state.subject.path = (location.hash).replace('create', '').match(/[^#/]/g).join('');
+        resetInput(state);
+        state.quiz.edit = false;
+        state.subject.path = location.hash.split('/')[1];
         state.subject.subpath = subpath;
-        console.info(state.subject.path + "/" + state.subject.subpath);
+        const p = state.subject.path;
+        const s = state.subject.subpath;
+        console.info(`${p}/${s}`);
         let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
         dataRef
-            .child(state.subject.path)
-            .child(state.subject.subpath)
-            .once('value', (d) => {
-                console.info(d.numChildren());
-                state.quiz.numChildren = Number(d.numChildren());
+            .child(`${p}/${s}`)
+            .once('value', (snapshot) => {
+                console.info(snapshot.numChildren());
+                state.quiz.numChildren = Number(snapshot.numChildren());
                 setTimeout(function() {
                     loadingInstance.close();
                 }, 777);
@@ -277,18 +266,18 @@ export const mutations = {
     },
     BEFORE_EDIT_QUIZ(state, payload) {
         window.scrollTo(0, 0);
-        console.info(state.subject.path + "/" + state.subject.subpath);
+        const p = state.subject.path;
+        const s = state.subject.subpath;
+        const id = payload.id;
+        console.info(`${p}/${s}/${id}`);
         let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
         dataRef
-            .child(state.subject.path)
-            .child(state.subject.subpath)
-            .child(String(payload.id))
+            .child(`${p}/${s}/${id}`)
             .once('value', (snapshot) => {
                 state.input = snapshot.val();
                 state.quiz.edit = true;
                 state.quiz.edit_child = String(payload.id);
                 state.quiz.edit_user_child = String(payload.id_in_user);
-
                 setTimeout(function() {
                     loadingInstance.close();
                 }, 777);
@@ -309,52 +298,43 @@ export const mutations = {
                 let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 state.input.author = state.user.email;
                 state.input.create_time = new Date().toLocaleString('vi', options);
-
+                const p = state.subject.path;
+                const s = state.subject.subpath;
+                const m = String((state.user.email).split("@")[0]);
+                //[CREATE MODE]
                 if (!state.quiz.edit) {
                     //1 [GET DATABANK]
                     dataRef
-                        .child(state.subject.path)
-                        .child(state.subject.subpath)
+                        .child(`${p}/${s}`)
                         .once('value', (snapshot) => {
                             const n = snapshot.numChildren();
-                            let p = state.subject.path;
-                            let s = state.subject.subpath;
-                            //console.info(p + "/" + s + "/" + Number(n + 1));
-                            state.input.id = Number(n + 1);
-                            //2 [Set data to databank]
+                            let loadingInstance = Loading.service({
+                                text: 'Đang tạo câu hỏi số [ ' + Number(snapshot.numChildren() + 1) + ' ]',
+                                customClass: 'bg-green'
+                            });
+                            //[Call user data]
                             dataRef
-                                .child(p)
-                                .child(s)
-                                .child(n + 1)
-                                .set(state.input);
-                            //3 [Call user data]
-                            dataRef
-                                .child('users')
-                                .child(String((state.user.email).split("@")[0]))
-                                .child(p)
-                                .child(s)
+                                .child(`users/${m}/${p}/${s}`)
                                 .once('value', (snapshot) => {
-                                    console.log(n);
+                                    const nChild = Number(snapshot.numChildren() + 1);
+                                    state.input.id = Number(n + 1);
                                     state.input.id_in_user = Number(snapshot.numChildren() + 1);
-                                    //4 [UPDATE id_in_user to User data]
+                                    //[UPDATE id_in_user to User data]
                                     dataRef
-                                        .child('users')
-                                        .child(String((state.user.email).split("@")[0]))
-                                        .child(p)
-                                        .child(s)
-                                        .child(Number(snapshot.numChildren() + 1))
+                                        .child(`users/${m}/${p}/${s}/${nChild}`)
                                         .set(state.input);
-                                    //5 [UPDATE id_in_user to Databank]
+                                    // [Set data to databank]
                                     dataRef
-                                        .child(p)
-                                        .child(s)
-                                        .child(n + 1)
-                                        .update({ id_in_user: Number(snapshot.numChildren() + 1) });
+                                        .child(`${p}/${s}/${n+1}`)
+                                        .set(state.input);
 
                                 }).then(() => {
+                                    console.info('$CREATED QUIZ!');
+                                    setTimeout(function() {
+                                        loadingInstance.close();
+                                    }, 2000);
                                     resetInput(state);
                                 });
-
 
                             /* //[DEV]
                              for (let i = 1; i < 100; i++) {
@@ -376,49 +356,30 @@ export const mutations = {
 
 
                         }).then((snapshot) => {
-                            console.info('$CREATED QUIZ!');
-                            //[Reset input]
-
-                            let loadingInstance = Loading.service({
-                                text: 'Đang tạo câu hỏi số [ ' + Number(snapshot.numChildren() + 1) + ' ]',
-                                customClass: 'bg-green'
-                            });
                             setTimeout(function() {
-                                loadingInstance.close();
-
                                 Notification({
-                                    message: `Đã tạo câu hỏi số [ ${ Number(snapshot.numChildren() + 1)} ] thành công!`,
+                                    message: `Đã tạo câu hỏi số [ ${ Number(snapshot.numChildren() + 1)} ] !`,
                                     type: 'success'
                                 });
-
                             }, 1234);
                         }).catch((error) => {
+                            loadingInstance.close();
                             Notification({
                                 message: 'Đã  có lỗi khi tạo câu hỏi và ngân hàng câu hỏi. Kiểm tra kết nối của bạng, đảm bảo bạn có kết nối mạng !',
                                 type: 'error'
                             });
                         });
                 }
-
-
+                //[EDIT MODE]
                 if (state.quiz.edit) {
                     console.log('EDIT');
-                    let p = state.subject.path;
-                    let s = state.subject.subpath;
+                    const e = state.quiz.edit_child;
+                    const u = state.quiz.edit_user_child;
                     dataRef
-                        .child(p)
-                        .child(s)
-                        .child(state.quiz.edit_child)
+                        .child(`${p}/${s}/${e}`)
                         .update(state.input).then(() => {
                             //[Update userdata]
-                            dataRef
-                                .child('users')
-                                .child(String((state.user.email).split("@")[0]))
-                                .child(p)
-                                .child(s)
-                                .child(state.quiz.edit_user_child)
-                                .update(state.input);
-
+                            dataRef.child(`users/${m}/${p}/${s}/${u}`).update(state.input);
                             console.log('Update done!');
                             let loadingInstance = Loading.service({
                                 text: 'Đang cập nhật... ',
@@ -438,8 +399,6 @@ export const mutations = {
                             });
                         });
                 }
-
-
                 //Do
             }).catch(() => {});
         } else {
@@ -502,7 +461,7 @@ function watchReload() {
                     type: 'warning'
                 }).then(() => {
                     setTimeout(function() {
-                        history.go(0);
+                        location.href = "/";
                     }, 200);
 
                 }).catch(() => {});
@@ -525,8 +484,8 @@ function setPath(state) {
     }
     //[Get current location hash]
     if (location.hash !== '#/') {
-        state.subject.path = (location.hash).replace('create', '').match(/[^#/]/g).join('');
-        console.log(state.subject.path);
+        state.subject.path = location.hash.split('/')[1];
+        // console.log(state.subject.path);
     }
     // fix subpath when reload
     if (state.subject.subpath === "") {
@@ -547,9 +506,112 @@ function setPath(state) {
             break;
         default:
             loadingInstance = Loading.service({
-                text: 'Trang không tồn tại',
-                customClass: 'bg-orange'
+                text: 'Đang tải',
+                customClass: 'bg-indigo'
             });
     }
+
+}
+
+
+function getNum_MyNum_Subject(state) {
+    const userEmail = String((state.user.email).split("@")[0]);
+    /*        toan: {
+                num_hamso: 0,
+                my_num_hamso: 0,
+                num_mu_logarit: 0,
+                my_num_mu_logarit: 0,
+                num_nguyenham_tichphan: 0,
+                my_num_nguyenham_tichphan: 0,
+                num_sophuc: 0,
+                my_num_sophuc: 0,
+                num_khoi_da_dien: 0,
+                my_num_khoi_da_dien: 0,
+                num_khoi_tron_xoay: 0,
+                my_num_khoi_tron_xoay: 0,
+                num_toado_khonggian: 0,
+                mynum_toado_khonggian: 0
+            }*/
+
+    dataRef
+        .child('toan/hamso')
+        .once('value', (snapshot) => {
+            state.subject.toan.num_hamso = snapshot.numChildren();
+            dataRef
+                .child('users/' + userEmail + '/toan/hamso')
+                .once('value', (snapshot) => {
+                    state.subject.toan.my_num_hamso = snapshot.numChildren();
+                });
+        });
+
+    dataRef
+        .child('toan/mu_logarit')
+        .once('value', (snapshot) => {
+            state.subject.toan.num_mu_logarit = snapshot.numChildren();
+            dataRef
+                .child('users/' + userEmail + '/toan/mu_logarit')
+                .once('value', (snapshot) => {
+                    state.subject.toan.my_num_mu_logarit = snapshot.numChildren();
+                });
+        });
+
+    dataRef
+        .child('toan/nguyenham_tichphan')
+        .once('value', (snapshot) => {
+            state.subject.toan.num_nguyenham_tichphan = snapshot.numChildren();
+            dataRef
+                .child('users/' + userEmail + '/toan/nguyenham_tichphan')
+                .once('value', (snapshot) => {
+                    state.subject.toan.my_num_nguyenham_tichphan = snapshot.numChildren();
+                });
+        });
+
+
+    dataRef
+        .child('toan/sophuc')
+        .once('value', (snapshot) => {
+            state.subject.toan.num_sophuc = snapshot.numChildren();
+            dataRef
+                .child('users/' + userEmail + '/toan/sophuc')
+                .once('value', (snapshot) => {
+                    state.subject.toan.my_num_sophuc = snapshot.numChildren();
+                });
+        });
+
+    dataRef
+        .child('toan/khoi_da_dien')
+        .once('value', (snapshot) => {
+            state.subject.toan.num_khoi_da_dien = snapshot.numChildren();
+            dataRef
+                .child('users/' + userEmail + '/toan/khoi_da_dien')
+                .once('value', (snapshot) => {
+                    state.subject.toan.my_num_khoi_da_dien = snapshot.numChildren();
+                });
+        });
+
+    dataRef
+        .child('toan/toado_khonggian')
+        .once('value', (snapshot) => {
+            state.subject.toan.num_toado_khonggian = snapshot.numChildren();
+            dataRef
+                .child('users/' + userEmail + '/toan/toado_khonggian')
+                .once('value', (snapshot) => {
+                    state.subject.toan.my_num_toado_khonggian = snapshot.numChildren();
+                });
+        });
+
+
+    dataRef
+        .child('toan/khoi_tron_xoay')
+        .once('value', (snapshot) => {
+            state.subject.toan.num_khoi_tron_xoay = snapshot.numChildren();
+            dataRef
+                .child('users/' + userEmail + '/toan/nguyenham_tichphan')
+                .once('value', (snapshot) => {
+                    state.subject.toan.my_num_khoi_tron_xoay = snapshot.numChildren();
+                });
+        });
+
+    console.log('GET NUM_MYNUM!');
 
 }

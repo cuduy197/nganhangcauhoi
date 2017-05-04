@@ -37,12 +37,30 @@ export default new Router({
             name: 'toanCreate',
             component: toanCreate
         }, {
+            path: '/toan/create/:subpath',
+            component: toanCreate
+        }, {
+            path: '/toan/edit/:id',
+            component: toanCreate
+        }, {
             path: '/van/create',
             name: 'vanCreate',
             component: vanCreate
         }, {
+            path: '/van/create/:subpath',
+            component: vanCreate
+        }, {
+            path: '/van/edit/:id',
+            component: vanCreate
+        }, {
             path: '/anh/create',
             name: 'anhCreate',
+            component: anhCreate
+        }, {
+            path: '/anh/create/:subpath',
+            component: anhCreate
+        }, {
+            path: '/anh/edit/:id',
             component: anhCreate
         }, {
             path: '*',

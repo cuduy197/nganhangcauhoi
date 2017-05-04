@@ -9,11 +9,13 @@
                     <a class="w3-bar-item w3-button" href="#/">Trang chủ</a>
                 </div>
                 <div class="no-mobile">
-                    <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán học</a>
-                    <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Tiếng Anh</a>
-                    <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Ngữ văn</a>
+                    <div class="float-right">
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán học</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Tiếng Anh</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Ngữ văn</a>
+                    </div>
                 </div>
-                <div class="w3-dropdown-hover float-right" v-if="singin">
+                <div class="w3-dropdown-hover on-mobile float-right" v-if="singin">
                     <button class="w3-bar-item w3-button">
                         Môn học <i class="fa fa-caret-down"></i>
                     </button>
