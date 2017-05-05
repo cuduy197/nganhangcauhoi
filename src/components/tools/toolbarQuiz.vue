@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="toolbar" style="padding-bottom: 5px;">
-            <el-button type="primary" style="margin-right: 10px;" class="no-mobile" v-if="model=='question'">Câu hỏi ❓❓❓ </el-button type="text" style="padding-right: 30px">
-            <el-button type="primary" style="margin-right: 10px" class="no-mobile" v-if="model=='hint'">Gợi ý 💡</el-button type="text" style="padding-right: 30px">
-            <el-button type="primary" style="margin-right: 10px" class="no-mobile" v-if="model=='slove'">Lời giải 📖</el-button type="text" style="padding-right: 30px">
-            <el-button type="success" style="margin-right: 30px" class="no-mobile" v-if="model=='answer'">Đáp án đúng ✔ </el-button type="text" style="padding-right: 30px">
-            <el-button type="danger" style="margin-right: 30px" class="no-mobile" v-if="model=='answer2'">Đáp án sai 1 ❌ </el-button type="text" style="padding-right: 30px">
-            <el-button type="danger" style="margin-right: 30px" class="no-mobile" v-if="model=='answer3'">Đáp án sai 2 ❌ </el-button type="text" style="padding-right: 30px">
-            <el-button type="danger" style="margin-right: 30px" class="no-mobile" v-if="model=='answer4'">Đáp án sai 3 ❌ </el-button type="text" style="padding-right: 30px">
+            <el-button type="primary" style="margin-right: 10px;" class="no-mobile" v-if="model=='question'">Câu hỏi ❓❓❓ </el-button>
+            <el-button type="primary" style="margin-right: 10px" class="no-mobile" v-if="model=='hint'">Gợi ý 💡</el-button>
+            <el-button type="primary" style="margin-right: 10px" class="no-mobile" v-if="model=='slove'">Lời giải 📖</el-button>
+            <el-button type="success" style="margin-right: 10px" class="no-mobile" v-if="model=='answer'">Đáp án đúng ✔ </el-button>
+            <el-button type="danger" style="margin-right: 10px" class="no-mobile" v-if="model=='answer2'">Đáp án sai 1 ❌ </el-button>
+            <el-button type="danger" style="margin-right: 10px" class="no-mobile" v-if="model=='answer3'">Đáp án sai 2 ❌ </el-button>
+            <el-button type="danger" style="margin-right: 10px" class="no-mobile" v-if="model=='answer4'">Đáp án sai 3 ❌ </el-button>
             <span class="on-mobile" v-if="model=='question'">Câu hỏi ❓❓❓ </span>
             <span class="on-mobile" v-if="model=='hint'">Gợi ý 💡 </span>
             <span class="on-mobile" v-if="model=='slove'">Lời giải 📖 </span>
@@ -181,10 +181,13 @@ export default {
             if (val === "b") {
 
                 if (selectText == '') {
-                    Message({
-                        message: 'Chèn nội dung vào giữa thẻ để hiển thị in đậm. Ví dụ: <b>Chữ đậm</b>',
-                        type: 'info'
-                    });
+                    if (window.innerWidth > 800) {
+                        Message({
+                            message: 'Chèn nội dung vào giữa thẻ để hiển thị in đậm. Ví dụ: <b>Chữ đậm</b>',
+                            type: 'info'
+                        });
+                    }
+
                     input = input + "<b></b> ";
                 } else {
                     input =
@@ -194,10 +197,12 @@ export default {
             if (val === "i") {
 
                 if (selectText == '') {
-                    Message({
-                        message: 'Chèn nội dung vào giữa thẻ để hiển thị chữ nghiêng. Ví dụ: <i>Chữ nghiêng</i>',
-                        type: 'info'
-                    });
+                    if (window.innerWidth > 800) {
+                        Message({
+                            message: 'Chèn nội dung vào giữa thẻ để hiển thị chữ nghiêng. Ví dụ: <i>Chữ nghiêng</i>',
+                            type: 'info'
+                        });
+                    }
                     input = input + "<i></i> ";
                 } else {
                     input =
@@ -208,10 +213,12 @@ export default {
             if (val === "u") {
 
                 if (selectText == '') {
-                    Message({
-                        message: 'Chèn nội dung vào giữa thẻ để hiển thị chữ gạch chân. Ví dụ: <u>Gạch chân</u>',
-                        type: 'info'
-                    });
+                    if (window.innerWidth > 800) {
+                        Message({
+                            message: 'Chèn nội dung vào giữa thẻ để hiển thị chữ gạch chân. Ví dụ: <u>Gạch chân</u>',
+                            type: 'info'
+                        });
+                    }
                     input = input + " <u></u> ";
                 } else {
                     input =

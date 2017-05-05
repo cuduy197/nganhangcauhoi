@@ -122,7 +122,7 @@ export const mutations = {
                     confirmButtonText: 'Hiển thị ',
                     cancelButtonText: 'Hủy',
                     inputPattern: /^[0-9]+$/,
-                    inputErrorMessage: `Vui lòng nhập số trong khoảng từ [ 1 ] đến [ ${state.quiz.numChildren} ]`
+                    inputErrorMessage: `Nhập số trong khoảng từ [ 1 ] đến [ ${state.quiz.numChildren} ]`
                 }).then(input => {
                     const i = String(input.value);
                     let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
@@ -160,7 +160,7 @@ export const mutations = {
             if (!payload.myquiz) {
                 // statement
                 if (Number(state.quiz.numChildren) > 0) {
-                    MessageBox.prompt(`Nhập email của người soạn câu hỏi `, 'Thông báo ', {
+                    MessageBox.prompt(`Nhập email của người soạn câu hỏi `, 'Hiển thị theo email', {
                         confirmButtonText: 'Hiển thị',
                         cancelButtonText: 'Hủy',
                         inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
@@ -357,10 +357,17 @@ export const mutations = {
 
                         }).then((snapshot) => {
                             setTimeout(function() {
-                                Notification({
-                                    message: `Đã tạo câu hỏi số [ ${ Number(snapshot.numChildren() + 1)} ] !`,
-                                    type: 'success'
-                                });
+                                if (window.innerWidth > 800) {
+                                    Message({
+                                        message: `Đã tạo câu hỏi số [ ${ Number(snapshot.numChildren() + 1)} ] !`,
+                                        type: 'success'
+                                    });
+                                } else {
+                                    Notification({
+                                        message: `Đã tạo câu hỏi số [ ${ Number(snapshot.numChildren() + 1)} ] !`,
+                                        type: 'success'
+                                    });
+                                }
                             }, 1234);
                         }).catch((error) => {
                             loadingInstance.close();
@@ -391,6 +398,19 @@ export const mutations = {
                                     message: 'Đã cập nhật thành công!',
                                     type: 'success'
                                 });
+
+                                if (window.innerWidth > 800) {
+                                    Message({
+                                        message: 'Đã cập nhật thành công!',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    Notification({
+                                        message: 'Đã cập nhật thành công!',
+                                        type: 'success'
+                                    });
+                                }
+
                             }, 1234);
                         }).catch((error) => {
                             Notification({
@@ -402,7 +422,15 @@ export const mutations = {
                 //Do
             }).catch(() => {});
         } else {
-            Notification({ message: 'Bạn chưa soạn thảo xong câu hỏi, hãy kiểm tra lại!', type: 'warning' });
+            if (window.innerWidth > 800) {
+                Message({
+                    message: 'Bạn chưa soạn thảo xong câu hỏi, hãy kiểm tra lại!',
+                    type: 'warning'
+                });
+            } else {
+                Notification({ message: 'Bạn chưa soạn thảo xong câu hỏi, hãy kiểm tra lại!', type: 'warning' });
+            }
+
         }
     },
     RESET_INPUT(state) {

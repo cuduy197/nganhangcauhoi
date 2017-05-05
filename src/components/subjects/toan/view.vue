@@ -45,8 +45,8 @@
                 <el-table v-if="quiz.numChildren > 0" ref="singleTable" :data="quiz.val" border>
                     <el-table-column property="id" label="STT" width="70">
                     </el-table-column>
-                    <el-table-column property="id_in_user" label="STT2" width="80">
-                    </el-table-column>
+                    <!--         <el-table-column property="id_in_user" label="STT2" width="80">
+                    </el-table-column> -->
                     <el-table-column property="create_time" label="Ngày tạo" width="240">
                     </el-table-column>
                     <el-table-column property="author" label="Người soạn câu hỏi" width="200">

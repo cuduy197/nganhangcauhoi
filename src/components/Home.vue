@@ -3,7 +3,7 @@
         <login>
             <template slot="unsingin">
                 <el-col :sm="24" :md="12">
-                    <el-card class="animated fadeIn">
+                    <el-card class="box-card">
                         <div class="grid-content comfortaa center">
                             <h2 class="comfortaa">Chào mừng bạn, đăng nhập để sử dụng ứng dụng.</h2>
                             <el-button style="height: 100px; width: 200px; font-size: 30px" class="animated flipInX" size="large" type="primary" @click="LOGIN">Đăng nhập</el-button>
