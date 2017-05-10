@@ -37,22 +37,57 @@ export const state = {
         path: '',
         subpath: '',
         tilte: '',
-        toan: {
-            num_hamso: 'Đang tải...',
-            my_num_hamso: 'Đang tải...',
-            num_mu_logarit: 'Đang tải...',
-            my_num_mu_logarit: 'Đang tải...',
-            num_nguyenham_tichphan: 'Đang tải...',
-            my_num_nguyenham_tichphan: 'Đang tải...',
-            num_sophuc: 'Đang tải...',
-            my_num_sophuc: 'Đang tải...',
-            num_khoi_da_dien: 'Đang tải...',
-            my_num_khoi_da_dien: 'Đang tải...',
-            num_khoi_tron_xoay: 'Đang tải...',
-            my_num_khoi_tron_xoay: 'Đang tải...',
-            num_toado_khonggian: 'Đang tải...',
-            mynum_toado_khonggian: 'Đang tải...'
-        }
+        toan: [
+
+            {
+                title: 'Hàm số và các bài toán liên quan',
+                subpath: 'hamso',
+                num: 'Đang tải...',
+                my_num: 'Đang tải...'
+            }, {
+                title: 'Mũ và logarit',
+                subpath: 'mu_logarit',
+                num: 'Đang tải...',
+                my_num: 'Đang tải...'
+            }, {
+                title: 'Nguyên hàm - tích phân và ứng dụng',
+                subpath: 'nguyenham_tichphan',
+                num: 'Đang tải...',
+                my_num: 'Đang tải...'
+            }, {
+                title: 'Số phức',
+                subpath: 'sophuc',
+                num: 'Đang tải...',
+                my_num: 'Đang tải...'
+            }, {
+                title: 'Thể tích khối đa diện',
+                subpath: 'khoi_da_dien',
+                num: 'Đang tải...',
+                my_num: 'Đang tải...'
+            }, {
+                title: 'Khối tròn xoay',
+                subpath: 'khoi_tron_xoay',
+                num: 'Đang tải...',
+                my_num: 'Đang tải...'
+            }, {
+                title: 'Phương pháp tọa độ không gian',
+                subpath: 'toado_khonggian',
+                num: 'Đang tải...',
+                my_num: 'Đang tải...'
+            }
+        ],
+        anh: [{
+            title: 'Tiếng anh',
+            subpath: '',
+            num: 'Đang tải...',
+            my_num: 'Đang tải...'
+        }],
+        van: [{
+            title: 'Ngữ văn',
+            subpath: '',
+            num: 'Đang tải...',
+            my_num: 'Đang tải...'
+        }]
     },
 
     singin: false, //Check if was singin!

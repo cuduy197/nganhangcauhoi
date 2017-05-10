@@ -394,10 +394,6 @@ export const mutations = {
                             });
                             setTimeout(function() {
                                 loadingInstance.close();
-                                Notification({
-                                    message: 'Đã cập nhật thành công!',
-                                    type: 'success'
-                                });
 
                                 if (window.innerWidth > 800) {
                                     Message({
@@ -544,102 +540,91 @@ function setPath(state) {
 
 function getNum_MyNum_Subject(state) {
     const userEmail = String((state.user.email).split("@")[0]);
-    /*        toan: {
-                num_hamso: 0,
-                my_num_hamso: 0,
-                num_mu_logarit: 0,
-                my_num_mu_logarit: 0,
-                num_nguyenham_tichphan: 0,
-                my_num_nguyenham_tichphan: 0,
-                num_sophuc: 0,
-                my_num_sophuc: 0,
-                num_khoi_da_dien: 0,
-                my_num_khoi_da_dien: 0,
-                num_khoi_tron_xoay: 0,
-                my_num_khoi_tron_xoay: 0,
-                num_toado_khonggian: 0,
-                mynum_toado_khonggian: 0
-            }*/
 
+    let Toan = ['toan/hamso', 'toan/mu_logarit', 'toan/nguyenham_tichphan', 'toan/sophuc', 'toan/khoi_da_dien', 'toan/toado_khonggian', 'toan/khoi_tron_xoay'];
+    //[TOAN]
     dataRef
-        .child('toan/hamso')
+        .child(Toan[0])
         .once('value', (snapshot) => {
-            state.subject.toan.num_hamso = snapshot.numChildren();
+            state.subject.toan[0].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + '/toan/hamso')
+                .child('users/' + userEmail + Toan[0])
                 .once('value', (snapshot) => {
-                    state.subject.toan.my_num_hamso = snapshot.numChildren();
+                    state.subject.toan[0].my_num = snapshot.numChildren();
                 });
         });
 
     dataRef
-        .child('toan/mu_logarit')
+        .child(Toan[1])
         .once('value', (snapshot) => {
-            state.subject.toan.num_mu_logarit = snapshot.numChildren();
+            state.subject.toan[1].num = snapshot.numChildren();
+
             dataRef
-                .child('users/' + userEmail + '/toan/mu_logarit')
+                .child('users/' + userEmail + Toan[1])
                 .once('value', (snapshot) => {
-                    state.subject.toan.my_num_mu_logarit = snapshot.numChildren();
+                    state.subject.toan[1].my_num = snapshot.numChildren();
+
                 });
         });
 
     dataRef
-        .child('toan/nguyenham_tichphan')
+        .child(Toan[2])
         .once('value', (snapshot) => {
-            state.subject.toan.num_nguyenham_tichphan = snapshot.numChildren();
+            state.subject.toan[2].num = snapshot.numChildren();
+
             dataRef
-                .child('users/' + userEmail + '/toan/nguyenham_tichphan')
+                .child('users/' + userEmail + Toan[2])
                 .once('value', (snapshot) => {
-                    state.subject.toan.my_num_nguyenham_tichphan = snapshot.numChildren();
+                    state.subject.toan[2].my_num = snapshot.numChildren();
                 });
         });
 
 
     dataRef
-        .child('toan/sophuc')
+        .child(Toan[3])
         .once('value', (snapshot) => {
-            state.subject.toan.num_sophuc = snapshot.numChildren();
+            state.subject.toan[3].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + '/toan/sophuc')
+                .child('users/' + userEmail + Toan[3])
                 .once('value', (snapshot) => {
-                    state.subject.toan.my_num_sophuc = snapshot.numChildren();
+                    state.subject.toan[3].my_num = snapshot.numChildren();
                 });
         });
 
     dataRef
-        .child('toan/khoi_da_dien')
+        .child(Toan[4])
         .once('value', (snapshot) => {
-            state.subject.toan.num_khoi_da_dien = snapshot.numChildren();
+            state.subject.toan[4].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + '/toan/khoi_da_dien')
+                .child('users/' + userEmail + Toan[4])
                 .once('value', (snapshot) => {
-                    state.subject.toan.my_num_khoi_da_dien = snapshot.numChildren();
+                    state.subject.toan[4].my_num = snapshot.numChildren();
                 });
         });
 
     dataRef
-        .child('toan/toado_khonggian')
+        .child(Toan[5])
         .once('value', (snapshot) => {
-            state.subject.toan.num_toado_khonggian = snapshot.numChildren();
+            state.subject.toan[5].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + '/toan/toado_khonggian')
+                .child('users/' + userEmail + Toan[5])
                 .once('value', (snapshot) => {
-                    state.subject.toan.my_num_toado_khonggian = snapshot.numChildren();
+                    state.subject.toan[5].my_num = snapshot.numChildren();
                 });
         });
 
 
     dataRef
-        .child('toan/khoi_tron_xoay')
+        .child(Toan[6])
         .once('value', (snapshot) => {
-            state.subject.toan.num_khoi_tron_xoay = snapshot.numChildren();
+            state.subject.toan[6].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + '/toan/nguyenham_tichphan')
+                .child('users/' + userEmail + Toan[6])
                 .once('value', (snapshot) => {
-                    state.subject.toan.my_num_khoi_tron_xoay = snapshot.numChildren();
+                    state.subject.toan[6].my_num = snapshot.numChildren();
                 });
         });
 
-    console.log('GET NUM_MYNUM!');
+
 
 }

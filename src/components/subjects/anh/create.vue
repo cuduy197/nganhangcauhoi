@@ -1,19 +1,20 @@
 <template>
     <div>
-        <createQuiz />
+        <view-quiz :data="subject.anh"></view-quiz>
     </div>
 </template>
 <script>
-import createQuiz from '../../tools/createQuiz.vue';
+import viewQuiz from '../../tools/viewQuiz.vue';
+import {
+    mapState
+} from 'vuex';
+
 export default {
-    components: {
-        createQuiz
+    computed: {
+        ...mapState(['subject']),
     },
-    mounted() {
-        this.$store.state.subject.path = location.hash.split('/')[1];
-        if (this.$store.state.subject.subpath == "") {
-            location.hash = '#/' + this.$store.state.subject.path;
-        }
+    components: {
+        viewQuiz
     }
 }
 </script>

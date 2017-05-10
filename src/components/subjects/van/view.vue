@@ -1,32 +1,20 @@
 <template>
-    <el-row :gutter="10" class="center animated fadeInUp showlist">
-        <div v-for="item in items" :key="item.id">
-            <el-col :span="24">
-                <el-card class="box-card ">
-                    <h1 class="indigo comfortaa"> {{ item.title }} </h1>
-                </el-card>
-            </el-col>
-        </div>
-    </el-row>
+    <div>
+        <view-quiz :data="subject.van"></view-quiz>
+    </div>
 </template>
 <script>
+import viewQuiz from '../../tools/viewQuiz.vue';
 import {
-    mapState,
-    mapMutations,
+    mapState
 } from 'vuex';
+
 export default {
-    data() {
-            return {
-                items: [{
-                    title: 'Đang cập nhật',
-                    subpath: '1'
-                }]
-            }
-        },
-        methods: {
-            ...mapMutations(['BEFORE_CREATE_QUIZ'])
-        }
+    computed: {
+        ...mapState(['subject']),
+    },
+    components: {
+        viewQuiz
+    }
 }
 </script>
-<style scoped>
-</style>

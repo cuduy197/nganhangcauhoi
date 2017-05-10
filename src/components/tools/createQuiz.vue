@@ -46,20 +46,7 @@
                 </el-form>
             </el-card>
         </el-col>
-        <!--     <el-col :span="6">
-        <el-card class="box-card animated fadeIn">
-         
-                <el-form label-width="150px" label-position="top" class="ruleForm">
-                    <el-form-item label=" Lời giải 📖" > 
-                        <el-input  :autosize="{ minRows: 15}"  type="textarea"  placeholder="nhập nội dung"></el-input>
-                    </el-form-item>
-                      <el-form-item label="Hình ảnh gợi ý 🎴" >
-                        <el-input type="text"  icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
-                    </el-form-item>
-                   </el-form>
-         
-        </el-card>
-    </el-col> -->
+        <!-- View Quiz -->
         <el-col :sm="24" :md="11">
             <el-card class="animated fadeIn">
                 <el-form label-position="top" class="ruleForm">
@@ -69,8 +56,8 @@
                     </el-form-item>
                 </el-form>
                 <div class="center">
-                    <span>[ {{ title_subpath }} ]</span>
-                    <p v-if="quiz.edit"> Số thứ tự: [ {{ quiz.edit_child }} ] trong mục [ {{ title_subpath }} ] </p>
+                    <span>[ {{ subject.title }} ]</span>
+                    <p v-if="quiz.edit"> Số thứ tự: [ {{ quiz.edit_child }} ] mục [ {{ subject.title }} ] </p>
                 </div>
                 <hr>
                 <span>Câu hỏi: </span>
@@ -131,18 +118,7 @@ import toolbarQuiz from './toolbarQuiz.vue';
 
 export default {
     data() {
-            return {
-                title_subpath: '',
-                title_toan: {
-                    hamso: 'Hàm số và các bài toán liên quan',
-                    mu_logarit: 'Mũ và logarit',
-                    nguyenham_tichphan: 'Nguyên hàm - tích phân và ứng dụng',
-                    sophuc: 'Số phức',
-                    khoi_da_dien: 'Thể tích khối đa diện',
-                    khoi_tron_xoay: 'Khối tròn xoay',
-                    toado_khonggian: 'Phương pháp tọa độ không gian'
-                }
-            }
+            return {}
         },
         methods: {
             ...mapMutations(['RESET_INPUT', 'CREATE_QUIZ']),
@@ -153,7 +129,7 @@ export default {
             }
         },
         computed: {
-            ...mapState(['input', 'singin', 'user', 'quiz']),
+            ...mapState(['input', 'singin', 'user', 'quiz', 'subject']),
             question: {
                 get() {
                     return this.$store.state.input.question
@@ -236,29 +212,6 @@ export default {
             },
         },
         mounted() {
-            let subpath = this.$store.state.subject.subpath;
-            if (subpath == 'hamso') {
-                this.title_subpath = this.title_toan[subpath]
-            }
-            if (subpath == 'mu_logarit') {
-                this.title_subpath = this.title_toan[subpath]
-            }
-            if (subpath == 'nguyenham_tichphan') {
-                this.title_subpath = this.title_toan[subpath]
-            }
-            if (subpath == 'sophuc') {
-                this.title_subpath = this.title_toan[subpath]
-            }
-            if (subpath == 'khoi_da_dien') {
-                this.title_subpath = this.title_toan[subpath]
-            }
-            if (subpath == 'khoi_tron_xoay') {
-                this.title_subpath = this.title_toan[subpath]
-            }
-
-            if (subpath == 'toado_khonggian') {
-                this.title_subpath = this.title_toan[subpath]
-            }
 
         },
         components: {
