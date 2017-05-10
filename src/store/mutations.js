@@ -12,6 +12,7 @@ export const mutations = {
         setPath(state);
         // Listening for auth state changes.
         // [START authstatelistener]
+        let onDataChange;
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 // [GET USER DATA]
@@ -25,8 +26,16 @@ export const mutations = {
                 var UserUID = userRef.child(user.uid);
                 UserUID.update({ login: true, email: user.email });
                 getNum_MyNum_Subject(state);
+                onDataChange = function(snapshot) {
+                    console.info('DataRef has Changed!');
+                    getNum_MyNum_Subject(state);
+                };
+                dataRef.on('value', onDataChange);
+
+
                 // [END_EXCLUDE]
             } else {
+                dataRef.off('value', onDataChange);
                 // User is signloadingInstance.close();ed out.
                 // [START_EXCLUDE]
                 state.singin = false;
@@ -168,9 +177,10 @@ export const mutations = {
                     }).then(input => {
                         console.log(String(input.value));
                         const i = String((input.value).split("@")[0]);
+                        console.log(`users/${i}/${p}/${s}`);
                         let loadingInstance = Loading.service({ text: `Đang tải dữ liệu của [${input.value}]`, customClass: 'bg-green' });
                         dataRef
-                            .child(`users/${p}/${s}/${i}`)
+                            .child(`users/${i}/${p}/${s}`)
                             .orderByKey()
                             .startAt(String(payload.begin))
                             .endAt(String(payload.end))
@@ -254,15 +264,18 @@ export const mutations = {
         const s = state.subject.subpath;
         console.info(`${p}/${s}`);
         let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
+        setTimeout(function() {
+            loadingInstance.close();
+        }, 777);
+        let onValueChange = (snapshot) => {
+            console.info(snapshot.numChildren());
+            state.quiz.numChildren = Number(snapshot.numChildren() + 1);
+            getNum_MyNum_Subject(state);
+        };
+
         dataRef
             .child(`${p}/${s}`)
-            .once('value', (snapshot) => {
-                console.info(snapshot.numChildren());
-                state.quiz.numChildren = Number(snapshot.numChildren());
-                setTimeout(function() {
-                    loadingInstance.close();
-                }, 777);
-            });
+            .on('value', onValueChange);
     },
     BEFORE_EDIT_QUIZ(state, payload) {
         window.scrollTo(0, 0);
@@ -308,11 +321,33 @@ export const mutations = {
                         .child(`${p}/${s}`)
                         .once('value', (snapshot) => {
                             const n = snapshot.numChildren();
+
+                            /*         //[DEV]
+                            for (let i = 100; i < 200; i++) {
+                                state.input.id = i;
+                                state.input.question = "CÂU HỎI: " + i;
+                                dataRef
+                                    .child(p)
+                                    .child(s)
+                                    .child(i)
+                                    .set(state.input);
+                                dataRef
+                                    .child('users')
+                                    .child(String((state.user.email).split("@")[0]))
+                                    .child(p)
+                                    .child(s)
+                                    .child(Number(i - 100))
+                                    .set(state.input);
+                            } //end DEV
+*/
+
+
+                            //[Call user data]
+
                             let loadingInstance = Loading.service({
                                 text: 'Đang tạo câu hỏi số [ ' + Number(snapshot.numChildren() + 1) + ' ]',
                                 customClass: 'bg-green'
                             });
-                            //[Call user data]
                             dataRef
                                 .child(`users/${m}/${p}/${s}`)
                                 .once('value', (snapshot) => {
@@ -336,23 +371,8 @@ export const mutations = {
                                     resetInput(state);
                                 });
 
-                            /* //[DEV]
-                             for (let i = 1; i < 100; i++) {
-                                 state.input.id = i;
-                                 state.input.question = "CÂU HỎI: " + i;
-                                 dataRef
-                                     .child(p)
-                                     .child(s)
-                                     .child(i)
-                                     .set(state.input);
-                                 dataRef
-                                     .child('users')
-                                     .child(String((state.user.email).split("@")[0]))
-                                     .child(p)
-                                     .child(s)
-                                     .child(i)
-                                     .set(state.input);
-                             } //end DEV*/
+
+
 
 
                         }).then((snapshot) => {
@@ -512,6 +532,8 @@ function setPath(state) {
         // console.log(state.subject.path);
     }
     // fix subpath when reload
+
+
     if (state.subject.subpath === "") {
         window.location.hash = '#/' + state.subject.path;
     }
@@ -537,7 +559,7 @@ function setPath(state) {
 
 }
 
-
+//[GET NUMBER STATTIC]
 function getNum_MyNum_Subject(state) {
     const userEmail = String((state.user.email).split("@")[0]);
 
@@ -548,7 +570,7 @@ function getNum_MyNum_Subject(state) {
         .once('value', (snapshot) => {
             state.subject.toan[0].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + Toan[0])
+                .child('users/' + userEmail + '/' + Toan[0])
                 .once('value', (snapshot) => {
                     state.subject.toan[0].my_num = snapshot.numChildren();
                 });
@@ -560,7 +582,7 @@ function getNum_MyNum_Subject(state) {
             state.subject.toan[1].num = snapshot.numChildren();
 
             dataRef
-                .child('users/' + userEmail + Toan[1])
+                .child('users/' + userEmail + '/' + Toan[1])
                 .once('value', (snapshot) => {
                     state.subject.toan[1].my_num = snapshot.numChildren();
 
@@ -573,7 +595,7 @@ function getNum_MyNum_Subject(state) {
             state.subject.toan[2].num = snapshot.numChildren();
 
             dataRef
-                .child('users/' + userEmail + Toan[2])
+                .child('users/' + userEmail + '/' + Toan[2])
                 .once('value', (snapshot) => {
                     state.subject.toan[2].my_num = snapshot.numChildren();
                 });
@@ -585,7 +607,7 @@ function getNum_MyNum_Subject(state) {
         .once('value', (snapshot) => {
             state.subject.toan[3].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + Toan[3])
+                .child('users/' + userEmail + '/' + Toan[3])
                 .once('value', (snapshot) => {
                     state.subject.toan[3].my_num = snapshot.numChildren();
                 });
@@ -596,7 +618,7 @@ function getNum_MyNum_Subject(state) {
         .once('value', (snapshot) => {
             state.subject.toan[4].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + Toan[4])
+                .child('users/' + userEmail + '/' + Toan[4])
                 .once('value', (snapshot) => {
                     state.subject.toan[4].my_num = snapshot.numChildren();
                 });
@@ -607,7 +629,7 @@ function getNum_MyNum_Subject(state) {
         .once('value', (snapshot) => {
             state.subject.toan[5].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + Toan[5])
+                .child('users/' + userEmail + '/' + Toan[5])
                 .once('value', (snapshot) => {
                     state.subject.toan[5].my_num = snapshot.numChildren();
                 });
@@ -619,12 +641,10 @@ function getNum_MyNum_Subject(state) {
         .once('value', (snapshot) => {
             state.subject.toan[6].num = snapshot.numChildren();
             dataRef
-                .child('users/' + userEmail + Toan[6])
+                .child('users/' + userEmail + '/' + Toan[6])
                 .once('value', (snapshot) => {
                     state.subject.toan[6].my_num = snapshot.numChildren();
                 });
         });
-
-
 
 }

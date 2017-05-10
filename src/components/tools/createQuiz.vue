@@ -56,7 +56,7 @@
                     </el-form-item>
                 </el-form>
                 <div class="center">
-                    <span>[ {{ subject.title }} ]</span>
+                    <span v-if="!quiz.edit">[ {{ subject.title }} ] - Câu hỏi số [{{quiz.numChildren}} ]</span>
                     <p v-if="quiz.edit"> Số thứ tự: [ {{ quiz.edit_child }} ] mục [ {{ subject.title }} ] </p>
                 </div>
                 <hr>

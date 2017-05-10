@@ -1,20 +1,13 @@
 <template>
     <div>
-        <view-quiz :data="subject.anh"></view-quiz>
+        <createQuiz />
     </div>
 </template>
 <script>
-import viewQuiz from '../../tools/viewQuiz.vue';
-import {
-    mapState
-} from 'vuex';
-
+import createQuiz from '../../tools/createQuiz.vue';
 export default {
-    computed: {
-        ...mapState(['subject']),
-    },
     components: {
-        viewQuiz
+        createQuiz
     }
 }
 </script>

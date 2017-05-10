@@ -23,6 +23,7 @@ export const state = {
         create_time: ''
     },
     quiz: {
+        total_cur_quiz: 0,
         edit: false,
         edit_child: '',
         edit_user_child: '',
