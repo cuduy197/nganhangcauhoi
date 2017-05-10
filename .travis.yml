@@ -3,16 +3,18 @@ node_js:
   - "6"
 notifications:
   email: false
+before_install:
+  npm install --save-dev surge
 install:
   npm install
 cache:
   directories:
-    - node_modules 
+    - node_modules
 script:
   npm run build
 deploy:
   provider: surge
   project: ./dist/
-  domain: cauhoi.cunghoctot.net
+  domain: ch.cunghoctot.net
 release:
   - exit 0  
