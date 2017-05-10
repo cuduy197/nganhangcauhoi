@@ -3,5 +3,6 @@ node_js:
   - "6"
 install:
   npm install -g surge
+  npm install
 script:
   npm run build
