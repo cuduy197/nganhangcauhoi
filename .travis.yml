@@ -12,9 +12,5 @@ cache:
     - node_modules
 script:
   npm run build
-deploy:
-  provider: surge
-  project: ./dist/
-  domain: ch.cunghoctot.net
 release:
   - exit 0  
