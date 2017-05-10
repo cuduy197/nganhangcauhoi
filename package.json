@@ -11,9 +11,9 @@
         "commit": "git add . && git commit -m",
         "push": "git push origin master",
         "start": "node build/dev-server.js",
-        "build": "node build/build.js && node build/copy200.js && cd dist  &&  surge --project ./dist --domain cauhoi.cunghoctot.net ",
-        "host": "node build/copy200.js &&  surge --project ./dist --domain cauhoi.cunghoctot.net && node build/openUrl",
-        "url": "opn http://cauhoi.cunghoctot.net "
+        "build": "node build/build.js && node build/copy200.js && cd dist  &&  surge --project ./dist --domain nhch.surge.sh ",
+        "host": "node build/copy200.js &&  surge --project ./dist --domain nhch.surge.sh && node build/openUrl",
+        "url": "opn http://nhch.surge.sh "
     },
     "license": "MIT",
     "repository": {
