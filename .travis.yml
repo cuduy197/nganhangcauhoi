@@ -3,8 +3,9 @@ node_js:
   - "6"
 notifications:
   email: false
+before_install:
+  npm install --save-dev surge
 install:
-  npm install -S surge
   npm install
 cache:
   directories:
