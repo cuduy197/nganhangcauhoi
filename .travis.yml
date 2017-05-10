@@ -3,10 +3,12 @@ node_js:
   - "6"
 notifications:
   email: false
-before_install:
-  npm install -g surge
 install:
+  npm install -S surge
   npm install
+cache:
+  directories:
+    - node_modules
 script:
   npm run build
 release:
