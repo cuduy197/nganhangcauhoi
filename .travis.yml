@@ -9,5 +9,7 @@ install:
   npm install
 script:
   npm run build
+after_success:
+  - surge --project ./dist --domain nhch.surge.sh
 release:
   - exit 0  

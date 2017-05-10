@@ -11,7 +11,7 @@
         "commit": "git add . && git commit -m",
         "push": "git push origin master",
         "start": "node build/dev-server.js",
-        "build": "node build/build.js && node build/copy200.js && cd dist && surge",
+        "build": "node build/build.js && node build/copy200.js && cd dist",
         "host": "node build/copy200.js && cd dist && surge && cd .. && node build/openUrl",
         "url": "opn http://nhch.surge.sh "
     },
