@@ -1,40 +1,13 @@
 <template>
     <div>
         <div class="animated fadeInUp" v-show="!show_quiz">
-            <!--         <el-row :gutter="0" class="center animated fadeInUp showlist">
-                <div v-for="item in data" :key="item.id">
-                    <el-col :sm="24" :md="24" :lg="12">
-                        <el-card class="box-card">
-                            <h3 class="indigo"> <blockquote> {{ item.title }}</blockquote>  </h3>
-                            <p>Tổng số câu hỏi: {{item.num}} </p>
-                            <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
-                            <hr>
-                            <div>
-                                <el-button-group>
-                                    <a @click="getSubjectTitle" :href="'#/toan/create/'+ item.subpath">
-                                        <el-button @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
-                                    </a>
-                                    <a @click="show_quiz=true">
-                                        <el-button @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Xem câu hỏi</el-button>
-                                    </a>
-                                </el-button-group>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </div>
-            </el-row> -->
-            <!-- DEV -->
             <div class="w3-row " style="padding-top: 1em;">
                 <div v-for="item, index in data" :key="item.id">
                     <div class="w3-col s12 m6 l4  w3-center comfortaa" style="padding: 0em;">
                         <div class="w3-card-4 w3-white box-card">
                             <div class="w3-container w3-center">
-                                <h4 class="indigo no-mobile comfortaa">
-                                    <div> {{ item.title }}</div>
-                                </h4>
-                                <h5 class="indigo on-mobile comfortaa">
-                                    <div> {{ item.title }}</div>
-                                </h5>
+                                <h4 class="indigo no-mobile comfortaa">  <div> {{ item.title }}</div> </h4>
+                                <h5 class="indigo on-mobile comfortaa"><div> {{ item.title }}</div> </h5>
                                 <p>Tổng số câu hỏi: {{item.num}} </p>
                                 <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
                                 <div style="padding-bottom: .5em">
@@ -54,9 +27,7 @@
         <div class="center" v-show="show_quiz">
             <div style="padding-bottom: .1em;" class="">
                 <br>
-                <a @click="show_quiz=false" title="Bấm để trở lại">
-                    <el-button type="" icon="arrow-left">Trở lại</el-button>
-                </a>
+                <el-button @click="show_quiz=false" title="Bấm để trở lại" icon="arrow-left">Trở lại</el-button>
                 <el-button @click="VIEW_QUIZ({subpath: subject.subpath, begin: 1,end: 25, view: 'all'})" type="" icon="information" style="margin: 3px">Tất cả câu hỏi</el-button>
                 <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'custom'})" icon="view" style="margin: 3px">Số thứ tự</el-button>
                 <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: false})" icon="search" style="margin: 3px">Người soạn câu hỏi</el-button>
@@ -67,59 +38,72 @@
                 <div v-if="quiz.numChildren> 0" class="comfortaa" style="padding: .1em 0em .7em 0em">
                     <el-pagination :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="viewAll" layout="total,prev, pager, next, jumper">
                     </el-pagination>
+                    <hr>
+                    <el-checkbox v-model="checked_stt">STT</el-checkbox>
+                    <el-checkbox v-model="checked_stt2">STT2</el-checkbox>
+                    <el-checkbox v-model="checked_date">Ngày tạo</el-checkbox>
+                    <el-checkbox v-model="checked_author">Người soạn câu hỏi</el-checkbox>
+                    <el-checkbox v-model="checked_answer">Câu trả lời đúng</el-checkbox>
+                    <el-checkbox v-model="checked_answer2">Câu trả lời sai 1</el-checkbox>
+                    <el-checkbox v-model="checked_answer3">Câu trả lời sai 2</el-checkbox>
+                    <el-checkbox v-model="checked_answer4">Câu trả lời sai 3</el-checkbox>
+                    <el-checkbox v-model="checked_hint">Gợi ý</el-checkbox>
+                    <el-checkbox v-model="checked_slove">Lời giải </el-checkbox>
                 </div>
-                <el-table v-if="quiz.numChildren > 0" ref="singleTable" :data="quiz.val" border>
-                    <el-table-column label="STT" width="70">
+                <el-table ref="singleTable" :data="quiz.val" border>
+                    <el-table-column v-if="checked_stt" label="STT" width="70">
                         <template scope="scope">
                             <div title="Số thứ tự câu hỏi trong mục">
                                 <p v-html="scope.row.id"> </p>
                             </div>
                         </template>
                     </el-table-column>
-                    <!--   <el-table-column label="STT2" width="80">
+                    <el-table-column v-if="checked_stt2" label="STT2" width="80">
                         <template scope="scope">
                             <div title="Số thứ tự của người soạn câu hỏi" width="100%">
                                 <p v-html="scope.row.id_in_user"> </p>
                             </div>
                         </template>
-                    </el-table-column> -->
-                    <el-table-column property="create_time" label="Ngày tạo" width="240">
                     </el-table-column>
-                    <el-table-column property="author" label="Người soạn câu hỏi" width="200">
+                    <el-table-column v-if="checked_date" l property="create_time" label="Ngày tạo" width="240">
                     </el-table-column>
-                    <el-table-column label="Nội dung câu hỏi" width="250">
+                    <el-table-column v-if="checked_author" property="author" label="Người soạn câu hỏi" width="200">
+                    </el-table-column>
+                    <el-table-column label="Nội dung câu hỏi" width="300">
                         <template scope="scope">
                             <p v-html="scope.row.question"> </p>
                             <img v-if="scope.row.question_image!==''" :src="scope.row.question_image" width="100%" alt="" height="100%">
                         </template>
                     </el-table-column>
-                    <el-table-column label="Câu trả lời đúng" width="250">
+                    <el-table-column v-if="checked_answer" label="Câu trả lời đúng" width="300">
                         <template scope="scope">
                             <p v-html="scope.row.answer"> </p>
                         </template>
                     </el-table-column>
-                    <el-table-column label="Câu trả lời sai 1" width="250">
+                    <el-table-column v-if="checked_answer2" label="Câu trả lời sai 1" width="300">
                         <template scope="scope">
-                            <p v-html="scope.row.answer2"> </p>
+                            <p class="animated fadeInDown" v-html="scope.row.answer2"> </p>
                         </template>
                     </el-table-column>
-                    <el-table-column label="Câu trả lời sai 2" width="250">
+                    <el-table-column v-if="checked_answer3" label="Câu trả lời sai 2" width="300">
                         <template scope="scope">
-                            <p v-html="scope.row.answer3"> </p>
+                            <p class="animated fadeInDown" v-html="scope.row.answer3"> </p>
                         </template>
                     </el-table-column>
-                    <el-table-column label="Câu trả lời sai 3" width="250">
+                    <el-table-column v-if="checked_answer4" label="Câu trả lời sai 3" width="300">
                         <template scope="scope">
-                            <p v-html="scope.row.answer4"> </p>
+                            <p class="animated fadeInDown" v-html="scope.row.answer4"> </p>
                         </template>
                     </el-table-column>
-                    <el-table-column label="Gợi ý" width="250">
+                    <el-table-column v-if="checked_hint" label="Gợi ý" width="300">
                         <template scope="scope">
-                            <p v-html="scope.row.hint"> </p>
-                            <img v-if="scope.row.hint_image!==''" :src="scope.row.hint_image" width="100%" alt="" height="100%">
+                            <div class="animated fadeInDown">
+                                <p v-html="scope.row.hint"> </p>
+                                <img v-if="scope.row.hint_image!==''" :src="scope.row.hint_image" width="100%" alt="" height="100%">
+                            </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="Lời giải" width="250">
+                    <el-table-column v-if="checked_slove" label="Lời giải" width="300">
                         <template scope="scope">
                             <p v-html="scope.row.slove"> </p>
                             <img v-if="scope.row.slove_image!==''" :src="scope.row.slove_image" width="100%" alt="" height="100%">
@@ -183,7 +167,6 @@ import {
     mapMutations,
 } from 'vuex';
 
-
 export default {
     props: {
         data: Array,
@@ -191,6 +174,16 @@ export default {
     },
     data() {
         return {
+            checked_stt: true,
+            checked_stt2: false,
+            checked_date: true,
+            checked_author: true,
+            checked_answer: true,
+            checked_answer2: false,
+            checked_answer3: false,
+            checked_answer4: false,
+            checked_hint: false,
+            checked_slove: true,
             show_quiz: false,
             title: '',
         }
