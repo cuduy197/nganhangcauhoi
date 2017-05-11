@@ -41,7 +41,7 @@ export const state = {
         toan: [
 
             {
-                title: 'Hàm số và các bài toán liên quan',
+                title: 'Hàm số',
                 subpath: 'hamso',
                 num: 'Đang tải...',
                 my_num: 'Đang tải...'
@@ -51,7 +51,7 @@ export const state = {
                 num: 'Đang tải...',
                 my_num: 'Đang tải...'
             }, {
-                title: 'Nguyên hàm - tích phân và ứng dụng',
+                title: 'Nguyên hàm - tích phân',
                 subpath: 'nguyenham_tichphan',
                 num: 'Đang tải...',
                 my_num: 'Đang tải...'
@@ -61,7 +61,7 @@ export const state = {
                 num: 'Đang tải...',
                 my_num: 'Đang tải...'
             }, {
-                title: 'Thể tích khối đa diện',
+                title: 'Khối đa diện',
                 subpath: 'khoi_da_dien',
                 num: 'Đang tải...',
                 my_num: 'Đang tải...'
@@ -71,7 +71,7 @@ export const state = {
                 num: 'Đang tải...',
                 my_num: 'Đang tải...'
             }, {
-                title: 'Phương pháp tọa độ không gian',
+                title: 'Tọa độ trong không gian',
                 subpath: 'toado_khonggian',
                 num: 'Đang tải...',
                 my_num: 'Đang tải...'

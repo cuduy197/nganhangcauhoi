@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="" v-show="!show_quiz">
-            <el-row :gutter="10" class="center animated fadeInUp showlist">
+        <div class="animated fadeInUp" v-show="!show_quiz">
+            <!--         <el-row :gutter="0" class="center animated fadeInUp showlist">
                 <div v-for="item in data" :key="item.id">
                     <el-col :sm="24" :md="24" :lg="12">
                         <el-card class="box-card">
@@ -22,7 +22,34 @@
                         </el-card>
                     </el-col>
                 </div>
-            </el-row>
+            </el-row> -->
+            <!-- DEV -->
+            <div class="w3-row " style="padding-top: 1em;">
+                <div v-for="item, index in data" :key="item.id">
+                    <div class="w3-col s12 m6 l4  w3-center comfortaa" style="padding: 0em;">
+                        <div class="w3-card-4 w3-white box-card">
+                            <div class="w3-container w3-center">
+                                <h4 class="indigo no-mobile comfortaa">
+                                    <div> {{ item.title }}</div>
+                                </h4>
+                                <h5 class="indigo on-mobile comfortaa">
+                                    <div> {{ item.title }}</div>
+                                </h5>
+                                <p>Tổng số câu hỏi: {{item.num}} </p>
+                                <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
+                                <div style="padding-bottom: .5em">
+                                    <a @click="getSubjectTitle" :href="'#/toan/create/'+ item.subpath">
+                                        <el-button size="" @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
+                                    </a>
+                                    <a @click="show_quiz=true">
+                                        <el-button size="" @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Xem câu hỏi</el-button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="center" v-show="show_quiz">
             <div style="padding-bottom: .1em;" class="">
@@ -36,15 +63,25 @@
                 <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: true})" icon="edit" type="warning" style="margin: 3px">Sửa câu hỏi của bạn </el-button>
             </div>
             <div class="container-card no-mobile " style="padding-bottom: 5em ">
-                <h2 class="indigo comfortaa ">{{title}} - [ {{quiz.numChildren}} ] câu hỏi</h2>
+                <h2 class="indigo comfortaa ">{{title}} </h2>
                 <div v-if="quiz.numChildren> 0" class="comfortaa" style="padding: .1em 0em .7em 0em">
-                    <el-pagination :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="viewAll" layout="prev, pager, next">
+                    <el-pagination :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="viewAll" layout="total,prev, pager, next, jumper">
                     </el-pagination>
                 </div>
                 <el-table v-if="quiz.numChildren > 0" ref="singleTable" :data="quiz.val" border>
-                    <el-table-column property="id" label="STT" width="70">
+                    <el-table-column label="STT" width="70">
+                        <template scope="scope">
+                            <div title="Số thứ tự câu hỏi trong mục">
+                                <p v-html="scope.row.id"> </p>
+                            </div>
+                        </template>
                     </el-table-column>
-                    <!--         <el-table-column property="id_in_user" label="STT2" width="80">
+                    <!--   <el-table-column label="STT2" width="80">
+                        <template scope="scope">
+                            <div title="Số thứ tự của người soạn câu hỏi" width="100%">
+                                <p v-html="scope.row.id_in_user"> </p>
+                            </div>
+                        </template>
                     </el-table-column> -->
                     <el-table-column property="create_time" label="Ngày tạo" width="240">
                     </el-table-column>
@@ -91,7 +128,7 @@
                     <el-table-column v-if="quiz.author==user.email" fixed="right" label="Tùy chọn" width="120">
                         <template scope="scope">
                             <a @click="getSubjectTitle" :href="'#/toan/edit/'+'cau_hoi_so_'+ scope.row.id">
-                                <el-button @click="handleEdit(scope.$index,scope.row)" type="warning" size="small">Chỉnh sửa</el-button>
+                                <el-button @click="handleEdit(scope.$index,scope.row)" type="success" size="small">Chỉnh sửa</el-button>
                             </a>
                         </template>
                     </el-table-column>
@@ -102,7 +139,7 @@
                     <div class="comfortaa" style="padding: .5em 0em .5em 0em">
                         <el-pagination v-if="quiz.numChildren> 0" :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="viewAll" layout="prev, pager, next">
                         </el-pagination>
-                        <mark><span>Tổng số câu hỏi hiện tại là  [ {{quiz.numChildren}} ]</span></mark>
+                        <p><span>Tổng số câu hỏi : [ {{quiz.numChildren}} ]</span></p>
                     </div>
                     <div @click="mathJax">
                         <el-table :data="quiz.val" style="width: 100%">
@@ -129,7 +166,7 @@
                             <el-table-column v-if="quiz.author==user.email" :label="user.email">
                                 <template scope="scope">
                                     <a @click="getSubjectTitle" href="#/toan/create/">
-                                        <el-button @click="handleEdit(scope.$index,scope.row)" type="warning" size="small">Chỉnh sửa</el-button>
+                                        <el-button @click="handleEdit(scope.$index,scope.row)" type="success" size="small">Chỉnh sửa</el-button>
                                     </a>
                                 </template>
                             </el-table-column>

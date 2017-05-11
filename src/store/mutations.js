@@ -77,7 +77,6 @@ export const mutations = {
     },
     VIEW_QUIZ(state, payload) {
         window.scrollTo(0, 0);
-
         console.log(state.quiz.custom);
         state.subject.path = location.hash.split('/')[1];
         state.subject.subpath = payload.subpath;
@@ -85,7 +84,7 @@ export const mutations = {
         const s = state.subject.subpath;
         const m = String((state.user.email).split("@")[0]);
 
-        console.info("View:" + payload.view + "||" + p + "/" + s);
+        console.info(payload.view + "||" + p + "/" + s);
 
         //[Get total numChildren]
         dataRef.child(`${p}/${s}`).once('value', (snapshot) => {
@@ -97,7 +96,7 @@ export const mutations = {
             state.quiz.author = "";
             state.quiz.custom = 0;
             state.quiz.val = [];
-            let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
+
             dataRef
                 .child(`${p}/${s}`)
                 .orderByKey()
@@ -106,8 +105,8 @@ export const mutations = {
                 .once('value', (snapshot) => {
                     let n = snapshot.numChildren();
                     if (Number(n) > 0 && n !== null) {
+                        let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
                         setTimeout(function() {
-                            console.info(`|${n}|`);
                             snapshot.forEach(function(item) {
                                 var itemVal = item.val();
                                 state.quiz.val.push(itemVal);
@@ -115,11 +114,11 @@ export const mutations = {
                             loadingInstance.close();
                         }, 777);
                     } else {
-                        loadingInstance.close();
-                        loadingInstance = Loading.service({ text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!', customClass: 'bg-red-pink' });
+                        console.log('No data!');
+                        let loading = Loading.service({ text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!', customClass: 'bg-red-pink' });
                         setTimeout(function() {
-                            loadingInstance.close();
-                        }, 4000);
+                            loading.close();
+                        }, 1000);
                     }
                 });
         }
@@ -266,7 +265,7 @@ export const mutations = {
         let loadingInstance = Loading.service({ text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...', customClass: 'bg-green' });
         setTimeout(function() {
             loadingInstance.close();
-        }, 777);
+        }, 1234);
         let onValueChange = (snapshot) => {
             console.info(snapshot.numChildren());
             state.quiz.numChildren = Number(snapshot.numChildren() + 1);
@@ -370,10 +369,6 @@ export const mutations = {
                                     }, 2000);
                                     resetInput(state);
                                 });
-
-
-
-
 
                         }).then((snapshot) => {
                             setTimeout(function() {

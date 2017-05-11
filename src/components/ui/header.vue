@@ -10,19 +10,29 @@
                 </div>
                 <div class="no-mobile">
                     <div class="float-right">
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán học</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Tiếng Anh</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Ngữ văn</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Văn</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Anh</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Lý</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Hóa</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Sinh</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Sử</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Địa</a>
                     </div>
                 </div>
                 <div class="w3-dropdown-hover on-mobile float-right" v-if="singin">
                     <button class="w3-bar-item w3-button">
                         Môn học <i class="fa fa-caret-down"></i>
                     </button>
-                    <div class="w3-dropdown-content w3-bar-block w3-card-2 animated zoomIn" style="padding-right: 02px">
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán học  </a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Tiếng Anh  </a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Ngữ văn  </a>
+                    <div class="w3-dropdown-content w3-bar-block animated zoomIn bg-indigo white" style="padding-right: 0px">
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Văn</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Anh</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Lý</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Hóa</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Sinh</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Sử</a>
+                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Địa</a>
                     </div>
                 </div>
             </div>
@@ -80,7 +90,7 @@ img:hover {
 
 .w3-bar:hover {
     box-shadow: 0 0px 30px rgba(0, 0, 0, 0.2);
-    color: white;
+    color: white !important;
     font-family: 'Comfortaa', cursive;
     background-color: rgba(94, 53, 177, .8) !important
 }
@@ -105,8 +115,11 @@ img:hover {
         display: block;
         float: right;
     }
+    .w3-bar-item {
+        font-size: 1.35em;
+    }
     .w3-bar-item:hover {
-        color: black !important;
+        color: indigo !important;
     }
 }
 </style>

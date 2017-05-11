@@ -28,7 +28,7 @@
                         <el-input name="answer4" @change="reset_mathjax" v-model="answer4" autosize type="textarea" placeholder="nhập nội dung đáp án sai 3"></el-input>
                     </el-form-item>
                     <hr>
-                    <el-form-item label=" Gợi ý 💡">
+                    <el-form-item>
                         <toolbarQuiz model="hint"> </toolbarQuiz>
                         <el-input name="hint" @change="reset_mathjax" v-model="hint" :autosize="{ minRows: 3}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
@@ -36,7 +36,7 @@
                         <el-input @change="reset_mathjax" v-model="hint_image" type="text" icon="picture" placeholder="Nhập địa chỉ hình ảnh"></el-input>
                     </el-form-item>
                     <hr>
-                    <el-form-item label=" Lời giải 📖">
+                    <el-form-item>
                         <toolbarQuiz model="slove"> </toolbarQuiz>
                         <el-input name="slove" @change="reset_mathjax" v-model="slove" :autosize="{ minRows: 3}" type="textarea" placeholder="nhập nội dung"></el-input>
                     </el-form-item>
