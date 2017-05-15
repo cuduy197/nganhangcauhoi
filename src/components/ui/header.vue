@@ -22,7 +22,8 @@
                 </div>
                 <div class="w3-dropdown-hover on-mobile float-right" v-if="singin">
                     <button class="w3-bar-item w3-button">
-                        Môn học <i class="fa fa-caret-down"></i>
+                        Môn học
+                        <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="w3-dropdown-content w3-bar-block animated zoomIn bg-indigo white" style="padding-right: 0px">
                         <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán</a>
@@ -50,26 +51,28 @@ import {
 
 export default {
     data() {
-            return {};
+        return {};
+    },
+    methods: {
+        ...mapMutations(['LOGOUT']),
+        handleSelect(key, keyPath) {
+            console.log(key, keyPath);
         },
-        methods: {...mapMutations(['LOGOUT']),
-            handleSelect(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            myFunction() {
-                var x = document.getElementById("demo");
-                if (x.className.indexOf("w3-show") == -1) {
-                    x.className += " w3-show";
-                } else {
-                    x.className = x.className.replace(" w3-show", "");
-                }
+        myFunction() {
+            var x = document.getElementById("demo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
             }
-        },
-        computed: {...mapState(['user', 'singin', 'subject'])
-        },
-        watch: {},
-        components: {},
-        mounted() {},
+        }
+    },
+    computed: {
+        ...mapState(['user', 'singin', 'subject'])
+    },
+    watch: {},
+    components: {},
+    mounted() { },
 }
 </script>
 <style scoped>

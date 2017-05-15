@@ -11,24 +11,33 @@ export const test = {
     mutations: {
         TEST(state) {
             //dataRef.child('test')
-            const testRef = dataRef.child('test');
             // Create a new post reference with an auto-generated id
-            const newPostRef = testRef.push();
-            newPostRef.set({
-                test: 'ok'
-            });
-            testRef.once('value', (snapshot) => {
-                console.log(snapshot.key);
-                state.data.push(snapshot.key);
-                console.info(state.data);
 
-                snapshot.forEach(function (childSnapshot) {
-                    let childKey = childSnapshot.key;
-                    state.data.push(childKey);
-                    let childData = childSnapshot.val();
-                    // ...
+            const testRef = dataRef.child('test');
+            /* for (var i = 0; i < 100; i++) {
+                 const newPostRef = testRef.push();
+                 newPostRef.set({
+                     test: i
+                 });
+            
+            var ref = firebase.database().ref("cauhoi/test");
+            ref.orderByKey().limitToFirst(5).once("value", function (snapshot) {
+                snapshot.forEach((data) => {
+                    console.log(data.val());
+                    state.data.push(data.key);
+                })
+
+                ref.orderByKey().startAt(state.data[4]).limitToFirst(5).once("value", (snapshot) => {
+                    snapshot.forEach((data) => {
+                        console.log(data.val());
+                    })
                 });
-            })
+                console.log(state.data[4]);
+
+                console.log(state.data);
+            });
+
+ }*/
             console.log('Test!');
         }
     }

@@ -4,7 +4,8 @@ export const state = {
         uid: 'Đang tải...',
         login: '',
         photoURL: '',
-        isAdmin: ''
+        isAdmin: '',
+        totalQuiz: 0
     },
     input: {
         id: 0,
@@ -39,7 +40,6 @@ export const state = {
         subpath: '',
         tilte: '',
         toan: [
-
             {
                 title: 'Hàm số',
                 subpath: 'hamso',

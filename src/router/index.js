@@ -17,55 +17,63 @@ Vue.use(Router);
 export default new Router({
     mode: 'hash',
     routes: [{
-            path: '/',
-            name: 'Home',
-            component: Home
-        }, {
-            path: '/toan',
-            name: 'toan',
-            component: toan
-        }, {
-            path: '/van',
-            name: 'van',
-            component: van
-        }, {
-            path: '/anh',
-            name: 'anh',
-            component: anh
-        }, {
-            path: '/toan/create',
-            name: 'toanCreate',
-            component: toanCreate
-        }, {
-            path: '/toan/create/:subpath',
-            component: toanCreate
-        }, {
-            path: '/toan/edit/:id',
-            component: toanCreate
-        }, {
-            path: '/van/create',
-            name: 'vanCreate',
-            component: vanCreate
-        }, {
-            path: '/van/create/:subpath',
-            component: vanCreate
-        }, {
-            path: '/van/edit/:id',
-            component: vanCreate
-        }, {
-            path: '/anh/create',
-            name: 'anhCreate',
-            component: anhCreate
-        }, {
-            path: '/anh/create/:subpath',
-            component: anhCreate
-        }, {
-            path: '/anh/edit/:id',
-            component: anhCreate
-        }, {
-            path: '*',
-            component: notFoundPage
-        }
+        path: '/',
+        name: 'Home',
+        component: Home
+    },
+    //Toan
+    {
+        path: '/toan',
+        name: 'toan',
+        component: toan
+    }, {
+        path: '/van',
+        name: 'van',
+        component: van
+    }, {
+        path: '/anh',
+        name: 'anh',
+        component: anh
+    }, {
+        path: '/toan/create',
+        name: 'toanCreate',
+        component: toanCreate
+    }, {
+        path: '/toan/create/:subpath',
+        component: toanCreate
+    }, {
+        path: '/toan/edit/:id',
+        component: toanCreate
+    },
+    //Van
+    {
+        path: '/van/create',
+        name: 'vanCreate',
+        component: vanCreate
+    }, {
+        path: '/van/create/:subpath',
+        component: vanCreate
+    }, {
+        path: '/van/edit/:id',
+        component: vanCreate
+    },
+    //Anh
+    {
+        path: '/anh/create',
+        name: 'anhCreate',
+        component: anhCreate
+    }, {
+        path: '/anh/create/:subpath',
+        component: anhCreate
+    }, {
+        path: '/anh/edit/:id',
+        component: anhCreate
+    },
+    //404
+    {
+        path: '*',
+        component: notFoundPage
+    }
 
     ]
 });

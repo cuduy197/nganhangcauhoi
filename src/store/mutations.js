@@ -344,7 +344,7 @@ export const mutations = {
         let onValueChange = (snapshot) => {
             console.info(snapshot.numChildren());
             state.quiz.numChildren = Number(snapshot.numChildren() + 1);
-            getNum_MyNum_Subject(state);
+            // getNum_MyNum_Subject(state);
         };
 
         dataRef.child(`${p}/${s}`)
@@ -395,7 +395,11 @@ export const mutations = {
                         weekday: 'long',
                         year: 'numeric',
                         month: 'long',
-                        day: 'numeric'
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        second: 'numeric',
+                        hour12: false
                     };
                     state.input.author = state.user.email;
                     state.input.create_time = new Date()
@@ -486,6 +490,10 @@ export const mutations = {
                         console.log('EDIT');
                         const e = state.quiz.edit_child;
                         const u = state.quiz.edit_user_child;
+                        let loadingInstance = Loading.service({
+                            text: 'Đang cập nhật... ',
+                            customClass: 'bg-green'
+                        });
                         dataRef.child(`${p}/${s}/${e}`)
                             .update(state.input)
                             .then(() => {
@@ -493,10 +501,7 @@ export const mutations = {
                                 dataRef.child(`users/${m}/${p}/${s}/${u}`)
                                     .update(state.input);
                                 console.log('Update done!');
-                                let loadingInstance = Loading.service({
-                                    text: 'Đang cập nhật... ',
-                                    customClass: 'bg-green'
-                                });
+
                                 setTimeout(function () {
                                     loadingInstance.close();
 
@@ -787,5 +792,14 @@ function getNum_MyNum_Subject(state) {
                     state.subject.toan[6].my_num = snapshot.numChildren();
                 });
         });
+
+
+    state.user.totalQuiz =
+        Number(state.subject.toan[0].my_num + state.subject.toan[1].my_num
+            + state.subject.toan[2].my_num + state.subject.toan[3].my_num
+            + state.subject.toan[4].my_num + state.subject.toan[5].my_num
+            + state.subject.toan[5].my_num);
+
+
 
 }

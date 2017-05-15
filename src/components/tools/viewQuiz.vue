@@ -33,14 +33,14 @@
                 <br>
                 <el-button @click="show_quiz=false" title="Bấm để trở lại" icon="arrow-left">
                     Trở lại</el-button>
-                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, begin: 1,end: 25, view: 'all'})"  icon="information" style="margin: 3px" type="primary"> 
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, begin: 1,end: 25, view: 'all'})" icon="information" style="margin: 3px" type="primary">
                     Tất cả câu hỏi
                 </el-button>
-                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'custom'})" icon="view" style="margin: 3px" type="primary" >
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'custom'})" icon="view" style="margin: 3px" type="primary">
                     Số thứ tự
                 </el-button>
                 <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: false})" icon="search" style="margin: 3px" type="primary">
-                    Người soạn câu hỏi
+                    Soạn giả
                 </el-button>
                 <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: true})" icon="edit" type="warning" style="margin: 3px">
                     Sửa câu hỏi của bạn
@@ -54,8 +54,8 @@
                     <hr>
                     <el-checkbox v-model="checked_stt">STT</el-checkbox>
                     <el-checkbox v-model="checked_stt2">STT2</el-checkbox>
-                    <el-checkbox v-model="checked_date">Ngày tạo</el-checkbox>
-                    <el-checkbox v-model="checked_author">Người soạn câu hỏi</el-checkbox>
+                    <el-checkbox v-model="checked_date">Thời gian tạo</el-checkbox>
+                    <el-checkbox v-model="checked_author">Soạn giả</el-checkbox>
                     <el-checkbox v-model="checked_answer">Câu trả lời đúng</el-checkbox>
                     <el-checkbox v-model="checked_answer2">Câu trả lời sai 1</el-checkbox>
                     <el-checkbox v-model="checked_answer3">Câu trả lời sai 2</el-checkbox>
@@ -63,7 +63,7 @@
                     <el-checkbox v-model="checked_hint">Gợi ý</el-checkbox>
                     <el-checkbox v-model="checked_slove">Lời giải </el-checkbox>
                 </div>
-                <el-table ref="singleTable" :data="quiz.val" border>
+                <el-table ref="singleTable" :data="quiz.val" border style="width: 100%">
                     <el-table-column v-if="checked_stt" label="STT" width="70">
                         <template scope="scope">
                             <div title="Số thứ tự câu hỏi trong mục">
@@ -73,14 +73,14 @@
                     </el-table-column>
                     <el-table-column v-if="checked_stt2" label="STT2" width="80">
                         <template scope="scope">
-                            <div title="Số thứ tự của người soạn câu hỏi" width="100%">
+                            <div title="Số thứ tự trong danh sách câu hỏi của soạn giả" width="100%">
                                 <p v-html="scope.row.id_in_user"> </p>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column v-if="checked_date" l property="create_time" label="Ngày tạo" width="240">
+                    <el-table-column v-if="checked_date" l property="create_time" label="Thời gian tạo" width="170">
                     </el-table-column>
-                    <el-table-column v-if="checked_author" property="author" label="Người soạn câu hỏi" width="200">
+                    <el-table-column v-if="checked_author" property="author" label="Soạn giả" width="200">
                     </el-table-column>
                     <el-table-column label="Nội dung câu hỏi" width="300">
                         <template scope="scope">
@@ -116,13 +116,21 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column v-if="checked_slove" label="Lời giải" width="300">
+                    <el-table-column v-if="checked_slove" label="Lời giải" width="295">
                         <template scope="scope">
                             <p v-html="scope.row.slove"> </p>
                             <img v-if="scope.row.slove_image!==''" :src="scope.row.slove_image" width="100%" alt="" height="100%">
                         </template>
                     </el-table-column>
                     <el-table-column v-if="quiz.author==user.email" fixed="right" label="Tùy chọn" width="120">
+                        <template scope="scope">
+                            <a @click="getSubjectTitle" :href="'#/toan/edit/'+'cau_hoi_so_'+ scope.row.id">
+                                <el-button @click="handleEdit(scope.$index,scope.row)" type="success" size="small">Chỉnh sửa</el-button>
+                            </a>
+                        </template>
+                    </el-table-column>
+                    <!--Admin-->
+                    <el-table-column v-if="user.email=='cuduy197@gmail.com'" fixed="right" label="Tùy chọn" width="120">
                         <template scope="scope">
                             <a @click="getSubjectTitle" :href="'#/toan/edit/'+'cau_hoi_so_'+ scope.row.id">
                                 <el-button @click="handleEdit(scope.$index,scope.row)" type="success" size="small">Chỉnh sửa</el-button>
@@ -174,7 +182,7 @@
                             </el-table-column>
                             <el-table-column label="STT" prop="id" width="70">
                             </el-table-column>
-                            <el-table-column v-if="quiz.author!=user.email" label="Người soạn câu hỏi" prop="author">
+                            <el-table-column v-if="quiz.author!=user.email" label="Soạn giả" prop="author">
                             </el-table-column>
                             <el-table-column v-if="quiz.author==user.email" :label="user.email">
                                 <template scope="scope">
@@ -233,12 +241,9 @@ export default {
                     break;
                 }
             }
-
-
         },
         mathJax() {
             this.$nextTick(function () {
-                
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             });
         },
