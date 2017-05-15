@@ -6,8 +6,12 @@
                     <div class="w3-col s12 m6 l4  w3-center comfortaa" style="padding: 0em;">
                         <div class="w3-card-4 w3-white box-card">
                             <div class="w3-container w3-center">
-                                <h4 class="indigo no-mobile comfortaa">  <div> {{ item.title }}</div> </h4>
-                                <h5 class="indigo on-mobile comfortaa"><div> {{ item.title }}</div> </h5>
+                                <h4 class="indigo no-mobile comfortaa">
+                                    <div> {{ item.title }}</div>
+                                </h4>
+                                <h5 class="indigo on-mobile comfortaa">
+                                    <div> {{ item.title }}</div>
+                                </h5>
                                 <p>Tổng số câu hỏi: {{item.num}} </p>
                                 <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
                                 <div style="padding-bottom: .5em">
@@ -27,11 +31,20 @@
         <div class="center" v-show="show_quiz">
             <div style="padding-bottom: .1em;" class="">
                 <br>
-                <el-button @click="show_quiz=false" title="Bấm để trở lại" icon="arrow-left">Trở lại</el-button>
-                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, begin: 1,end: 25, view: 'all'})" type="" icon="information" style="margin: 3px">Tất cả câu hỏi</el-button>
-                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'custom'})" icon="view" style="margin: 3px">Số thứ tự</el-button>
-                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: false})" icon="search" style="margin: 3px">Người soạn câu hỏi</el-button>
-                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: true})" icon="edit" type="warning" style="margin: 3px">Sửa câu hỏi của bạn </el-button>
+                <el-button @click="show_quiz=false" title="Bấm để trở lại" icon="arrow-left">
+                    Trở lại</el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, begin: 1,end: 25, view: 'all'})"  icon="information" style="margin: 3px" type="primary"> 
+                    Tất cả câu hỏi
+                </el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'custom'})" icon="view" style="margin: 3px" type="primary" >
+                    Số thứ tự
+                </el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: false})" icon="search" style="margin: 3px" type="primary">
+                    Người soạn câu hỏi
+                </el-button>
+                <el-button @click="VIEW_QUIZ({subpath: subject.subpath, view: 'author',begin:1, end:25,myquiz: true})" icon="edit" type="warning" style="margin: 3px">
+                    Sửa câu hỏi của bạn
+                </el-button>
             </div>
             <div class="container-card no-mobile " style="padding-bottom: 5em ">
                 <h2 class="indigo comfortaa ">{{title}} </h2>
@@ -123,21 +136,37 @@
                     <div class="comfortaa" style="padding: .5em 0em .5em 0em">
                         <el-pagination v-if="quiz.numChildren> 0" :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="viewAll" layout="prev, pager, next">
                         </el-pagination>
-                        <p><span>Tổng số câu hỏi : [ {{quiz.numChildren}} ]</span></p>
+                        <p>
+                            <span>Tổng số câu hỏi : [ {{quiz.numChildren}} ]</span>
+                        </p>
                     </div>
                     <div @click="mathJax">
                         <el-table :data="quiz.val" style="width: 100%">
                             <el-table-column type="expand">
                                 <template scope="props">
-                                    <p>Câu hỏi: <span v-html="props.row.question"></span> </p>
+                                    <p>Câu hỏi:
+                                        <span v-html="props.row.question"></span>
+                                    </p>
                                     <img v-if="props.row.question_image!==''" :src="props.row.question_image" width="100" class="img-zoom" height="100">
-                                    <p>Đáp án đúng: <span v-html="props.row.answer"></span> </p>
-                                    <p>Đáp án sai 1 : <span v-html="props.row.answer"></span> </p>
-                                    <p>Đáp án sai 2 : <span v-html="props.row.answer"></span> </p>
-                                    <p>Đáp án sai 3 : <span v-html="props.row.answer"></span> </p>
-                                    <p>Gợi ý: <span v-html="props.row.hint"></span> </p>
+                                    <p>Đáp án đúng:
+                                        <span v-html="props.row.answer"></span>
+                                    </p>
+                                    <p>Đáp án sai 1 :
+                                        <span v-html="props.row.answer"></span>
+                                    </p>
+                                    <p>Đáp án sai 2 :
+                                        <span v-html="props.row.answer"></span>
+                                    </p>
+                                    <p>Đáp án sai 3 :
+                                        <span v-html="props.row.answer"></span>
+                                    </p>
+                                    <p>Gợi ý:
+                                        <span v-html="props.row.hint"></span>
+                                    </p>
                                     <img v-if="props.row.hint_image!==''" :src="props.row.hint_image" width="100" class="img-zoom" height="100">
-                                    <p>Lời giải : <span v-html="props.row.slove"></span></p>
+                                    <p>Lời giải :
+                                        <span v-html="props.row.slove"></span>
+                                    </p>
                                     <img v-if="props.row.slove_image!==''" :src="props.row.slove_image" width="100" class="img-zoom" height="100">
                                     <br>
                                     <hr>
@@ -208,7 +237,8 @@ export default {
 
         },
         mathJax() {
-            this.$nextTick(function() {
+            this.$nextTick(function () {
+                
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             });
         },
@@ -231,7 +261,7 @@ export default {
                 begin = 25 * (val - 1);
                 end = 25 * (val);
             }
-            console.log(`current page: ${val-1} --> ${val}`);
+            console.log(`current page: ${val - 1} --> ${val}`);
             this.$store.commit('VIEW_QUIZ', {
                 subpath: this.$store.state.subject.subpath,
                 begin: begin,
@@ -241,8 +271,8 @@ export default {
         }
     },
     updated() {
-        this.$nextTick(function() {
-            setTimeout(function() {
+        this.$nextTick(function () {
+            setTimeout(function () {
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }, 1000);
         });
@@ -265,4 +295,5 @@ export default {
 }
 </script>
 <style scoped>
+
 </style>

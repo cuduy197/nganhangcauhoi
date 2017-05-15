@@ -6,16 +6,17 @@ import { getters } from "./getters.js";
 import { mutations } from "./mutations.js";
 import { actions } from "./actions.js";
 
-/*import { account } from "./modules/account";*/
+import { test } from "./modules/test/test";
 
 export const store = new Vuex.Store({
     state,
     getters,
     mutations,
     actions,
-    // modules: {}
+    modules: { test }
 });
 
-/*store.commit('test/TEST');
+/*
 store.commit('INIT_DEVICE');*/
 store.commit('SYNC');
+store.commit('test/TEST');

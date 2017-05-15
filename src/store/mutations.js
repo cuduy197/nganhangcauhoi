@@ -1,22 +1,23 @@
+/*
+██╗███╗   ███╗██████╗  ██████╗ ██████╗ ████████╗
+██║████╗ ████║██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝
+██║██╔████╔██║██████╔╝██║   ██║██████╔╝   ██║   
+██║██║╚██╔╝██║██╔═══╝ ██║   ██║██╔══██╗   ██║   
+██║██║ ╚═╝ ██║██║     ╚██████╔╝██║  ██║   ██║   
+╚═╝╚═╝     ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   
+                                                
+*/
 import firebase from 'firebase';
-import {
-    db,
-    userRef,
-    dataRef
-} from "./firebase_init.js";
-import {
-    Message
-} from 'element-ui';
-import {
-    Notification
-} from 'element-ui';
-import {
-    Loading
-} from 'element-ui';
-import {
-    MessageBox
-} from 'element-ui';
-
+import { userRef, dataRef } from "./firebase_init.js";
+import { Message, Notification, Loading, MessageBox } from 'element-ui';
+/*
+███████╗██╗   ██╗███╗   ██╗ ██████╗
+██╔════╝╚██╗ ██╔╝████╗  ██║██╔════╝
+███████╗ ╚████╔╝ ██╔██╗ ██║██║     
+╚════██║  ╚██╔╝  ██║╚██╗██║██║     
+███████║   ██║   ██║ ╚████║╚██████╗
+╚══════╝   ╚═╝   ╚═╝  ╚═══╝ ╚═════╝
+                                    */
 export const mutations = {
     SYNC(state) {
         //[watch reload]
@@ -26,7 +27,7 @@ export const mutations = {
         // [START authstatelistener]
         let onDataChange;
         firebase.auth()
-            .onAuthStateChanged(function(user) {
+            .onAuthStateChanged(function (user) {
                 if (user) {
                     // [GET USER DATA]
                     // User is signed in.
@@ -44,7 +45,7 @@ export const mutations = {
                         email: user.email
                     });
                     getNum_MyNum_Subject(state);
-                    onDataChange = function(snapshot) {
+                    onDataChange = () => {
                         console.info('DataRef has Changed!');
                         getNum_MyNum_Subject(state);
                     };
@@ -57,16 +58,13 @@ export const mutations = {
                     // [START_EXCLUDE]
                     state.singin = false;
                     loadingInstance.close();
-                    if (pathname != '/') {
-                        window.location.href = '#/';
-                    }
                     // [END_EXCLUDE]
                 }
 
             });
     },
-    LOGIN(state) {
-        let loadingInstance = Loading.service({
+    LOGIN() {
+        Loading.service({
             text: 'Đăng nhập ...',
             customClass: 'bg-green'
         });
@@ -77,10 +75,10 @@ export const mutations = {
     }, //end
     LOGOUT() {
         MessageBox.confirm('Bạn có muốn đăng xuất?', 'Thông báo', {
-                confirmButtonText: 'Đồng ý',
-                cancelButtonText: 'Hủy',
-                type: 'warning'
-            })
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Hủy',
+            type: 'warning'
+        })
             .then(() => {
                 let loadingInstance = Loading.service({
                     text: 'Đăng xuất ...',
@@ -90,7 +88,7 @@ export const mutations = {
                     .signOut();
                 setTimeout(() => {
                     loadingInstance.close();
-                    setTimeout(function() {
+                    setTimeout(function () {
                         Notification({
                             message: 'Bạn đã đăng xuất thành công!',
                             type: 'success'
@@ -100,8 +98,18 @@ export const mutations = {
 
                 //Do
             })
-            .catch(() => {});
+            .catch(() => { });
     },
+    /*
+    
+    ██╗   ██╗██╗███████╗██╗    ██╗     ██████╗ ██╗   ██╗  ██╗███████╗
+    ██║   ██║██║██╔════╝██║    ██║    ██╔═══██╗██║   ██║  ██║╚══███╔╝
+    ██║   ██║██║█████╗  ██║ █╗ ██║    ██║   ██║ ██║   ██║  ██║  ███╔╝ 
+    ╚██╗ ██╔╝██║██╔══╝  ██║███╗██║    ██║▄▄ ██║██║  ██║  ██║ ███╔╝  
+     ╚████╔╝ ██║███████╗╚███╔███╔╝    ╚██████╔╚██████╝ ██║███████╗
+      ╚═══╝  ╚═╝╚══════╝ ╚══╝╚══╝      ╚══▀▀═╝  ╚═════╝  ╚═╝╚══════╝
+                                                                   
+    */
     VIEW_QUIZ(state, payload) {
         window.scrollTo(0, 0);
         console.log(state.quiz.custom);
@@ -137,8 +145,8 @@ export const mutations = {
                             text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...',
                             customClass: 'bg-green'
                         });
-                        setTimeout(function() {
-                            snapshot.forEach(function(item) {
+                        setTimeout(function () {
+                            snapshot.forEach(function (item) {
                                 var itemVal = item.val();
                                 state.quiz.val.push(itemVal);
                             });
@@ -150,7 +158,7 @@ export const mutations = {
                             text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!',
                             customClass: 'bg-red-pink'
                         });
-                        setTimeout(function() {
+                        setTimeout(function () {
                             loading.close();
                         }, 1000);
                     }
@@ -161,11 +169,11 @@ export const mutations = {
             if (Number(state.quiz.numChildren) > 0) {
                 // statement
                 MessageBox.prompt(`Nhập số trong khoảng từ [ 1 ] đến [ ${state.quiz.numChildren} ]`, 'Hiển thị theo số thứ tự', {
-                        confirmButtonText: 'Hiển thị ',
-                        cancelButtonText: 'Hủy',
-                        inputPattern: /^[0-9]+$/,
-                        inputErrorMessage: `Nhập số trong khoảng từ [ 1 ] đến [ ${state.quiz.numChildren} ]`
-                    })
+                    confirmButtonText: 'Hiển thị ',
+                    cancelButtonText: 'Hủy',
+                    inputPattern: /^[0-9]+$/,
+                    inputErrorMessage: `Nhập số trong khoảng từ [ 1 ] đến [ ${state.quiz.numChildren} ]`
+                })
                     .then(input => {
                         const i = String(input.value);
                         let loadingInstance = Loading.service({
@@ -174,7 +182,7 @@ export const mutations = {
                         });
                         dataRef.child(`${p}/${s}/${i}`)
                             .once('value', (snapshot) => {
-                                let n = snapshot.numChildren();
+                                // let n = snapshot.numChildren();
 
                                 if (snapshot.val() === null) {
                                     loadingInstance.close();
@@ -182,26 +190,26 @@ export const mutations = {
                                         text: 'Câu hỏi không tồn tại',
                                         customClass: 'bg-red-pink'
                                     });
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         loadingInstance.close();
                                     }, 1000);
                                 } else {
                                     state.quiz.custom = input.value;
                                     state.quiz.val = [];
                                     state.quiz.val.push(snapshot.val());
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         loadingInstance.close();
                                     }, 500);
                                 }
                             });
                     })
-                    .catch(() => {});
+                    .catch(() => { });
             } else {
                 let loadingInstance = Loading.service({
                     text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!',
                     customClass: 'bg-red-pink'
                 });
-                setTimeout(function() {
+                setTimeout(function () {
                     loadingInstance.close();
                 }, 1000);
             }
@@ -213,11 +221,11 @@ export const mutations = {
                 // statement
                 if (Number(state.quiz.numChildren) > 0) {
                     MessageBox.prompt(`Nhập email của người soạn câu hỏi `, 'Hiển thị theo email', {
-                            confirmButtonText: 'Hiển thị',
-                            cancelButtonText: 'Hủy',
-                            inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-                            inputErrorMessage: 'Vui lòng kiểm tra Email'
-                        })
+                        confirmButtonText: 'Hiển thị',
+                        cancelButtonText: 'Hủy',
+                        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+                        inputErrorMessage: 'Vui lòng kiểm tra Email'
+                    })
                         .then(input => {
                             console.log(String(input.value));
                             const i = String((input.value)
@@ -235,10 +243,10 @@ export const mutations = {
                                     let n = snapshot.numChildren();
                                     console.log(n);
                                     if (snapshot.numChildren() !== 0) {
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             console.info(`|${n}|`);
                                             state.quiz.val = [];
-                                            snapshot.forEach(function(item) {
+                                            snapshot.forEach(function (item) {
                                                 var itemVal = item.val();
                                                 state.quiz.val.push(itemVal);
                                             });
@@ -250,19 +258,19 @@ export const mutations = {
                                             text: `Không tồn tại dữ liệu của [${input.value}]`,
                                             customClass: 'bg-red-pink'
                                         });
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             loadingInstance.close();
                                         }, 3000);
                                     }
                                 });
                         })
-                        .catch(() => {});
+                        .catch(() => { });
                 } else {
                     let loadingInstance = Loading.service({
                         text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!',
                         customClass: 'bg-red-pink'
                     });
-                    setTimeout(function() {
+                    setTimeout(function () {
                         loadingInstance.close();
                     }, 1000);
                 }
@@ -283,11 +291,11 @@ export const mutations = {
                                     text: `Đang tải dữ liệu của [${state.user.email}]`,
                                     customClass: 'bg-green'
                                 });
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     state.quiz.author = state.user.email;
                                     console.info(`${state.quiz.author} : |${n}| quizz`);
                                     state.quiz.val = [];
-                                    snapshot.forEach(function(item) {
+                                    snapshot.forEach(function (item) {
                                         var itemVal = item.val();
                                         state.quiz.val.push(itemVal);
                                     });
@@ -299,7 +307,7 @@ export const mutations = {
                                     text: `Bạn chưa tạo câu hỏi trong mục này !`,
                                     customClass: 'bg-red-pink'
                                 });
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     loadingInstance.close();
                                 }, 2000);
                             }
@@ -310,7 +318,7 @@ export const mutations = {
                         text: 'Chưa có câu hỏi trong ngân hàng câu hỏi!',
                         customClass: 'bg-red-pink'
                     });
-                    setTimeout(function() {
+                    setTimeout(function () {
                         loadingInstance.close();
                     }, 1000);
                 }
@@ -330,7 +338,7 @@ export const mutations = {
             text: 'Đang tải dữ liệu từ ngân hàng câu hỏi ...',
             customClass: 'bg-green'
         });
-        setTimeout(function() {
+        setTimeout(function () {
             loadingInstance.close();
         }, 1234);
         let onValueChange = (snapshot) => {
@@ -358,19 +366,30 @@ export const mutations = {
                 state.quiz.edit = true;
                 state.quiz.edit_child = String(payload.id);
                 state.quiz.edit_user_child = String(payload.id_in_user);
-                setTimeout(function() {
+                setTimeout(function () {
                     loadingInstance.close();
                 }, 777);
             });
     },
+
+
+    /* 
+    ██████╗██████╗ ███████╗ █████╗ ████████╗███████╗     ██████╗ ██╗   ██╗██╗███████╗
+    ██╔════╝██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔════╝  ██╔═══██╗██║   ██║██║╚══███╔╝
+    ██║     ██████╔╝█████╗  ███████║   ██║   █████╗      ██║   ██║██║   ██║██║  ███╔╝ 
+    ██║     ██╔══██╗██╔══╝  ██╔══██║   ██║   ██╔══╝      ██║▄▄ ██║██║   ██║██║ ███╔╝  
+    ╚██████╗██║  ██║███████╗██║  ██║   ██║   ███████╗    ╚██████╔╝╚██████╔╝██║███████╗
+     ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝     ╚══▀▀═╝  ╚═════╝ ╚═╝╚══════╝
+                                                                                      */
+
     CREATE_QUIZ(state) {
 
         if (state.input.question.length > 1 && state.input.answer.length > 0 && state.input.answer2.length > 0 && state.input.answer3.length > 0 && state.input.answer4.length > 0) {
             MessageBox.confirm('Bạn đã hoàn thành soạn thảo ?', 'Thông báo', {
-                    confirmButtonText: 'Đúng vậy',
-                    cancelButtonText: 'Hủy',
-                    type: 'warning'
-                })
+                confirmButtonText: 'Đúng vậy',
+                cancelButtonText: 'Hủy',
+                type: 'warning'
+            })
                 .then(() => {
                     let options = {
                         weekday: 'long',
@@ -432,7 +451,7 @@ export const mutations = {
                                     })
                                     .then(() => {
                                         console.info('$CREATED QUIZ!');
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             loadingInstance.close();
                                         }, 2000);
                                         resetInput(state);
@@ -440,7 +459,7 @@ export const mutations = {
 
                             })
                             .then((snapshot) => {
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     if (window.innerWidth > 800) {
                                         Message({
                                             message: `Đã tạo câu hỏi số [ ${Number(snapshot.numChildren() + 1)} ] !`,
@@ -454,7 +473,7 @@ export const mutations = {
                                     }
                                 }, 1234);
                             })
-                            .catch((error) => {
+                            .catch(() => {
                                 loadingInstance.close();
                                 Notification({
                                     message: 'Đã  có lỗi khi tạo câu hỏi và ngân hàng câu hỏi. Kiểm tra kết nối của bạng, đảm bảo bạn có kết nối mạng !',
@@ -478,7 +497,7 @@ export const mutations = {
                                     text: 'Đang cập nhật... ',
                                     customClass: 'bg-green'
                                 });
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     loadingInstance.close();
 
                                     if (window.innerWidth > 800) {
@@ -495,7 +514,7 @@ export const mutations = {
 
                                 }, 1234);
                             })
-                            .catch((error) => {
+                            .catch(() => {
                                 Notification({
                                     message: 'Đã  có lỗi khi tạo câu hỏi và ngân hàng câu hỏi. Kiểm tra kết nối của bạng, đảm bảo bạn có kết nối mạng !',
                                     type: 'error'
@@ -504,7 +523,7 @@ export const mutations = {
                     }
                     //Do
                 })
-                .catch(() => {});
+                .catch(() => { });
         } else {
             if (window.innerWidth > 800) {
                 Message({
@@ -522,10 +541,10 @@ export const mutations = {
     },
     RESET_INPUT(state) {
         MessageBox.confirm('Bạn có muốn xóa hết các mục đã nhập?', 'Thông báo', {
-                confirmButtonText: 'Đồng ý',
-                cancelButtonText: 'Hủy',
-                type: 'warning'
-            })
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Hủy',
+            type: 'warning'
+        })
             .then(() => {
                 Notification({
                     message: 'Đã xóa các mục đã nhập!',
@@ -533,7 +552,7 @@ export const mutations = {
                 });
                 resetInput(state);
             })
-            .catch(() => {});
+            .catch(() => { });
     },
     //[INPUT update]
     updateQuestion(state, value) {
@@ -568,6 +587,24 @@ export const mutations = {
     }
 };
 
+
+
+/*
+.------..------..------..------..------..------..------..------.
+|F.--. ||U.--. ||N.--. ||C.--. ||T.--. ||I.--. ||O.--. ||N.--. |
+| :(): || (\/) || :(): || :/\: || :/\: || (\/) || :/\: || :(): |
+| ()() || :\/: || ()() || :\/: || (__) || :\/: || :\/: || ()() |
+| '--'F|| '--'U|| '--'N|| '--'C|| '--'T|| '--'I|| '--'O|| '--'N|
+`------'`------'`------'`------'`------'`------'`------'`------'
+
+███╗   ███╗██╗██╗  ██╗██╗███╗   ██╗
+████╗ ████║██║╚██╗██╔╝██║████╗  ██║
+██╔████╔██║██║ ╚███╔╝ ██║██╔██╗ ██║
+██║╚██╔╝██║██║ ██╔██╗ ██║██║╚██╗██║
+██║ ╚═╝ ██║██║██╔╝ ██╗██║██║ ╚████║
+╚═╝     ╚═╝╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ */
+
+
 function resetInput(state) {
     state.input.question = "";
     state.input.question_image = "";
@@ -582,23 +619,23 @@ function resetInput(state) {
 }
 
 function watchReload() {
-    document.onkeydown = function() {
+    document.onkeydown = function () {
         switch (event.keyCode) {
             case 116: //F5 button
                 window.scrollTo(0, 0);
                 event.returnValue = false;
                 MessageBox.confirm('Bạn có muốn tải lại trang?', 'Thông báo', {
-                        confirmButtonText: 'Đồng ý',
-                        cancelButtonText: 'Hủy',
-                        type: 'warning'
-                    })
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy',
+                    type: 'warning'
+                })
                     .then(() => {
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.href = "/";
                         }, 200);
 
                     })
-                    .catch(() => {});
+                    .catch(() => { });
                 return false;
             case 82: //R button
                 if (event.ctrlKey) {
@@ -660,7 +697,16 @@ function setPath(state) {
 
 }
 
-//[GET NUMBER STATTIC]
+
+
+/*
+███████╗████████╗ █████╗ ████████╗████████╗██╗ ██████╗
+██╔════╝╚ ═██╔══╝██╔══██╗╚══██╔══╝╚══██╔══╝██║██╔════╝
+███████╗   ██║   ███████║    ██║       ██║   ██║██║     
+╚════██║   ██║   ██╔══██║    ██║       ██║   ██║██║     
+███████║   ██║   ██║  ██║    ██║       ██║   ██║╚██████╗
+╚══════╝   ╚═╝   ╚═╝  ╚═╝    ╚═╝       ╚═╝   ╚═╝ ╚═════╝
+                                                      */
 function getNum_MyNum_Subject(state) {
     const userEmail = String((state.user.email)
         .split("@")[0]);
