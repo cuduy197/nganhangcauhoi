@@ -2,14 +2,15 @@
     <div class="create_quiz">
         <el-col :sm="24" :md="24" style="padding-right: 20px">
             <div class=" animated fadeInUp">
-                <el-card class="center">
+                <div class="center">
                     <el-button size="large" style="margin: 4px;" v-if="!quiz.edit && question.length > 0 && answer.length > 0 && answer2.length > 0 && answer3.length > 0 && answer4.length > 0 " @click="CREATE_QUIZ" icon="edit" type="success">Tạo câu hỏi</el-button>
-                    <el-button size="large" style="margin: 4px;" v-if="!quiz.edit && question.length ===0 || answer.length === 0 || answer2.length === 0 || answer3.length === 0 || answer4.length === 0 " title="Bạn hãy soạn thảo nội dung để tạo câu hỏi." icon="edit" type="primary" disabled>Tạo câu hỏi</el-button>
+                    <el-button size="large" style="margin: 4px;" v-if="!quiz.edit && question.length ===0 || answer.length === 0 || answer2.length === 0 || answer3.length === 0 || answer4.length === 0 " title="Bạn hãy soạn thảo nội dung để tạo câu hỏi." icon="edit"  disabled>Tạo câu hỏi</el-button>
                     <el-button size="large" style="margin: 4px;" v-if="quiz.edit" @click="CREATE_QUIZ" icon="edit" type="warning">Cập nhật câu hỏi số {{quiz.edit_child}} </el-button>
-                </el-card>
+                </div>
+                <br>
                 <!--EDITOR-->
-                <el-card class="">
-                    <el-tabs type="border-card"  v-model="activeName" @tab-click="">
+                <div class="">
+                    <el-tabs type="border-card" v-model="activeName" @tab-click="">
                         <!--    Pop Over-->
                         <el-popover v-show="popshow" ref="pop_question" placement="bottom" :width="width>800?width/2:width-50" trigger="hover" :value="true">
                             <u v-show="question.length > 0" style="cursor: pointer" class="comfortaa">Câu hỏi:</u>
@@ -100,7 +101,7 @@
                             <vue-html5-editor class="animated zoomIn" :content="slove" @change="updateSlove" ref="slove" :height="300"></vue-html5-editor>
                         </el-tab-pane>
                     </el-tabs>
-                </el-card>
+                </div>
     
             </div>
         </el-col>
