@@ -77,7 +77,7 @@ export default {
 </script>
 <style scoped>
 .w3-top {
-    z-index: 9999999;
+    z-index: 100;
 }
 
 

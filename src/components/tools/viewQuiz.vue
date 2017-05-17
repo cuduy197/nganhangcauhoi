@@ -14,7 +14,7 @@
                                 </h5>
                                 <p>Tổng số câu hỏi: {{item.num}} </p>
                                 <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
-                                <div v-if="item.num >=0" class="animated zoomIn" style="padding-bottom: .5em">
+                                <div v-show="item.num >=0" class="animated fadeIn" style="padding-bottom: .5em">
                                     <a @click="getSubjectTitle" :href="'#/toan/create/'+ item.subpath">
                                         <el-button size="" @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
                                     </a>

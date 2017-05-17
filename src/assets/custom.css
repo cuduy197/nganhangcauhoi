@@ -44,15 +44,16 @@ p {
 }
 
 .bg:hover {
-    transform: scale(1.02, 1.02);
-    box-shadow: 0 0px 30px rgba(52, 73, 94, 1);
+/*    transform: scale(1.02, 1.02);*/
+  /*  box-shadow: 0 0px 5px rgba(52, 73, 94, 1);*/
+  
 }
 
 .bg {
     cursor: unset;
     transition: all .3s ease-in-out;
     background-color: #fff;
-    background: url(https://www.toptal.com/designers/subtlepatterns/patterns/greyzz.png) repeat;
+    border-radius: 10px;
 }
 
 .box-card {
@@ -167,11 +168,7 @@ p {
 /*Element ui overwrite  */
 
 .el-tabs__nav {
-    white-space: nowrap;
-    position: relative;
-    transition: transform .3s;
-    text-align: center;
-    float: none;
+    left: 10%;
 }
 
 .el-loading-mask.is-fullscreen {
@@ -218,6 +215,16 @@ p {
     opacity: 0
 }
 
+
+
+
+@media only screen and (max-width: 1124px) {
+
+.el-tabs__nav {
+    left: 0%;
+}
+
+}
 
 /*On mobile */
 
