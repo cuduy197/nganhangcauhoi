@@ -7,18 +7,15 @@
                     <el-button size="large" style="margin: 4px;" v-if="!quiz.edit && question.length ===0 || answer.length === 0 || answer2.length === 0 || answer3.length === 0 || answer4.length === 0 " @click="CREATE_QUIZ" icon="edit" type="primary" disabled>Tạo câu hỏi</el-button>
                     <el-button size="large" style="margin: 4px;" v-if="quiz.edit" @click="CREATE_QUIZ" icon="edit" type="warning">Cập nhật câu hỏi số {{quiz.edit_child}} </el-button>
                 </el-card>
-    
                 <!--EDITOR-->
                 <el-card class="">
                     <el-tabs type="card" v-model="activeName" @tab-click="">
-    
                         <!--    Pop Over-->
-                        <el-popover ref="pop_question" placement="bottom" :width="width>800?width/2:width-50" trigger="hover" :value="true">
+                        <el-popover v-show="popshow" ref="pop_question" placement="bottom" :width="width>800?width/2:width-50" trigger="hover" :value="true">
                             <u v-show="question.length > 0" style="cursor: pointer" class="comfortaa">Câu hỏi:</u>
                             <div v-show="question.length > 0" class="preview" id="question" v-html="input.question"></div>
                             <h4 class="center comfortaa" v-show="question.length === 0">Vui lòng nhập nội dung câu hỏi để hiển thị !</h4>
                         </el-popover>
-    
                         <el-popover ref="pop_answer" placement="bottom" :width="width>800?width/2:width-50" trigger="hover">
                             <u v-show="answer.length > 0" class="comfortaa">Đáp án đúng</u>
                             <div v-show="answer.length > 0" class="preview" id="answer" v-html="input.answer"></div>
@@ -54,6 +51,7 @@
     
                         <!--TAB EDITOR-->
                         <el-tab-pane label="Câu hỏi" name="question">
+    
                             <div class="center animated fadeInDown ">
                                 <el-button v-popover:pop_question style="cursor: pointer; " class="comfortaa " icon="view " type="text ">Xem trước </el-button>
                             </div>
@@ -120,6 +118,7 @@ import {
 export default {
     data() {
         return {
+            popshow: false,
             width: window.innerWidth,
             activeName: 'question'
         }
@@ -255,7 +254,9 @@ export default {
         },
     },
     mounted() {
-
+        setTimeout(function () {
+            this.popshow = true;
+        }, 1000);
     },
     components: {
     }

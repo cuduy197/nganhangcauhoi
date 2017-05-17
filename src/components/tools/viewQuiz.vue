@@ -14,7 +14,7 @@
                                 </h5>
                                 <p>Tổng số câu hỏi: {{item.num}} </p>
                                 <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
-                                <div v-if="item.num >=0" class="animated flipInX" style="padding-bottom: .5em">
+                                <div v-if="item.num >=0" class="animated zoomIn" style="padding-bottom: .5em">
                                     <a @click="getSubjectTitle" :href="'#/toan/create/'+ item.subpath">
                                         <el-button size="" @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
                                     </a>
@@ -63,7 +63,7 @@
                     <el-checkbox v-model="checked_hint">Gợi ý</el-checkbox>
                     <el-checkbox v-model="checked_slove">Lời giải </el-checkbox>
                 </div>
-                <el-table ref="singleTable" :data="quiz.val" border  >
+                <el-table ref="singleTable" :data="quiz.val" border>
                     <el-table-column v-if="checked_stt" label="STT" width="70">
                         <template scope="scope">
                             <div title="Số thứ tự câu hỏi trong mục">
@@ -85,7 +85,7 @@
                     <el-table-column label="Nội dung câu hỏi" width="300">
                         <template scope="scope">
                             <p v-html="scope.row.question"> </p>
-                            <img v-if="scope.row.question_image!==''" width="100%" height="100%"  :src="scope.row.question_image" >
+                            <img v-if="scope.row.question_image!==''" width="100%" height="100%" :src="scope.row.question_image">
                         </template>
                     </el-table-column>
                     <el-table-column v-if="checked_answer" label="Câu trả lời đúng" width="300">
@@ -112,7 +112,7 @@
                         <template scope="scope">
                             <div class="animated fadeInDown">
                                 <p v-html="scope.row.hint"> </p>
-                                <img v-if="scope.row.hint_image!==''" alt="" :src="scope.row.hint_image" width="100%"  height="100%">
+                                <img v-if="scope.row.hint_image!==''" alt="" :src="scope.row.hint_image" width="100%" height="100%">
                             </div>
                         </template>
                     </el-table-column>
