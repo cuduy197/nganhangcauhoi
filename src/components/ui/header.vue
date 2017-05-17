@@ -76,9 +76,10 @@ export default {
 }
 </script>
 <style scoped>
-img:hover {
-    transform: rotate(360deg) scale(1.2, 1.2);
+.w3-top {
+    z-index: 9999999;
 }
+
 
 .w3-dropdown-hover {
     display: none;

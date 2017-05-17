@@ -11,9 +11,13 @@ body {
     font-family: 'Comfortaa', Arial, Noto Sans;
 }*/
 
+p {
+    font-family: 'Comfortaa', Arial, Noto Sans;
+    font-size: 14px;
+}
+
 .container-card {
     padding: 0px 1em 0px 1em;
-    cursor: pointer;
     width: 100%;
 }
 
@@ -26,7 +30,17 @@ body {
     transform: scale(2.75, 2.75);
     -webkit-transform: scale(2.75, 2.75);
     border: groove;
-    -webkit-border: solid;
+    -webkit-border: dotted;
+}
+
+.img-ronate {
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+}
+
+.img-ronate:hover {
+    transform: rotate(360deg) scale(1.22, 1.22);
+    -webkit-transform: rotate(360deg) scale(1.22, 1.22);
 }
 
 .bg:hover {
@@ -88,7 +102,6 @@ body {
     .container-card {
         padding: 0px 0.5em 0px 0.5em;
         width: 100%;
-        cursor: pointer;
     }
 }
 
@@ -115,6 +128,9 @@ body {
     }
     .on-mobile {
         display: block;
+    }
+    .quill-margin-left {
+        margin-left: 0em;
     }
     .el-message-box {
         text-align: left;
@@ -150,8 +166,17 @@ body {
 
 /*Element ui overwrite  */
 
+.el-tabs__nav {
+    white-space: nowrap;
+    position: relative;
+    transition: transform .3s;
+    text-align: center;
+    float: none;
+}
+
 .el-loading-mask.is-fullscreen {
-    position: fixed
+    position: fixed;
+    z-index: 99999999;
 }
 
 .el-loading-mask.is-fullscreen .el-loading-spinner {

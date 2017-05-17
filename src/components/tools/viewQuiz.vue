@@ -14,11 +14,11 @@
                                 </h5>
                                 <p>Tổng số câu hỏi: {{item.num}} </p>
                                 <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
-                                <div style="padding-bottom: .5em">
+                                <div v-if="item.num >=0" class="animated flipInX" style="padding-bottom: .5em">
                                     <a @click="getSubjectTitle" :href="'#/toan/create/'+ item.subpath">
                                         <el-button size="" @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
                                     </a>
-                                    <a @click="show_quiz=true">
+                                    <a @click="show_quiz=true" :href="'#/toan/'+ item.subpath">
                                         <el-button size="" @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Xem câu hỏi</el-button>
                                     </a>
                                 </div>
@@ -47,7 +47,7 @@
                 </el-button>
             </div>
             <div class="container-card no-mobile " style="padding-bottom: 5em ">
-                <h2 class="indigo comfortaa ">{{title}} </h2>
+                <h2 class="indigo comfortaa ">[ {{title}} ]</h2>
                 <div v-if="quiz.numChildren> 0" class="comfortaa" style="padding: .1em 0em .7em 0em">
                     <el-pagination :page-size="25" :total="quiz.numChildren" @size-change="handleSizeChange" @current-change="viewAll" layout="total,prev, pager, next, jumper">
                     </el-pagination>
@@ -63,7 +63,7 @@
                     <el-checkbox v-model="checked_hint">Gợi ý</el-checkbox>
                     <el-checkbox v-model="checked_slove">Lời giải </el-checkbox>
                 </div>
-                <el-table ref="singleTable" :data="quiz.val" border style="width: 100%">
+                <el-table ref="singleTable" :data="quiz.val" border  >
                     <el-table-column v-if="checked_stt" label="STT" width="70">
                         <template scope="scope">
                             <div title="Số thứ tự câu hỏi trong mục">
@@ -85,7 +85,7 @@
                     <el-table-column label="Nội dung câu hỏi" width="300">
                         <template scope="scope">
                             <p v-html="scope.row.question"> </p>
-                            <img v-if="scope.row.question_image!==''" :src="scope.row.question_image" width="100%" alt="" height="100%">
+                            <img v-if="scope.row.question_image!==''" width="100%" height="100%"  :src="scope.row.question_image" >
                         </template>
                     </el-table-column>
                     <el-table-column v-if="checked_answer" label="Câu trả lời đúng" width="300">
@@ -112,14 +112,14 @@
                         <template scope="scope">
                             <div class="animated fadeInDown">
                                 <p v-html="scope.row.hint"> </p>
-                                <img v-if="scope.row.hint_image!==''" :src="scope.row.hint_image" width="100%" alt="" height="100%">
+                                <img v-if="scope.row.hint_image!==''" alt="" :src="scope.row.hint_image" width="100%"  height="100%">
                             </div>
                         </template>
                     </el-table-column>
                     <el-table-column v-if="checked_slove" label="Lời giải" width="295">
                         <template scope="scope">
                             <p v-html="scope.row.slove"> </p>
-                            <img v-if="scope.row.slove_image!==''" :src="scope.row.slove_image" width="100%" alt="" height="100%">
+                            <img v-if="scope.row.slove_image!==''" :src="scope.row.slove_image" alt="" width="100%" height="100%">
                         </template>
                     </el-table-column>
                     <el-table-column v-if="quiz.author==user.email" fixed="right" label="Tùy chọn" width="120">
@@ -175,9 +175,8 @@
                                     <p>Lời giải :
                                         <span v-html="props.row.slove"></span>
                                     </p>
-                                    <img v-if="props.row.slove_image!==''" :src="props.row.slove_image" width="100" class="img-zoom" height="100">
                                     <br>
-                                    <hr>
+                                    <img v-if="props.row.slove_image!==''" :src="props.row.slove_image" width="100" class="img-zoom" height="100">
                                 </template>
                             </el-table-column>
                             <el-table-column label="STT" prop="id" width="70">

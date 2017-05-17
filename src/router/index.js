@@ -21,17 +21,28 @@ export default new Router({
         name: 'Home',
         component: Home
     },
-    //Toan
     {
         path: '/toan',
-        name: 'toan',
         component: toan
     }, {
         path: '/van',
-        name: 'van',
         component: van
     }, {
         path: '/anh',
+        component: anh
+    },
+
+    //Toan
+    {
+        path: '/toan/:subpath',
+        name: 'toan',
+        component: toan
+    }, {
+        path: '/van/:subpath',
+        name: 'van',
+        component: van
+    }, {
+        path: '/anh/:subpath',
         name: 'anh',
         component: anh
     }, {
