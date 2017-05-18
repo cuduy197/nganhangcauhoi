@@ -44,9 +44,8 @@ p {
 }
 
 .bg:hover {
-/*    transform: scale(1.02, 1.02);*/
-  /*  box-shadow: 0 0px 5px rgba(52, 73, 94, 1);*/
-  
+    /*    transform: scale(1.02, 1.02);*/
+    /*  box-shadow: 0 0px 5px rgba(52, 73, 94, 1);*/
 }
 
 .bg {
@@ -61,8 +60,8 @@ p {
     word-wrap: break-word;
     word-break: keep-all;
     transition: all .3s ease-in-out;
-    border-radius: 5px;
-    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    /*box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);*/
 }
 
 .box-card:hover {
@@ -215,16 +214,22 @@ p {
     opacity: 0
 }
 
+.el-tabs--border-card>.el-tabs__content {
+    padding: .2px !important;
+}
 
-
+.el-tabs--border-card {
+    background: #fff;
+    border: 0px solid #d1dbe5;
+    border-radius: 0px;
+}
 
 @media only screen and (max-width: 1124px) {
-
-.el-tabs__nav {
-    left: 0%;
+    .el-tabs__nav {
+        left: 0%;
+    }
 }
 
-}
 
 /*On mobile */
 
@@ -312,7 +317,7 @@ p {
 /*Color */
 
 .white {
-    color: white;
+    color: white !important;
 }
 
 .indigo {
@@ -320,29 +325,29 @@ p {
 }
 
 .bg-teal {
-    background-color: teal;
+    background-color: teal !important;
 }
 
 .bg-salmon {
-    background-color: salmon;
+    background-color: salmon !important;
 }
 
 .bg-lightgreen {
-    background-color: lightgreen;
+    background-color: lightgreen !important;
 }
 
 .bg-green {
-    background-color: #2ecc71;
+    background-color: #2ecc71 !important;
 }
 
 .bg-red-pink {
-    background-color: #D81B60;
+    background-color: #D81B60 !important;
 }
 
 .bg-purple {
-    background-color: purple;
+    background-color: purple !important;
 }
 
 .bg-orange {
-    background-color: orange;
+    background-color: orange !important;
 }

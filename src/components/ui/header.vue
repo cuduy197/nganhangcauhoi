@@ -3,21 +3,21 @@
         <div class="w3-top">
             <div class="w3-bar w3-large">
                 <div v-if="!singin" class="float-center">
-                    <a class="w3-bar-item w3-button" href="#/">Giới thiệu</a>
+                    <router-link class="w3-bar-item w3-button" to="/">Giới thiệu</router-link>
                 </div>
                 <div v-if="singin">
-                    <a class="w3-bar-item w3-button" href="#/">Trang chủ</a>
+                    <router-link class="w3-bar-item w3-button" to="/">Trang chủ</router-link>
                 </div>
                 <div class="no-mobile">
                     <div class="float-right">
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Văn</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Anh</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Lý</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Hóa</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Sinh</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Sử</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Địa</a>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/toan/">Toán</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Văn</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/anh/">Anh</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Lý</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Hóa</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Sinh</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Sử</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Địa</router-link>
                     </div>
                 </div>
                 <div class="w3-dropdown-hover on-mobile float-right" v-if="singin">
@@ -25,15 +25,15 @@
                         Môn học
                         <i class="fa fa-caret-down"></i>
                     </button>
-                    <div class="w3-dropdown-content w3-bar-block animated zoomIn bg-indigo white" style="padding-right: 0px">
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/toan/">Toán</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Văn</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/anh/">Anh</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Lý</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Hóa</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Sinh</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Sử</a>
-                        <a v-if="singin" class="w3-bar-item w3-button" href="#/van/">Địa</a>
+                    <div class="w3-dropdown-content w3-bar-block animated zoomIn bg-purple white" style="padding-right: 0px">
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/toan/">Toán học</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Ngữ văn</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/anh/">Tiếng Anh</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Vật Lý</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Hóa học</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Sinh học</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Lịch sử</router-link>
+                        <router-link v-if="singin" class="w3-bar-item w3-button" to="/van/">Địa lý</router-link>
                     </div>
                 </div>
             </div>
@@ -122,8 +122,6 @@ export default {
     .w3-bar-item {
         font-size: 1.35em;
     }
-    .w3-bar-item:hover {
-        color: indigo !important;
-    }
+    .w3-bar-item:hover {}
 }
 </style>

@@ -33,9 +33,9 @@
                     <div>
                         <br>
                         <h1 class="comfortaa"> Soạn giả môn :
-                            <a title="Bấm để chuyển sang trang" href="#/toan" class="neon2">
+                            <router-link title="Bấm để chuyển sang trang" to="toan" class="neon2">
                                 Toán
-                            </a>
+                            </router-link>
                         </h1>
     
                         <h1 v-if="user.totalQuiz > 0" class="comfortaa"> Đã soạn :

@@ -1,10 +1,10 @@
 <template>
     <div>
-        <login/>
+        <wellcome/>
     </div>
 </template>
 <script>
-import login from './login.vue';
+import wellcome from './wellcome.vue';
 import createQuiz from './tools/createQuiz.vue';
 
 import {
@@ -24,7 +24,7 @@ export default {
         ...mapMutations(['LOGIN', 'LOGOUT'])
     },
     components: {
-        login,
+        wellcome,
         createQuiz
     }
 }

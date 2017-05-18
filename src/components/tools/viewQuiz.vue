@@ -15,12 +15,12 @@
                                 <p>Tổng số câu hỏi: {{item.num}} </p>
                                 <p>Số câu hỏi bạn đã tạo: {{item.my_num}} </p>
                                 <div v-show="item.num >=0" class="animated fadeIn" style="padding-bottom: .5em">
-                                    <a @click="getSubjectTitle" :href="'#/toan/create/'+ item.subpath">
+                                    <router-link @click="getSubjectTitle" :to="'/toan/create/'+ item.subpath">
                                         <el-button size="" @click="BEFORE_CREATE_QUIZ(item.subpath)" icon="edit">Tạo câu hỏi</el-button>
-                                    </a>
-                                    <a @click="show_quiz=true" :href="'#/toan/'+ item.subpath">
+                                    </router-link>
+                                    <router-link @click="show_quiz=true" :to="'/toan/'+ item.subpath">
                                         <el-button size="" @click="VIEW_QUIZ({subpath: item.subpath, begin: 1 ,end:25, view: 'all'})" icon="search">Xem câu hỏi</el-button>
-                                    </a>
+                                    </router-link>
                                 </div>
                             </div>
                         </div>
