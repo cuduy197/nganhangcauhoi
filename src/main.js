@@ -18,7 +18,7 @@ import {
 sync(store, router); // done.
 
 
-import VueHtml5Editor from 'kd-editor'
+import VueHtml5Editor from './assets/vue-html5-editor.js'
 Vue.use(VueHtml5Editor, {
     visibleModules: [
         "text",
