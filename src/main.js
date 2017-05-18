@@ -20,7 +20,6 @@ sync(store, router); // done.
 
 import VueHtml5Editor from 'vue-html5-editor'
 Vue.use(VueHtml5Editor, {
-    showModuleName: true,
     visibleModules: [
         "text",
         "color",

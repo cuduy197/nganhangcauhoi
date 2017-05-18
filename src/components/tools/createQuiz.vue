@@ -1,15 +1,15 @@
 <template>
     <div class="create_quiz">
-        <el-col :sm="24" :md="24" style="padding-right: 20px">
+        <el-col :sm="24" :md="24">
             <div class=" animated fadeInUp">
                 <div class="center">
                     <el-button size="large" style="margin: 4px;" v-if="!quiz.edit && question.length > 0 && answer.length > 0 && answer2.length > 0 && answer3.length > 0 && answer4.length > 0 " @click="CREATE_QUIZ" icon="edit" type="success">Tạo câu hỏi</el-button>
-                    <el-button size="large" style="margin: 4px;" v-if="!quiz.edit && question.length ===0 || answer.length === 0 || answer2.length === 0 || answer3.length === 0 || answer4.length === 0 " title="Bạn hãy soạn thảo nội dung để tạo câu hỏi." icon="edit"  disabled>Tạo câu hỏi</el-button>
+                    <el-button size="large" style="margin: 4px;" v-if="!quiz.edit && question.length ===0 || answer.length === 0 || answer2.length === 0 || answer3.length === 0 || answer4.length === 0 " title="Bạn hãy soạn thảo nội dung để tạo câu hỏi." icon="edit" disabled>Tạo câu hỏi</el-button>
                     <el-button size="large" style="margin: 4px;" v-if="quiz.edit" @click="CREATE_QUIZ" icon="edit" type="warning">Cập nhật câu hỏi số {{quiz.edit_child}} </el-button>
                 </div>
                 <br>
                 <!--EDITOR-->
-                <div class="">
+                <div>
                     <el-tabs type="border-card" v-model="activeName" @tab-click="">
                         <!--    Pop Over-->
                         <el-popover v-show="popshow" ref="pop_question" placement="bottom" :width="width>800?width/2:width-50" trigger="hover" :value="true">
@@ -52,53 +52,51 @@
     
                         <!--TAB EDITOR-->
                         <el-tab-pane label="Câu hỏi ❓" name="question">
-    
                             <div class="center animated fadeInDown ">
                                 <el-button v-popover:pop_question style="cursor: pointer; " class="comfortaa " icon="view " type="text ">Xem trước </el-button>
                             </div>
-    
-                            <vue-html5-editor class="animated zoomIn" :content="question" @change="updateQuestion" ref="question" :height="300"></vue-html5-editor>
-    
+                            <vue-html5-editor :show-module-name="showName" class="animated zoomIn" :content="question" @change="updateQuestion" ref="question" :height="300"></vue-html5-editor>
                         </el-tab-pane>
+    
                         <el-tab-pane label="Đáp án đúng ✔" name="answer">
                             <div class="center animated fadeInDown ">
                                 <el-button v-popover:pop_answer style="cursor: pointer;  " class="comfortaa" icon="view " type="text ">Xem trước </el-button>
                             </div>
-                            <vue-html5-editor class="animated zoomIn" :content="answer" @change="updateAnswer" ref="answer" :height="300"></vue-html5-editor>
+                            <vue-html5-editor :show-module-name="showName" class="animated zoomIn" :content="answer" @change="updateAnswer" ref="answer" :height="300"></vue-html5-editor>
                         </el-tab-pane>
                         <el-tab-pane label="Đáp án sai ❌" name="answer2">
                             <div class="center animated fadeInDown ">
                                 <el-button v-popover:pop_answer2 style="cursor: pointer;  " class="comfortaa" icon="view " type="text ">Xem trước </el-button>
                             </div>
-                            <vue-html5-editor class="animated zoomIn" :content="answer2" @change="updateAnswer2" ref="answer2" :height="300"></vue-html5-editor>
+                            <vue-html5-editor :show-module-name="showName" class="animated zoomIn" :content="answer2" @change="updateAnswer2" ref="answer2" :height="300"></vue-html5-editor>
                         </el-tab-pane>
     
                         <el-tab-pane label="Đáp án sai 2 ❌" name="answer3">
                             <div class="center animated fadeInDown ">
                                 <el-button v-popover:pop_answer3 style="cursor: pointer;  " class="comfortaa" icon="view " type="text ">Xem trước </el-button>
                             </div>
-                            <vue-html5-editor class="animated zoomIn" :content="answer3" @change="updateAnswer3" ref="answer3" :height="300"></vue-html5-editor>
+                            <vue-html5-editor :show-module-name="showName" class="animated zoomIn" :content="answer3" @change="updateAnswer3" ref="answer3" :height="300"></vue-html5-editor>
                         </el-tab-pane>
     
                         <el-tab-pane label="Đáp án sai 3 ❌" name="answer4">
                             <div class="center animated fadeInDown ">
                                 <el-button v-popover:pop_answer4 style="cursor: pointer;  " class="comfortaa" icon="view " type="text ">Xem trước </el-button>
                             </div>
-                            <vue-html5-editor class="animated zoomIn" :content="answer4" @change="updateAnswer4" ref="answer4" :height="300"></vue-html5-editor>
+                            <vue-html5-editor :show-module-name="showName" class="animated zoomIn" :content="answer4" @change="updateAnswer4" ref="answer4" :height="300"></vue-html5-editor>
                         </el-tab-pane>
     
                         <el-tab-pane label="Gợi ý 💡" name="hint">
                             <div class="center animated fadeInDown ">
                                 <el-button v-popover:pop_hint style="cursor: pointer;  " class="comfortaa" icon="view " type="text ">Xem trước </el-button>
                             </div>
-                            <vue-html5-editor class="animated zoomIn" :content="hint" @change="updateHint" ref="hint" :height="300"></vue-html5-editor>
+                            <vue-html5-editor :show-module-name="showName" class="animated zoomIn" :content="hint" @change="updateHint" ref="hint" :height="300"></vue-html5-editor>
                         </el-tab-pane>
     
                         <el-tab-pane label="Lời giải 📖" name="slove">
                             <div class="center animated fadeInDown ">
                                 <el-button v-popover:pop_slove style="cursor: pointer;  " class="comfortaa" icon="view " type="text ">Xem trước </el-button>
                             </div>
-                            <vue-html5-editor class="animated zoomIn" :content="slove" @change="updateSlove" ref="slove" :height="300"></vue-html5-editor>
+                            <vue-html5-editor :show-module-name="showName" class="animated zoomIn" :content="slove" @change="updateSlove" ref="slove" :height="300"></vue-html5-editor>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -121,6 +119,7 @@ export default {
         return {
             popshow: false,
             width: window.innerWidth,
+            showName: true,
             activeName: 'question'
         }
     },
@@ -254,13 +253,17 @@ export default {
             }
         },
     },
-    mounted() {
+    created() {
         setTimeout(function () {
             this.popshow = true;
-        }, 1000);
+        }, 100);
+        if (window.innerWidth < 600) {
+            this.showName = false;
+        }
     },
-    components: {
-    }
+    watch: {
+    },
+    components: {}
 }
 </script>
 <style scoped>

@@ -16,21 +16,27 @@
             <span class="on-mobile" v-if="model=='answer3'">Đáp án sai 3 ❌ </span>
             <span class="on-mobile" v-if="model=='answer4'">Đáp án sai 4 ❌ </span>
             <el-tooltip content="Chèn chữ đậm" placement="top" effect="light">
-                <el-button @click="customInput('b')"><b>B</b></el-button>
+                <el-button @click="customInput('b')">
+                    <b>B</b>
+                </el-button>
             </el-tooltip>
             <el-tooltip content="Chèn chữ nghiêng" placement="top" effect="light">
-                <el-button @click="customInput('i')"><i>I</i></el-button>
+                <el-button @click="customInput('i')">
+                    <i>I</i>
+                </el-button>
             </el-tooltip>
             <el-tooltip content="Chèn chữ gạch chân" placement="top" effect="light">
-                <el-button @click="customInput('u')"><u>U</u></el-button>
+                <el-button @click="customInput('u')">
+                    <u>U</u>
+                </el-button>
             </el-tooltip>
             <el-tooltip content="Chèn biểu thức toán" placement="top" effect="light">
                 <el-button @click="customInput('math')">fx</el-button>
             </el-tooltip>
             <!--  <el-tooltip v-show="subject.path== 'toan' " content="Khởi tạo câu hỏi từ các mẫu có sẵn" placement="top" effect="light">
-                <el-cascader filterable label="OK" placeholder="Chọn mẫu câu hỏi" :options="toan" v-model="selectedOptions" @change="handleChange">
-                </el-cascader>
-            </el-tooltip> -->
+                                <el-cascader filterable label="OK" placeholder="Chọn mẫu câu hỏi" :options="toan" v-model="selectedOptions" @change="handleChange">
+                                </el-cascader>
+                            </el-tooltip> -->
             <el-tooltip v-if="model=='question'" content="Bấm để hiển thị hướng dấn nhập câu hỏi." placement="top" effect="light">
                 <el-button class="no-mobile" @click="customInput('help')">?</el-button>
             </el-tooltip>
@@ -85,7 +91,7 @@ export default {
                 }, {
                     value: '2',
                     label: 'Giá trị lớn nhất/nhỏ nhất của hàm số'
-                }, ]
+                },]
 
             }, {
                 value: 'guide3',
@@ -93,11 +99,11 @@ export default {
                 children: [{
                     value: '1',
                     label: 'Tìm nguyên hàm của hàm số'
-                }, {
+                },
+                {
                     value: '2',
                     label: 'Tính tích phân'
                 }]
-
             }, {
                 value: 'guide4',
                 label: 'Số phức ',
@@ -236,17 +242,19 @@ export default {
                 });
             }
             this.$store.state.input[this.model] = input;
-            this.$nextTick(function() {
+            this.$nextTick(function () {
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             });
         }
     },
-    computed: {...mapState(['subject'])
+    computed: {
+        ...mapState(['subject'])
     },
     watch: {},
     components: {},
-    mounted() {},
+    mounted() { },
 }
 </script>
 <style>
+
 </style>

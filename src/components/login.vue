@@ -37,12 +37,12 @@
                                 Toán
                             </a>
                         </h1>
-                        
+    
                         <h1 v-if="user.totalQuiz > 0" class="comfortaa"> Đã soạn :
                             <b class="neon3"> {{user.totalQuiz}} </b> câu hỏi </h1>
-                            <h1 v-else class="comfortaa">Đang tải câu hỏi đã soạn ...
-                             </h1>
-                        <h1 class="comfortaa"> 
+                        <h1 v-else class="comfortaa">Đang tải câu hỏi đã soạn ...
+                        </h1>
+                        <h1 class="comfortaa">
                             <el-button size="large" type="success" icon="search">
                                 Hướng dẫn soạn thảo
                             </el-button>
@@ -82,13 +82,13 @@ img {
 
 .login {
     /* text-align: center;*/
-    padding: 25px;
+    padding: 3em;
 }
 
 @media only screen and (max-width: 480px) and (min-width: 320px) {
     .login {
         text-align: center;
-        padding: 2px;
+        padding: 0px;
     }
 }
 
