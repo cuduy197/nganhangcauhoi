@@ -1,7 +1,8 @@
 /**
- * Vue-html5-editor 1.1.1 MIX BY KD
+ * Vue-html5-editor 1.1.1
  * git+https://github.com/PeakTai/vue-html5-editor.git
- * build at Thu May 18 2017 10:57:57 GMT+0700 (ICT)
+ * build at Thu May 18 2017 12:53:56 GMT+0700 (ICT)
+ * Mod by cuduy197
  */
 
 (function (global, factory) {
