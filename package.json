@@ -11,9 +11,10 @@
         "commit": "git add . && git commit -m",
         "push": "git push origin master",
         "start": "node build/dev-server.js",
-        "build": "node build/build.js && node build/copy200.js &&  surge --project ./dist --domain cauhoi.cunghoctot.net ",
+        "build": "node build/setup_editor.js && node build/build.js && node build/copy200.js &&  surge --project ./dist --domain cauhoi.cunghoctot.net ",
         "host": "node build/copy200.js &&  surge --project ./dist --domain cauhoi.cunghoctot.net && node build/openUrl",
-        "url": "opn http://cauhoi.cunghoctot.net "
+        "url": "opn http://cauhoi.cunghoctot.net ",
+        "setup_editor": "node build/setup_editor.js"
     },
     "license": "MIT",
     "repository": {

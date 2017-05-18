@@ -1,5 +1,5 @@
 /**
- * Vue-html5-editor 1.1.1
+ * Vue-html5-editor 1.1.1 MIX BY KD
  * git+https://github.com/PeakTai/vue-html5-editor.git
  * build at Thu May 18 2017 10:57:57 GMT+0700 (ICT)
  */

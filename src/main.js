@@ -18,7 +18,7 @@ import {
 sync(store, router); // done.
 
 
-import VueHtml5Editor from './assets/vue-html5-editor.js'
+import VueHtml5Editor from 'vue-html5-editor';
 Vue.use(VueHtml5Editor, {
     visibleModules: [
         "text",
